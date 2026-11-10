@@ -1,0 +1,17 @@
+{
+ "_doc": "Feriados estaduais e por comarca. Editavel pela controladoria sem deploy. Datas fixas no formato MM-DD. Feriados moveis (Pascoa/Corpus) sao calculados no codigo. Chave UF ou \"UF:comarca\" (comarca normalizada sem acento, minuscula). CONFERIR com o calendario do TRT-2 e acrescentar os municipais.",
+ "UF": {
+  "SP": [
+   "07-09"
+  ]
+ },
+ "COMARCA": {
+  "SP:sao paulo": [
+   "01-25"
+  ]
+ },
+ "_doc_datas": "DATAS: feriado de um ano so (adiamento ou suspensao por ato do tribunal), chave UF ou \"UF:comarca\", data ISO AAAA-MM-DD -> descricao com a normativa que a sustenta.",
+ "DATAS": {},
+ "_doc_ferias": "FERIAS_EQUIPE: recesso/ferias coletivas da equipe {inicio, fim, descricao} (AAAA-MM-DD). As etapas internas que cairiam no periodo sao empurradas para depois da volta; o fatal nunca muda.",
+ "FERIAS_EQUIPE": []
+}

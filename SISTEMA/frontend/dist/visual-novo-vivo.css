@@ -1,0 +1,847 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=JetBrains+Mono:wght@500;700&display=swap");
+
+
+html[data-visual="novo"][data-visual] {
+  --mc-cond: "Barlow Condensed", "Arial Narrow", "Segoe UI", sans-serif;
+  --mc-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --mc-grid: color-mix(in srgb, var(--vv-azul) 5.5%, transparent);
+  --mc-grid-fina: color-mix(in srgb, var(--vv-azul) 2.5%, transparent);
+  --mc-cut: 14px;
+}
+
+html[data-visual="novo"][data-tema="claro"] {
+  --mc-grid: color-mix(in srgb, var(--vv-azul) 11%, transparent);
+  --mc-grid-fina: color-mix(in srgb, var(--vv-azul) 5%, transparent);
+}
+
+
+html[data-visual="novo"] { background-color: var(--vv-fundo) !important; }
+html[data-visual="novo"] body {
+  background-color: transparent !important;   
+  background-image:
+    linear-gradient(var(--mc-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mc-grid) 1px, transparent 1px),
+    linear-gradient(var(--mc-grid-fina) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mc-grid-fina) 1px, transparent 1px) !important;
+  background-size: 64px 64px, 64px 64px, 16px 16px, 16px 16px !important;
+  background-attachment: scroll !important;   
+}
+
+html[data-visual="novo"] body::before {
+  content: ""; position: fixed; inset: -10%; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 45% at 18% 4%, color-mix(in srgb, var(--vv-petroleo) 13%, transparent), transparent 70%),
+    radial-gradient(ellipse 55% 50% at 88% 2%, color-mix(in srgb, var(--vv-azul) 16%, transparent), transparent 70%),
+    radial-gradient(ellipse 90% 60% at 50% 100%, color-mix(in srgb, var(--vv-azul-3) 14%, transparent), transparent 70%);
+  
+  transition: opacity .6s ease;
+}
+html[data-visual="novo"][data-rota="crm"] body::before, html[data-visual="novo"][data-rota="chat"] body::before { opacity: .6; }
+
+html[data-visual="novo"]:not([data-rota="inicio"]) body::before { animation: none; }
+@keyframes vv-deriva { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-3%, 2%, 0) scale(1.06); } }
+html[data-visual="novo"] h1, html[data-visual="novo"] h2, html[data-visual="novo"] h3, html[data-visual="novo"] h4 {
+  font-family: var(--mc-cond) !important; font-weight: 600 !important; letter-spacing: .01em;
+}
+
+
+
+html[data-visual="novo"] body { line-height: normal !important; }
+html[data-visual="novo"] .sidebar .ws-info span { line-height: 13px !important; }
+html[data-visual="novo"] .mod-card .tag-lock { line-height: 14px !important; }
+html[data-visual="novo"] .btn, html[data-visual="novo"] .pt-add-btn, html[data-visual="novo"] .pt-al,
+html[data-visual="novo"] .pt-tema button, html[data-visual="novo"] input, html[data-visual="novo"] select,
+html[data-visual="novo"] .sel-lux, html[data-visual="novo"] .ctrl-inp, html[data-visual="novo"] .side-user .su-out { min-height: auto; min-width: auto; }
+html[data-visual="novo"] .btn-sm { padding-top: 8px; padding-bottom: 8px; }
+html[data-visual="novo"] .nav-sep { line-height: 14px !important; }
+html[data-visual="novo"] [data-vv="col"] > div:first-child > span { font-family: inherit !important; letter-spacing: normal !important; }
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"] + [data-vv="card"] { margin-top: 0 !important; }
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"] span[style*="border-radius"],
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"] div.muted[style*="font-size: 11px"],
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"] small { font-family: inherit !important; letter-spacing: normal !important; }
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"] span[style*="font-size: 10px"] { font-size: 10px !important; }
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"] span[style*="font-size: 10.5px"] { font-size: 10.5px !important; }
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"] span[style*="font-size: 11px"] { font-size: 11px !important; }
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"] span[style*="font-size: 12px"] { font-size: 12px !important; }
+
+
+html[data-visual="novo"] .grid-mods { counter-reset: mcmod; position: relative; }
+
+html[data-visual="novo"] .grid-mods::before {
+  content: ""; position: absolute; left: -17px; top: -6px; bottom: 8px; width: 1px; pointer-events: none;
+  background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--vv-azul) 55%, transparent) 0 6px, transparent 6px 12px);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--vv-azul) 25%, transparent);
+}
+html[data-visual="novo"] .grid-mods::after {
+  content: ""; position: absolute; left: -21px; top: -10px; width: 9px; height: 9px; pointer-events: none;
+  border: 1px solid var(--vv-azul); background: var(--vv-fundo); transform: rotate(45deg); box-shadow: 0 0 10px color-mix(in srgb, var(--vv-azul) 60%, transparent);
+}
+
+html[data-visual="novo"] .mod-card {
+  counter-increment: mcmod;
+  --kc: color-mix(in srgb, var(--k) 55%, transparent);
+  background:
+    linear-gradient(225deg, transparent calc(50% - .8px), var(--kc) calc(50% - .8px), var(--kc) calc(50% + .8px), transparent calc(50% + .8px)) right top / var(--mc-cut) var(--mc-cut) no-repeat,
+    linear-gradient(45deg, transparent calc(50% - .8px), var(--kc) calc(50% - .8px), var(--kc) calc(50% + .8px), transparent calc(50% + .8px)) left bottom / var(--mc-cut) var(--mc-cut) no-repeat,
+    radial-gradient(ellipse 80% 70% at 100% 100%, color-mix(in srgb, var(--k) 14%, transparent), transparent 70%),
+    linear-gradient(color-mix(in srgb, var(--k) 5%, transparent) 1px, transparent 1px) 0 0 / 12px 12px,
+    linear-gradient(90deg, color-mix(in srgb, var(--k) 5%, transparent) 1px, transparent 1px) 0 0 / 12px 12px,
+    linear-gradient(180deg, var(--vv-cart-a) 0%, var(--vv-cart-b) 100%) !important;
+  border: 1px solid color-mix(in srgb, var(--k) 34%, transparent) !important;
+  border-radius: 3px !important;
+  clip-path: polygon(0 0, calc(100% - var(--mc-cut)) 0, 100% var(--mc-cut), 100% 100%, var(--mc-cut) 100%, 0 calc(100% - var(--mc-cut)));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--vv-brilho) 5%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--vv-fundo) 40%, transparent) !important;
+}
+
+html[data-visual="novo"] .grid-mods .mod-card::before {
+  content: "MOD-" counter(mcmod, decimal-leading-zero) "  \00B7  " attr(data-nome);
+  position: absolute; top: 0; left: 0; right: 0; width: auto; height: 30px; border-radius: 0;
+  box-sizing: border-box; padding: 0 44px 0 30px; white-space: pre; overflow: hidden;
+  font: 600 10px/30px var(--mc-mono); letter-spacing: .16em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--k) 55%, var(--vv-txt)); text-shadow: none;
+  background:
+    radial-gradient(circle at 16px 15px, var(--st) 0 3px, color-mix(in srgb, var(--st) 35%, transparent) 3.5px 6px, transparent 6.5px),
+    linear-gradient(90deg, color-mix(in srgb, var(--k) 24%, transparent), color-mix(in srgb, var(--k) 8%, transparent) 65%, transparent);
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--k) 50%, transparent);
+  pointer-events: none; transition: background-color .25s ease;
+}
+
+html[data-visual="novo"] .grid-mods .mod-card::after {
+  display: block !important; content: ""; position: absolute; right: -20px; bottom: -26px; width: 128px; height: 128px;
+  background: var(--k); opacity: .09; pointer-events: none;
+  -webkit-mask: var(--ico) center / contain no-repeat; mask: var(--ico) center / contain no-repeat;
+  transition: opacity .25s ease, transform .3s ease;
+}
+
+html[data-visual="novo"] .grid-mods .mod-card > * { position: relative; z-index: 1; transform: translateY(12px); }
+html[data-visual="novo"] .grid-mods .mod-card h3 {
+  font-family: var(--mc-cond) !important; font-weight: 700 !important; font-size: 21px !important; line-height: 21px !important;
+  letter-spacing: .015em; color: var(--vv-txt-forte);
+}
+
+html[data-visual="novo"] .grid-mods .mod-card h3::before {
+  content: ""; position: absolute; top: -37px; right: -24px; width: 30px; height: 30px; pointer-events: none;
+  background: linear-gradient(145deg, var(--k), color-mix(in srgb, var(--k) 70%, var(--vv-fundo)));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--k) 45%, transparent);
+}
+html[data-visual="novo"] .grid-mods .mod-card h3::after {
+  content: ""; position: absolute; top: -31px; right: -18px; width: 18px; height: 18px; pointer-events: none;
+  background: var(--vv-fundo); -webkit-mask: var(--ico) center / contain no-repeat; mask: var(--ico) center / contain no-repeat;
+}
+
+html[data-visual="novo"] .grid-mods .mod-card { --st: var(--vv-verde); }
+html[data-visual="novo"] .grid-mods .mod-card:has(.tag-lock) { --st: var(--vv-ambar); }
+html[data-visual="novo"] .grid-mods .mod-card.locked { --st: var(--vv-txt-4); }
+html[data-visual="novo"] .grid-mods .mod-card p { color: var(--vv-txt-3) !important; }
+html[data-visual="novo"] .grid-mods .mod-card:hover {
+  border-color: color-mix(in srgb, var(--k) 70%, transparent) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--k) 35%, transparent), inset 0 0 36px color-mix(in srgb, var(--k) 14%, transparent) !important;
+}
+html[data-visual="novo"] .grid-mods .mod-card:hover::before { background-color: color-mix(in srgb, var(--k) 14%, transparent); }
+html[data-visual="novo"] .grid-mods .mod-card:hover::after { opacity: .18; }
+html[data-visual="novo"] .grid-mods .mod-card.locked { opacity: .72; filter: saturate(.6); }
+
+
+html[data-visual="novo"] .content > div:first-child:has(> h2 + p.muted) { position: relative; }
+html[data-visual="novo"] .content > div:first-child:has(> h2 + p.muted)::before {
+  content: ""; position: absolute; left: -18px; right: 0; top: -14px; bottom: -14px; pointer-events: none; z-index: -1;
+  border-left: 3px solid var(--vv-azul);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--vv-azul) 16%, transparent), color-mix(in srgb, var(--vv-petroleo) 6%, transparent) 45%, transparent 80%),
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--vv-azul) 35%, transparent) 0 1px, transparent 1px 8px) left bottom / 100% 5px no-repeat;
+  box-shadow: -8px 0 24px -10px color-mix(in srgb, var(--vv-azul) 70%, transparent);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+}
+html[data-visual="novo"] .content > div:first-child:has(> h2 + p.muted)::after {
+  content: attr(data-hud); position: absolute; right: 0; top: 2px; pointer-events: none; white-space: pre; text-align: right;
+  font: 500 10.5px/1.7 var(--mc-mono); letter-spacing: .14em; color: var(--vv-txt-4);
+}
+html[data-visual="novo"] .content > div:first-child > h2 {
+  font-family: var(--mc-cond) !important; font-weight: 700 !important; font-size: 40px !important; line-height: 34px !important;
+  letter-spacing: .01em; text-transform: uppercase;
+  color: var(--vv-txt) !important; -webkit-text-fill-color: var(--vv-txt) !important; background: none !important;
+  text-shadow: 0 0 28px color-mix(in srgb, var(--vv-azul) 45%, transparent), 0 2px 0 color-mix(in srgb, var(--vv-fundo) 80%, transparent) !important;
+}
+html[data-visual="novo"] .content > div:first-child > h2 + p.muted::before {
+  content: "SYS/ "; font-family: var(--mc-mono); font-size: 11px; line-height: 1; letter-spacing: .12em; color: var(--vv-petroleo);
+}
+
+
+html[data-visual="novo"] .sidebar {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--vv-azul) 3.5%, transparent) 1px, transparent 1px) 0 0 / 16px 16px,
+    linear-gradient(180deg, var(--vv-fundo-2) 0%, var(--vv-fundo-4) 100%) !important;
+  border-right: 1px solid color-mix(in srgb, var(--vv-azul) 28%, transparent) !important;
+}
+html[data-visual="novo"] .nav-item .ico {
+  position: relative; z-index: 1; border-radius: 3px !important;
+  background: color-mix(in srgb, var(--k) 16%, var(--vv-fundo)) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--k) 45%, transparent) !important;
+}
+
+html[data-visual="novo"] .nav-item::after {
+  content: ""; position: absolute; left: 24px; top: -3px; bottom: -3px; width: 1px; pointer-events: none; z-index: 0;
+  background: color-mix(in srgb, var(--vv-azul) 34%, transparent);
+}
+html[data-visual="novo"] .nav-item:hover { background: color-mix(in srgb, var(--k) 10%, transparent) !important; }
+html[data-visual="novo"] .nav-item.active {
+  color: var(--vv-fundo) !important;
+  background: linear-gradient(90deg, var(--k) 0%, color-mix(in srgb, var(--k) 78%, var(--vv-fundo)) 100%) !important;
+  box-shadow: 0 0 22px color-mix(in srgb, var(--k) 40%, transparent) !important;
+  border-radius: 3px !important;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}
+
+html[data-visual="novo"] .sidebar[data-nav-pronto] .nav-item.active { background: transparent !important; box-shadow: none !important; }
+html[data-visual="novo"] .nav-item.active::before, html[data-visual="novo"] .nav-item.active:before { background: transparent !important; box-shadow: none !important; }
+html[data-visual="novo"] .nav-item.active::after { background: var(--vv-fundo); opacity: .35; }
+html[data-visual="novo"] .nav-item.active .ico {
+  background: var(--vv-fundo) !important; color: var(--k) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--vv-fundo) 60%, transparent) !important;
+}
+html[data-visual="novo"] .nav-item.active .cnt { background: var(--vv-fundo) !important; color: var(--k) !important; }
+html[data-visual="novo"] .nav-sep { color: var(--vv-azul) !important; opacity: .75 !important; }
+html[data-visual="novo"] .nav-sep::before { content: "// "; opacity: .6; }
+html[data-visual="novo"] .sidebar .ws-info b { color: var(--vv-txt) !important; text-shadow: 0 0 14px color-mix(in srgb, var(--vv-azul) 45%, transparent); }
+
+
+html[data-visual="novo"] .topbar {
+  isolation: isolate;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--vv-fundo) 97%, transparent), color-mix(in srgb, var(--vv-fundo) 90%, transparent)) !important;
+  border-bottom: 1px solid transparent !important;
+}
+html[data-visual="novo"] .topbar::before {
+  content: ""; position: absolute; left: 16px; right: 14px; top: 9px; bottom: 9px; z-index: -1; pointer-events: none;
+  border-radius: 999px; border: 1px solid color-mix(in srgb, var(--vv-azul) 32%, transparent);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--vv-azul) 14%, transparent), color-mix(in srgb, var(--vv-sup-2) 90%, transparent) 30%, color-mix(in srgb, var(--vv-sup-2) 90%, transparent) 70%, color-mix(in srgb, var(--vv-petroleo) 12%, transparent)),
+    var(--vv-sup-1);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--vv-sombra) 45%, transparent), inset 0 1px 0 color-mix(in srgb, var(--vv-brilho) 6%, transparent), 0 0 0 4px color-mix(in srgb, var(--vv-fundo) 60%, transparent);
+}
+html[data-visual="novo"] .topbar::after {
+  left: 60px; right: 60px; bottom: 9px; height: 1px; opacity: .9;
+}
+html[data-visual="novo"] .topbar h1 {
+  font-family: var(--mc-cond) !important; font-weight: 700 !important; font-size: 26px !important; line-height: 25.2px !important;
+  letter-spacing: .03em; text-transform: uppercase; color: var(--vv-txt-forte);
+}
+html[data-visual="novo"] .topbar .tb-left { position: relative; }
+html[data-visual="novo"] .topbar .tb-sub { line-height: 16px !important; }
+html[data-visual="novo"] .topbar .tb-left::before {
+  content: ""; position: absolute; left: -14px; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; pointer-events: none;
+  background: var(--vv-verde); box-shadow: 0 0 10px var(--vv-verde);
+}
+html[data-visual="novo"] .pt-ask { background: var(--vv-fundo) !important; border-color: color-mix(in srgb, var(--vv-azul) 35%, transparent) !important; }
+
+
+html[data-visual="novo"] [data-vv="col"] {
+  border-radius: 3px !important;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--k) 20%, transparent), color-mix(in srgb, var(--k) 6%, transparent) 62px, transparent 160px),
+    linear-gradient(color-mix(in srgb, var(--vv-azul) 3%, transparent) 1px, transparent 1px) 0 0 / 100% 12px,
+    var(--vv-sup-1) !important;
+  border: 1px solid color-mix(in srgb, var(--k) 30%, transparent) !important;
+}
+html[data-visual="novo"] [data-vv="col"]::before {
+  top: -1px; left: -1px; right: -1px; width: auto; height: 3px; border-radius: 0;
+}
+html[data-visual="novo"] [data-vv="col"]:hover::before { width: auto; }
+
+html[data-visual="novo"] [data-vv="col"]::after {
+  content: ""; position: absolute; top: 17px; right: -12px; width: 12px; height: 14px; pointer-events: none;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--k) 70%, transparent), color-mix(in srgb, var(--vv-azul) 50%, transparent));
+  clip-path: polygon(0 0, 55% 0, 100% 50%, 55% 100%, 0 100%, 45% 50%);
+}
+html[data-visual="novo"] [data-vv="col"]:last-child::after { display: none; }
+html[data-visual="novo"] [data-vv="col"] > div:first-child { position: relative; isolation: isolate; border-bottom: 1px solid color-mix(in srgb, var(--k) 40%, transparent); }
+
+html[data-visual="novo"] [data-vv="col"] > div:first-child::after {
+  content: "ETAPA " attr(data-etapa); position: absolute; left: 21px; bottom: 0; z-index: -1; pointer-events: none;
+  font: 600 9px/11px var(--mc-mono); letter-spacing: .18em; color: color-mix(in srgb, var(--k) 60%, var(--vv-txt)); opacity: .85;
+}
+html[data-visual="novo"] [data-vv="col"] > div:first-child > span:first-child {
+  border-radius: 2px !important; background: var(--k) !important; box-shadow: 0 0 10px var(--k), 0 0 0 3px color-mix(in srgb, var(--vv-fundo) 60%, transparent) !important; transform: rotate(45deg) scale(.85);
+}
+html[data-visual="novo"] [data-vv="col"] > div:first-child > span:nth-child(3) {
+  background: color-mix(in srgb, var(--k) 18%, var(--vv-fundo)) !important; color: var(--vv-txt-forte) !important; border-radius: 2px !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--k) 50%, transparent);
+}
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"] {
+  
+  position: relative; border-radius: 2px !important;
+  background: var(--vv-cart-c) !important;
+  border-left: 2px solid color-mix(in srgb, var(--k) 70%, transparent) !important;
+  box-shadow: none !important;
+}
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"]:hover {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--k) 45%, transparent) !important;
+}
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"] > div:first-child div[style*="font-weight: 600"] { color: var(--vv-txt-forte); }
+
+
+html[data-visual="novo"] .panel {
+  border-radius: 3px !important;
+  --br: color-mix(in srgb, var(--vv-azul) 75%, transparent);
+  background:
+    linear-gradient(var(--br), var(--br)) right top / 18px 2px no-repeat,
+    linear-gradient(var(--br), var(--br)) right top / 2px 18px no-repeat,
+    linear-gradient(var(--br), var(--br)) left bottom / 18px 2px no-repeat,
+    linear-gradient(var(--br), var(--br)) left bottom / 2px 18px no-repeat,
+    linear-gradient(var(--br), var(--br)) right bottom / 18px 2px no-repeat,
+    linear-gradient(var(--br), var(--br)) right bottom / 2px 18px no-repeat,
+    linear-gradient(color-mix(in srgb, var(--vv-azul) 3%, transparent) 1px, transparent 1px) 0 0 / 12px 12px,
+    linear-gradient(90deg, color-mix(in srgb, var(--vv-azul) 3%, transparent) 1px, transparent 1px) 0 0 / 12px 12px,
+    linear-gradient(180deg, var(--vv-cart-d) 0%, var(--vv-sup-1b) 100%) !important;
+  border: 1px solid color-mix(in srgb, var(--vv-azul) 28%, transparent) !important;
+}
+html[data-visual="novo"] .panel::before { left: -1px; top: -1px; width: 64px; height: 3px; border-radius: 0; }
+
+
+html[data-visual="novo"] .panel > div[style*="position: sticky"] {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--vv-petroleo) 18%, transparent), color-mix(in srgb, var(--vv-petroleo) 3%, transparent) 75%), var(--vv-sup-1) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--vv-petroleo) 45%, transparent) !important; backdrop-filter: none !important;
+}
+html[data-visual="novo"] .panel > div[style*="position: sticky"] > div:first-child > span:first-child {
+  background: linear-gradient(90deg, var(--vv-txt) 0%, var(--vv-azul-2) 55%, var(--vv-petroleo) 100%) !important; -webkit-background-clip: text !important; background-clip: text !important;
+}
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > button { transition: background-color .16s ease, box-shadow .16s ease; }
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > button:hover { background: color-mix(in srgb, var(--vv-petroleo) 7%, transparent) !important; }
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > button:not([style*="border-left: 3px solid transparent"]) {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--vv-petroleo) 18%, transparent), color-mix(in srgb, var(--vv-petroleo) 4%, transparent) 70%) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--vv-petroleo) 25%, transparent);
+}
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > button img,
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child > img {
+  box-shadow: 0 0 0 2px var(--vv-fundo), 0 0 0 3px color-mix(in srgb, var(--vv-petroleo) 60%, transparent), 0 0 14px color-mix(in srgb, var(--vv-petroleo) 30%, transparent);
+}
+
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--vv-petroleo) 13%, transparent), color-mix(in srgb, var(--vv-azul) 5%, transparent) 60%, transparent) !important;
+  border-bottom-color: color-mix(in srgb, var(--vv-petroleo) 40%, transparent) !important;
+}
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child > div > div:first-child {
+  background: linear-gradient(90deg, var(--vv-txt) 0%, var(--vv-azul-2) 60%, var(--vv-petroleo) 100%) !important; -webkit-background-clip: text !important; background-clip: text !important;
+}
+
+html[data-visual="novo"] div[style*="var(--chat-bg)"] {
+  background:
+    radial-gradient(ellipse 70% 50% at 100% 0%, color-mix(in srgb, var(--vv-azul) 8%, transparent), transparent 70%),
+    linear-gradient(color-mix(in srgb, var(--vv-azul) 4%, transparent) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, color-mix(in srgb, var(--vv-azul) 4%, transparent) 1px, transparent 1px) 0 0 / 24px 24px,
+    var(--vv-fundo) !important;
+}
+html[data-visual="novo"] div[style*="var(--bubble-them)"] {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--vv-petroleo) 10%, transparent), transparent 60%), var(--vv-sup-2) !important;
+  border-color: color-mix(in srgb, var(--vv-petroleo) 28%, transparent) !important; border-radius: 2px 10px 10px 10px !important;
+  box-shadow: inset 3px 0 0 var(--vv-petroleo), 0 6px 18px color-mix(in srgb, var(--vv-sombra) 25%, transparent);
+}
+html[data-visual="novo"] div[style*="var(--bubble-us)"],
+html[data-visual="novo"] div[style*="align-self: flex-end"] > div[style*="var(--navy-700)"] {
+  background: linear-gradient(270deg, color-mix(in srgb, var(--vv-azul) 20%, transparent), color-mix(in srgb, var(--vv-borda) 0%, transparent) 70%), var(--vv-borda) !important;
+  border-radius: 10px 2px 10px 10px !important;
+  box-shadow: inset -3px 0 0 var(--vv-azul), inset 0 0 0 1px color-mix(in srgb, var(--vv-azul) 35%, transparent), 0 6px 18px color-mix(in srgb, var(--vv-sombra) 30%, transparent);
+}
+html[data-visual="novo"] div[style*="var(--chat-bg)"] > div > div[style*="font-size: 10.5px"] {
+  color: var(--vv-azul-2) !important;
+}
+
+html[data-visual="novo"] div[style*="border-radius: 24px"]:has(> input[placeholder="Digite uma mensagem"]) {
+  background: var(--vv-fundo) !important; border-color: color-mix(in srgb, var(--vv-petroleo) 40%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--vv-petroleo) 7%, transparent), inset 0 0 18px color-mix(in srgb, var(--vv-petroleo) 6%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-visual="novo"] .grid-mods .mod-card:hover, html[data-visual="novo"] .grid-mods .mod-card:hover::after { transform: none; }
+}
+
+
+html[data-visual="novo"] .mod-card { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Cpath d='M3 9h18M9 21V9'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="chat"] { --k: var(--vv-petroleo); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/%3E%3Cpath d='M8 9h8M8 13h5'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="crm"] { --k: var(--vv-ambar); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='16' rx='1'/%3E%3Cpath d='M9 4v16M15 4v16'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="contatos"] { --k: var(--vv-petroleo); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="intake"] { --k: var(--vv-ameixa); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'/%3E%3Crect x='8' y='2' width='8' height='4' rx='1'/%3E%3Cpath d='M9 12h6M9 16h4'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="operacional"] { --k: var(--vv-ameixa); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='7' width='20' height='14' rx='2'/%3E%3Cpath d='M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="processos"] { --k: var(--vv-ameixa); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="casos"] { --k: var(--vv-ameixa); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v18M5 21h14M3 7h18'/%3E%3Cpath d='M6 7l-3 7a3 3 0 0 0 6 0zM18 7l-3 7a3 3 0 0 0 6 0z'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="intimacoes"] { --k: var(--vv-vermelho); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9'/%3E%3Cpath d='M13.73 21a2 2 0 0 1-3.46 0'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="agenda"] { --k: var(--vv-verde); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2'/%3E%3Cpath d='M16 2v4M8 2v4M3 10h18M8 14h2M14 14h2M8 18h2'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="controladoria"] { --k: var(--vv-vermelho); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="tarefas"] { --k: var(--vv-ambar); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 11l3 3L22 4'/%3E%3Cpath d='M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="assinatura"] { --k: var(--vv-ameixa); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20h9'/%3E%3Cpath d='M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="marketing"] { --k: var(--vv-ambar); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1z'/%3E%3Cpath d='M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="portal"] { --k: var(--vv-azul); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 3v18h18'/%3E%3Cpath d='M7 15l4-4 3 3 6-7'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="financeiro"] { --k: var(--vv-verde); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 1v22'/%3E%3Cpath d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'/%3E%3C/svg%3E"); }
+html[data-visual="novo"] .mod-card[data-mod="usuarios"] { --k: var(--vv-ambar); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21v-1a7 7 0 0 1 14 0v1'/%3E%3Cpath d='M19 8v6M22 11h-6'/%3E%3C/svg%3E"); }
+
+
+
+html[data-visual="novo"] .nav-item:focus-visible {
+  outline: 2px solid var(--k) !important; outline-offset: -2px !important;
+  box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--vv-fundo) 85%, transparent), 0 0 18px color-mix(in srgb, var(--k) 45%, transparent) !important;
+}
+html[data-visual="novo"] .nav-item.active:focus-visible { outline-color: var(--vv-txt) !important; }
+html[data-visual="novo"] .grid-mods .mod-card:focus-visible,
+html[data-visual="novo"] .grid-mods .mod-card:focus-within {
+  outline: 2px solid color-mix(in srgb, var(--k) 70%, var(--vv-txt)) !important; outline-offset: -3px !important;
+  border-color: var(--k) !important;
+}
+
+
+html[data-visual="novo"] [data-vv="col"] > div:first-child {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--k) 26%, transparent), color-mix(in srgb, var(--k) 6%, transparent) 70%, transparent) !important;
+  box-shadow: inset 2px 0 0 var(--k);
+}
+html[data-visual="novo"] [data-vv="col"] > div:first-child > span:nth-child(2) { color: var(--vv-txt) !important; }
+
+
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > button {
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--vv-azul) 8%, transparent);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--vv-petroleo) 3.5%, transparent), transparent 40%) !important;
+}
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > button:not([style*="border-left: 3px solid transparent"]) {
+  border-left-color: var(--vv-petroleo) !important;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--vv-petroleo) 26%, transparent), color-mix(in srgb, var(--vv-petroleo) 7%, transparent) 65%, color-mix(in srgb, var(--vv-sup-2) 40%, transparent)) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--vv-petroleo) 35%, transparent), -6px 0 18px -6px color-mix(in srgb, var(--vv-petroleo) 80%, transparent) !important;
+}
+
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child {
+  background:
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--vv-petroleo) 45%, transparent) 0 1px, transparent 1px 8px) left bottom / 100% 4px no-repeat,
+    linear-gradient(90deg, color-mix(in srgb, var(--vv-petroleo) 20%, transparent), color-mix(in srgb, var(--vv-azul) 7%, transparent) 55%, color-mix(in srgb, var(--vv-fundo) 20%, transparent)) !important;
+}
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child .btn:not([style*="background"]):not(.esc-wa-ligar-btn) { background: var(--vv-fundo) !important; }   
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child .btn {
+  border-radius: 3px !important;
+  border-color: color-mix(in srgb, var(--vv-petroleo) 38%, transparent) !important;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--vv-azul) 8%, transparent), 0 0 0 1px color-mix(in srgb, var(--vv-fundo) 60%, transparent) !important;
+}
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child .btn:hover {
+  border-color: var(--vv-petroleo) !important; box-shadow: 0 0 14px color-mix(in srgb, var(--vv-petroleo) 30%, transparent) !important;
+}
+
+html[data-visual="novo"] div[style*="var(--chat-bg)"] {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2346BDB4' stroke-opacity='.10' stroke-width='.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/%3E%3Cpath d='M8 9h8M8 13h5'/%3E%3C/svg%3E") left 36px bottom 24px / 300px 300px no-repeat,
+    radial-gradient(ellipse 60% 55% at 0% 100%, color-mix(in srgb, var(--vv-petroleo) 12%, transparent), transparent 70%),
+    radial-gradient(ellipse 70% 50% at 100% 0%, color-mix(in srgb, var(--vv-azul) 10%, transparent), transparent 70%),
+    linear-gradient(color-mix(in srgb, var(--vv-azul) 5%, transparent) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, color-mix(in srgb, var(--vv-azul) 5%, transparent) 1px, transparent 1px) 0 0 / 24px 24px,
+    var(--vv-fundo) !important;
+}
+html[data-visual="novo"] div[style*="var(--bubble-us)"],
+html[data-visual="novo"] div[style*="align-self: flex-end"] > div[style*="var(--navy-700)"] {
+  background: linear-gradient(160deg, color-mix(in srgb, var(--vv-azul-3) 42%, var(--vv-sup-2)) 0%, var(--vv-sup-3) 100%) !important;
+  box-shadow: inset -3px 0 0 var(--vv-azul), inset 0 0 0 1px color-mix(in srgb, var(--vv-azul) 40%, transparent), 0 8px 22px color-mix(in srgb, var(--vv-sombra) 35%, transparent), 0 0 22px color-mix(in srgb, var(--vv-azul) 12%, transparent);
+}
+
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] .btn { border-radius: 3px !important; }
+
+
+html[data-visual="novo"][data-visual] {
+  --vv-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --vv-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --vv-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --vv-inout: cubic-bezier(0.77, 0, 0.175, 1);
+  --vv-mola: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+
+html[data-visual="novo"] .main[data-troca] .content { animation: vv-entra 220ms var(--vv-out) backwards; }
+html[data-visual="novo"] .main[data-troca] .topbar h1 { animation: vv-slide 220ms var(--vv-out) 40ms backwards; }
+html[data-visual="novo"] .topbar::after { transform-origin: left center; }
+html[data-visual="novo"] .main[data-troca] .topbar::after { animation: vv-linha 320ms var(--vv-out) backwards; }
+html[data-visual="novo"] .main[data-troca] .topbar .tb-left::before { animation: vv-led 300ms var(--vv-out) 120ms; }
+@keyframes vv-entra { from { opacity: 0; transform: translateY(6px); } }
+@keyframes vv-slide { from { opacity: 0; transform: translateX(-8px); } }
+@keyframes vv-fade { from { opacity: 0; } }
+@keyframes vv-linha { from { transform: scaleX(0); opacity: 1; } 70% { opacity: 1; } }
+@keyframes vv-led { 50% { transform: scale(1.6); opacity: .5; } }
+
+
+
+html[data-visual="novo"] .topbar .tb-left::after {
+  display: block !important; content: ""; position: absolute; left: -14px; top: 50%; width: 6px; height: 6px; margin-top: -3px;
+  border-radius: 50%; border: 1px solid var(--vv-verde); box-sizing: border-box; pointer-events: none; opacity: 0;
+}
+html[data-visual="novo"] .main[data-troca] .topbar .tb-left::after { animation: vv-ping 1600ms cubic-bezier(0, 0, .2, 1) 300ms 1 backwards; }
+@keyframes vv-ping { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(2.6); opacity: 0; } }
+
+html[data-visual="novo"] .pt-ask { position: relative; transition: transform 140ms var(--vv-out), border-color .18s ease; }
+html[data-visual="novo"] .pt-ask svg { transition: transform 200ms var(--vv-out); }
+
+html[data-visual="novo"] .pt-al svg { transition: transform 180ms var(--vv-out); }
+html[data-visual="novo"] .pt-al b { transform-origin: center; }
+html[data-visual="novo"] .pt-al b[data-bump="a"] { animation: vv-bump-a 300ms var(--vv-out); }
+html[data-visual="novo"] .pt-al b[data-bump="b"] { animation: vv-bump-b 300ms var(--vv-out); }
+@keyframes vv-bump-a { 40% { transform: scale(1.18); } }
+@keyframes vv-bump-b { 40% { transform: scale(1.18); } }
+html[data-visual="novo"] .pt-al.k-red b:not(.zero)::after {
+  content: ""; position: absolute; inset: -3px; border-radius: 999px; border: 1.5px solid var(--vv-vermelho); pointer-events: none; opacity: 0;
+  animation: vv-halo-a 1800ms ease-out 600ms 3;
+}
+
+html[data-visual="novo"] .pt-al.k-red b:not(.zero)[data-bump="b"]::after { animation-name: vv-halo-b; }
+@keyframes vv-halo-a { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(1.9); opacity: 0; } }
+@keyframes vv-halo-b { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(1.9); opacity: 0; } }
+html[data-visual="novo"] .pt-add-btn svg { transition: transform 240ms var(--vv-mola); }
+html[data-visual="novo"] .pt-add-btn { transition: transform 140ms var(--vv-out), background-color .18s ease; }
+html[data-visual="novo"] .pt-menu { transform-origin: top right; transition: opacity 180ms var(--vv-out), transform 180ms var(--vv-out); }
+@starting-style { html[data-visual="novo"] .pt-menu { opacity: 0; transform: translateY(-6px) scale(.97); } }
+@media (hover: hover) and (pointer: fine) {
+  html[data-visual="novo"] .pt-ask:hover svg { transform: scale(1.06); }
+  html[data-visual="novo"] .pt-al:hover svg { transform: rotate(-10deg) scale(1.08); }
+  html[data-visual="novo"] .pt-add-btn:hover svg { transform: rotate(90deg); }
+}
+html[data-visual="novo"] .pt-ask:active { transform: scale(.99); }
+html[data-visual="novo"] .pt-al:active { transform: scale(.96); transition: transform 100ms var(--vv-out); }
+html[data-visual="novo"] .pt-add-btn:active, html[data-visual="novo"] .btn:active { transform: scale(.97); }
+html[data-visual="novo"] .btn { transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease, transform 140ms var(--vv-out); }
+
+
+html[data-visual="novo"] .sidebar[data-nav-pronto]::before,
+html[data-visual="novo"] .sidebar[data-nav-pronto]::after {
+  content: ""; position: absolute; top: 0; pointer-events: none; height: var(--nav-h, 40px);
+  transform: translate3d(0, var(--nav-y, 0px), 0);
+}
+html[data-visual="novo"] .sidebar[data-nav-pronto]::before {
+  left: var(--nav-x, 12px); width: var(--nav-w, 200px); border-radius: 3px;
+  background-color: var(--nav-k, var(--vv-azul));
+  background-image: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--vv-fundo) 24%, transparent) 100%);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}
+
+html[data-visual="novo"] .sidebar[data-nav-pronto]::after {
+  left: 0; width: 3px; background: var(--nav-k, var(--vv-azul)); box-shadow: 0 0 12px var(--nav-k, var(--vv-azul));
+}
+
+html[data-visual="novo"] .sidebar[data-nav-anim]::before {
+  transition: transform 240ms var(--vv-out), background-color 200ms ease;
+}
+html[data-visual="novo"] .sidebar[data-nav-anim]::after {
+  transition: transform 300ms var(--vv-drawer) 30ms, background-color 200ms ease, box-shadow 200ms ease;
+}
+html[data-visual="novo"] .sidebar .nav-item { transition: background-color .18s ease, color 120ms ease; }
+html[data-visual="novo"] .sidebar .nav-item.active { transition: color 120ms ease 100ms; }
+html[data-visual="novo"] .sidebar .nav-item .ico {
+  translate: 0 0; scale: 1;
+  transition: translate 180ms cubic-bezier(.2, .8, .2, 1), scale 180ms cubic-bezier(.2, .8, .2, 1), background-color 180ms ease-out 180ms, color 180ms ease-out 180ms, box-shadow .18s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  html[data-visual="novo"] .sidebar .nav-item:not(.active):hover .ico { translate: 2px 0; scale: 1.06; }
+  html[data-visual="novo"] .sidebar .nav-item:not(.active):hover::after { background: color-mix(in srgb, var(--vv-azul) 80%, transparent); }
+}
+
+html[data-visual="novo"] .sidebar[data-nav-anim] .nav-item.active .ico { animation: vv-ico 200ms var(--vv-out) 120ms backwards; }
+@keyframes vv-ico { from { scale: .9; } }
+
+html[data-visual="novo"] .sidebar[data-primeira] .nav-item { animation: vv-nav 300ms var(--vv-expo) backwards; animation-delay: calc(var(--i, 0) * 22ms); }
+html[data-visual="novo"] .sidebar[data-primeira] .nav-item .ico { animation: vv-fade 200ms ease-out backwards; animation-delay: calc(var(--i, 0) * 22ms + 80ms); }
+html[data-visual="novo"] .sidebar[data-primeira][data-nav-pronto]::before { animation: vv-fade 300ms ease-out 260ms backwards; }
+@keyframes vv-nav { from { opacity: 0; transform: translateX(-10px); } }
+
+
+html[data-visual="novo"] .grid-mods .mod-card {
+  transform-origin: 50% 60%;
+  transition: transform 400ms var(--vv-mola), border-color .2s ease, box-shadow .2s ease;
+}
+
+html[data-visual="novo"] .grid-mods .mod-card > .vv-luz {
+  position: absolute; left: 50%; top: 50%; width: 280px; height: 280px; margin: -140px 0 0 -140px;
+  z-index: 0; pointer-events: none; opacity: 0; border-radius: 50%;
+  background: radial-gradient(circle closest-side, color-mix(in srgb, var(--k) 26%, transparent), transparent 100%);
+  transform: translate3d(var(--lx, 0px), var(--ly, 0px), 0);
+  will-change: transform, opacity; transition: opacity 220ms ease-out;
+}
+html[data-visual="novo"] .grid-mods .mod-card::after {
+  transform: translate(calc(var(--px, 0) * -10px), calc(var(--py, 0) * -10px));
+  transition: transform 480ms var(--vv-expo), opacity 240ms ease-out;
+}
+html[data-visual="novo"] .grid-mods .mod-card h3::before,
+html[data-visual="novo"] .grid-mods .mod-card h3::after { transform-origin: center; transition: transform 320ms var(--vv-mola), filter 200ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  html[data-visual="novo"] .grid-mods .mod-card:hover { transform: translateY(-3px); }
+  html[data-visual="novo"] .grid-mods .mod-card:hover > .vv-luz { opacity: 1; }
+  html[data-visual="novo"] .grid-mods .mod-card.locked:hover > .vv-luz { opacity: .45; }
+  html[data-visual="novo"] .grid-mods .mod-card:not(.locked):hover {
+    transform: perspective(1000px) rotateX(calc(var(--py, 0) * -7deg)) rotateY(calc(var(--px, 0) * 7deg)) translateY(-4px);
+    transition: transform 90ms linear, border-color .2s ease, box-shadow .2s ease;
+  }
+  html[data-visual="novo"] .grid-mods .mod-card:not(.locked):active {
+    transform: perspective(1000px) rotateX(calc(var(--py, 0) * -7deg)) rotateY(calc(var(--px, 0) * 7deg)) translateY(-2px) scale(.975);
+    transition: transform 100ms var(--vv-out);
+  }
+  html[data-visual="novo"] .grid-mods .mod-card.locked:hover { transform: none; }
+  html[data-visual="novo"] .grid-mods .mod-card:hover::after {
+    opacity: .17; transform: translate(calc(var(--px, 0) * -10px - 10px), calc(var(--py, 0) * -10px - 8px)) rotate(-8deg) scale(1.08);
+  }
+  html[data-visual="novo"] .grid-mods .mod-card:not(.locked):hover h3::before { transform: rotate(-8deg) scale(1.12); filter: brightness(1.15); }
+  html[data-visual="novo"] .grid-mods .mod-card:not(.locked):hover h3::after { transform: rotate(-8deg) scale(1.12); }
+}
+
+html[data-visual="novo"] .main[data-entrada] .grid-mods .mod-card { animation: vv-monta 320ms var(--vv-out) backwards; animation-delay: calc(min(var(--i, 0), 8) * 25ms); }
+html[data-visual="novo"] .main[data-entrada] .grid-mods .mod-card::before { animation: vv-faixa 280ms var(--vv-out) backwards; animation-delay: calc(min(var(--i, 0), 8) * 25ms + 80ms); }
+html[data-visual="novo"] .main[data-entrada] .grid-mods .mod-card h3::before,
+html[data-visual="novo"] .main[data-entrada] .grid-mods .mod-card h3::after { animation: vv-bloco 260ms var(--vv-out) backwards; animation-delay: calc(min(var(--i, 0), 8) * 25ms + 120ms); }
+@keyframes vv-monta { from { opacity: 0; transform: translateY(8px) scale(.98); } }
+@keyframes vv-faixa { from { clip-path: inset(0 100% 0 0); } }
+@keyframes vv-bloco { from { opacity: 0; transform: scale(.85) rotate(-8deg); } }
+
+html[data-visual="novo"] .main[data-entrada] .content > div:first-child:has(> h2 + p.muted)::before { transform-origin: left center; animation: vv-wipe 360ms var(--vv-drawer) backwards; }
+html[data-visual="novo"] .main[data-entrada] .content > div:first-child:has(> h2 + p.muted) > h2 { animation: vv-slide 260ms var(--vv-out) 80ms backwards; }
+html[data-visual="novo"] .main[data-entrada] .content > div:first-child:has(> h2 + p.muted) > p { animation: vv-slide 260ms var(--vv-out) 140ms backwards; }
+html[data-visual="novo"] .main[data-entrada] .content > div:first-child:has(> h2 + p.muted)::after { animation: vv-fade 260ms ease-out 180ms backwards; }
+@keyframes vv-wipe { from { transform: scaleX(0); opacity: .4; } }
+html[data-visual="novo"] .main[data-entrada] .grid-mods::before { transform-origin: top; animation: vv-desce 420ms var(--vv-drawer) backwards; }
+@keyframes vv-desce { from { transform: scaleY(0); } }
+
+
+html[data-visual="novo"] [data-vv="col"] { transition: opacity 200ms ease-out, border-color .25s ease, box-shadow .25s ease; }
+html[data-visual="novo"] [data-vv="col"]::before { transform-origin: left top; transition: transform 160ms var(--vv-out), filter 160ms ease; }
+
+html[data-visual="novo"] .main[data-entrada] [data-vv="col"] { animation: vv-rise 280ms var(--vv-out) backwards; animation-delay: calc(min(var(--i, 0), 6) * 30ms); }
+html[data-visual="novo"] .main[data-entrada] [data-vv="col"]::before { animation: vv-barra 240ms var(--vv-out) backwards; animation-delay: calc(min(var(--i, 0), 6) * 30ms + 60ms); }
+html[data-visual="novo"] .main[data-entrada] [data-vv="col"]::after { animation: vv-link 240ms var(--vv-out) backwards; animation-delay: calc(min(var(--i, 0), 6) * 30ms + 120ms); }
+html[data-visual="novo"] .main[data-entrada] [data-vv="col"] [data-vv="card"]:nth-child(-n+6) { --d: 0; animation: vv-card 240ms var(--vv-out) backwards; animation-delay: calc(min(var(--i, 0), 6) * 30ms + 60ms + var(--d) * 20ms); }
+html[data-visual="novo"] .main[data-entrada] [data-vv="col"] [data-vv="card"]:nth-child(2) { --d: 1; }
+html[data-visual="novo"] .main[data-entrada] [data-vv="col"] [data-vv="card"]:nth-child(3) { --d: 2; }
+html[data-visual="novo"] .main[data-entrada] [data-vv="col"] [data-vv="card"]:nth-child(4) { --d: 3; }
+html[data-visual="novo"] .main[data-entrada] [data-vv="col"] [data-vv="card"]:nth-child(5) { --d: 4; }
+html[data-visual="novo"] .main[data-entrada] [data-vv="col"] [data-vv="card"]:nth-child(6) { --d: 5; }
+@keyframes vv-rise { from { opacity: 0; transform: translateY(8px); } }
+@keyframes vv-barra { from { transform: scaleX(0); } }
+@keyframes vv-link { from { opacity: 0; transform: translateX(-6px); } }
+@keyframes vv-card { from { opacity: 0; transform: translateY(6px); } }
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-visual="novo"] [data-vv="col"] [data-vv="card"]:hover { transform: translateY(-2px); transition: transform 160ms var(--vv-out); }
+  html[data-visual="novo"] [data-vv="col"] [data-vv="card"]:active { transform: translateY(0) scale(.99); transition-duration: 100ms; }
+}
+html[data-visual="novo"] [data-arrastando] [data-vv="col"] { opacity: .7 !important; }
+html[data-visual="novo"] [data-arrastando] [data-vv="col"][data-alvo] { opacity: 1 !important; }
+html[data-visual="novo"] [data-vv="col"][data-alvo]::before { transform: scaleY(2.3); filter: brightness(1.4); }
+html[data-visual="novo"] [data-vv="col"] > div:first-child::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--k) 30%, transparent), color-mix(in srgb, var(--k) 10%, transparent));
+  transition: opacity 160ms var(--vv-out);
+}
+html[data-visual="novo"] [data-vv="col"][data-alvo] > div:first-child::before { opacity: 1; }
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"][data-pego] { opacity: .45; transform: scale(.97); }
+html[data-visual="novo"] [data-vv="col"] [data-vv="card"][data-pousou] { animation: vv-land 320ms var(--vv-out); }
+@keyframes vv-land { from { opacity: .5; transform: scale(.95); } 60% { transform: scale(1.015); } to { opacity: 1; transform: none; } }
+
+
+
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > button { position: relative; }
+html[data-visual="novo"] .main[data-entrada] .panel[style*="flex: 0 0 320px"] > button:nth-child(-n+9) { animation: vv-lista 260ms var(--vv-out) backwards; }
+html[data-visual="novo"] .main[data-entrada] .panel[style*="flex: 0 0 320px"] > button:nth-child(3) { animation-delay: 20ms; }
+html[data-visual="novo"] .main[data-entrada] .panel[style*="flex: 0 0 320px"] > button:nth-child(4) { animation-delay: 40ms; }
+html[data-visual="novo"] .main[data-entrada] .panel[style*="flex: 0 0 320px"] > button:nth-child(5) { animation-delay: 60ms; }
+html[data-visual="novo"] .main[data-entrada] .panel[style*="flex: 0 0 320px"] > button:nth-child(6) { animation-delay: 80ms; }
+html[data-visual="novo"] .main[data-entrada] .panel[style*="flex: 0 0 320px"] > button:nth-child(7) { animation-delay: 100ms; }
+html[data-visual="novo"] .main[data-entrada] .panel[style*="flex: 0 0 320px"] > button:nth-child(8) { animation-delay: 120ms; }
+html[data-visual="novo"] .main[data-entrada] .panel[style*="flex: 0 0 320px"] > button:nth-child(9) { animation-delay: 140ms; }
+@keyframes vv-lista { from { opacity: 0; transform: translateX(-10px); } }
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > button img { transition: transform 200ms var(--vv-out); }
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > button::before {
+  content: ""; position: absolute; left: -3px; top: 0; bottom: 0; width: 3px; pointer-events: none;
+  background: var(--vv-petroleo); box-shadow: 0 0 10px color-mix(in srgb, var(--vv-petroleo) 80%, transparent);
+  transform: scaleY(0); transform-origin: center; transition: transform 200ms var(--vv-out);
+}
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > button:not([style*="border-left: 3px solid transparent"])::before { transform: scaleY(1); }
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > button:not([style*="border-left: 3px solid transparent"]) img { transform: scale(1.06); }
+
+html[data-visual="novo"] .live-dot { position: relative; }
+html[data-visual="novo"] .live-dot::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid var(--vv-verde); pointer-events: none; opacity: 0;
+  animation: vv-ping 2200ms ease-out 3;
+}
+
+html[data-visual="novo"] div[style*="var(--chat-bg)"] > div[style*="align-self"]:nth-last-child(-n+7) { animation: vv-msg 240ms var(--vv-out) backwards; transform-origin: bottom left; }
+html[data-visual="novo"] div[style*="var(--chat-bg)"] > div[style*="align-self: flex-end"]:nth-last-child(-n+7) { animation-name: vv-msg-eu; transform-origin: bottom right; }
+html[data-visual="novo"] div[style*="var(--chat-bg)"] > div[style*="align-self"]:nth-last-child(3) { animation-delay: 20ms; }
+html[data-visual="novo"] div[style*="var(--chat-bg)"] > div[style*="align-self"]:nth-last-child(4) { animation-delay: 40ms; }
+html[data-visual="novo"] div[style*="var(--chat-bg)"] > div[style*="align-self"]:nth-last-child(5) { animation-delay: 60ms; }
+html[data-visual="novo"] div[style*="var(--chat-bg)"] > div[style*="align-self"]:nth-last-child(6) { animation-delay: 80ms; }
+html[data-visual="novo"] div[style*="var(--chat-bg)"] > div[style*="align-self"]:nth-last-child(7) { animation-delay: 100ms; }
+@keyframes vv-msg { from { opacity: 0; transform: translateY(8px) scale(.96); } }
+@keyframes vv-msg-eu { from { opacity: 0; transform: translate(10px, 6px) scale(.96); } }
+
+html[data-visual="novo"] div[style*="border-radius: 24px"]:has(> input[placeholder="Digite uma mensagem"])::after {
+  content: ""; position: absolute; inset: -1.5px; border-radius: 24px; pointer-events: none; padding: 1.5px;
+  background: linear-gradient(90deg, var(--vv-petroleo), var(--vv-azul), var(--vv-azul-2));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0; transform: scale(.985);
+  transition: opacity 150ms var(--vv-out), transform 150ms var(--vv-out);
+}
+html[data-visual="novo"] div[style*="border-radius: 24px"]:has(> input[placeholder="Digite uma mensagem"]):focus-within::after {
+  opacity: 1; transform: scale(1);
+}
+
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child .btn { transition: transform 140ms var(--vv-out), border-color .16s ease, box-shadow .16s ease, background-color .16s ease; }
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child .btn svg { transition: transform 200ms var(--vv-mola); }
+@media (hover: hover) and (pointer: fine) {
+  html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child .btn:hover { transform: translateY(-1px); }
+  html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child .btn[title^="Ligar"]:hover svg { transform: rotate(-12deg); }
+}
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child .btn:active { transform: scale(.96); transition-duration: 80ms; }
+
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-visual="novo"] *, html[data-visual="novo"] *::before, html[data-visual="novo"] *::after,
+  html[data-visual="novo"] body::before {
+    animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important;
+    transition-property: opacity, color, background-color, border-color, box-shadow, outline-color, fill, stroke !important;
+    transition-duration: 120ms !important; transition-delay: 0ms !important;
+  }
+  html[data-visual="novo"] .grid-mods .mod-card:hover, html[data-visual="novo"] .grid-mods .mod-card:active,
+  html[data-visual="novo"] .grid-mods .mod-card::after, html[data-visual="novo"] .grid-mods .mod-card:hover::after,
+  html[data-visual="novo"] .grid-mods .mod-card:hover h3::before, html[data-visual="novo"] .grid-mods .mod-card:hover h3::after,
+  html[data-visual="novo"] [data-vv="col"] [data-vv="card"]:hover, html[data-visual="novo"] [data-vv="col"] [data-vv="card"]:active,
+  html[data-visual="novo"] [data-vv="col"] [data-vv="card"][data-pego],
+  html[data-visual="novo"] .btn:active, html[data-visual="novo"] .pt-al:active, html[data-visual="novo"] .pt-ask:active, html[data-visual="novo"] .pt-add-btn:active,
+  html[data-visual="novo"] .panel[style*="flex: 1 1 0%"] > div:first-child .btn:hover { transform: none !important; }
+  html[data-visual="novo"] .sidebar .nav-item .ico { translate: none !important; scale: none !important; }
+  html[data-visual="novo"] .topbar .tb-left::after, html[data-visual="novo"] .live-dot::after,
+  html[data-visual="novo"] .pt-al b::after, html[data-visual="novo"] .grid-mods .mod-card > .vv-luz { display: none !important; }
+}
+
+
+html[data-visual="novo"]:not([data-rota="crm"]) div[style*="flex: 0 0 250px"] {
+  background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 !important;
+}
+html[data-visual="novo"]:not([data-rota="crm"]) div[style*="flex: 0 0 250px"]::before,
+html[data-visual="novo"]:not([data-rota="crm"]) div[style*="flex: 0 0 250px"]::after { display: none !important; content: none !important; }
+html[data-visual="novo"]:not([data-rota="crm"]) div[style*="flex: 0 0 250px"] > div:first-child { border-bottom: 0 !important; }
+
+
+html[data-visual="novo"] .ctrl-rail {
+  --k: var(--vv-ameixa); --br: color-mix(in srgb, var(--vv-ameixa) 75%, transparent);
+  padding: 8px; border-radius: 3px;
+  background:
+    linear-gradient(var(--br), var(--br)) right top / 18px 2px no-repeat,
+    linear-gradient(var(--br), var(--br)) right top / 2px 18px no-repeat,
+    linear-gradient(var(--br), var(--br)) left bottom / 18px 2px no-repeat,
+    linear-gradient(var(--br), var(--br)) left bottom / 2px 18px no-repeat,
+    linear-gradient(var(--br), var(--br)) right bottom / 18px 2px no-repeat,
+    linear-gradient(var(--br), var(--br)) right bottom / 2px 18px no-repeat,
+    linear-gradient(color-mix(in srgb, var(--vv-azul) 3%, transparent) 1px, transparent 1px) 0 0 / 12px 12px,
+    linear-gradient(90deg, color-mix(in srgb, var(--vv-azul) 3%, transparent) 1px, transparent 1px) 0 0 / 12px 12px,
+    linear-gradient(180deg, var(--vv-cart-d) 0%, var(--vv-sup-1b) 100%);
+  border: 1px solid color-mix(in srgb, var(--vv-azul) 28%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--vv-brilho) 4%, transparent);
+}
+html[data-visual="novo"] .ctrl-rail::before {
+  content: ""; display: block; height: 3px; margin: -8px -8px 6px; width: 64px; background: var(--k); box-shadow: 0 0 12px var(--k);
+}
+html[data-visual="novo"] .ctrl-nav {
+  position: relative; border-radius: 2px; color: var(--vv-txt-3); font-weight: 600;
+  transition: background-color .16s ease, color .16s ease, box-shadow .16s ease;
+}
+html[data-visual="novo"] .ctrl-nav::before {
+  content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 3px; background: var(--k);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--k) 80%, transparent); transform: scaleY(0); transition: transform 200ms var(--vv-out, ease-out);
+}
+html[data-visual="novo"] .ctrl-nav:hover { background: color-mix(in srgb, var(--k) 8%, transparent); color: var(--vv-txt); }
+html[data-visual="novo"] .ctrl-nav.on {
+  color: var(--vv-txt-forte);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--k) 26%, transparent), color-mix(in srgb, var(--k) 7%, transparent) 65%, color-mix(in srgb, var(--vv-sup-2) 40%, transparent));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--k) 40%, transparent), -6px 0 18px -6px color-mix(in srgb, var(--k) 80%, transparent);
+}
+html[data-visual="novo"] .ctrl-nav.on::before { transform: scaleY(1); }
+html[data-visual="novo"] .ctrl-nav .cnt2, html[data-visual="novo"] .ctrl-tab .cnt {
+  font-family: var(--vn-mono, "JetBrains Mono", monospace); font-size: 10.5px; letter-spacing: .04em; border-radius: 2px;
+  background: color-mix(in srgb, var(--vv-fundo) 60%, transparent); color: var(--vv-azul-2); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--vv-azul) 28%, transparent);
+}
+html[data-visual="novo"] .ctrl-nav.on .cnt2 { background: color-mix(in srgb, var(--k) 22%, var(--vv-fundo)); color: var(--vv-txt-forte); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--k) 55%, transparent); }
+
+html[data-visual="novo"] .ctrl-tabs { border-bottom-color: color-mix(in srgb, var(--vv-azul) 22%, transparent); }
+html[data-visual="novo"] .ctrl-tab { border-radius: 2px 2px 0 0; }
+html[data-visual="novo"] .ctrl-tab.on { color: var(--vv-txt-forte); border-bottom-color: var(--vv-ameixa); background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--vv-ameixa) 12%, transparent)); }
+html[data-visual="novo"] .ctrl-card { border-radius: 3px !important; border-color: color-mix(in srgb, var(--vv-azul) 28%, transparent) !important; }
+html[data-visual="novo"] .ctrl-card:hover { border-color: color-mix(in srgb, var(--vv-ameixa) 45%, transparent) !important; box-shadow: 0 14px 34px color-mix(in srgb, var(--vv-sombra) 40%, transparent) !important; }
+html[data-visual="novo"] .ctrl-inp { border-radius: 2px; background: var(--vv-sup-1); border-color: color-mix(in srgb, var(--vv-azul) 28%, transparent); }
+html[data-visual="novo"] .ctrl-inp:focus { border-color: var(--vv-ameixa); box-shadow: 0 0 0 3px color-mix(in srgb, var(--vv-ameixa) 18%, transparent); }
+@media (prefers-reduced-motion: reduce) { html[data-visual="novo"] .ctrl-nav, html[data-visual="novo"] .ctrl-nav::before { transition: none; } }
+
+
+html[data-visual="novo"] .ctrl-row {
+  position: relative; border-bottom: 1px solid color-mix(in srgb, var(--vv-azul) 12%, transparent) !important;
+  padding-left: 12px !important;   
+  transition: background-color .16s ease;
+}
+html[data-visual="novo"] .ctrl-row::before {
+  content: ""; position: absolute; left: 0; top: 10px; bottom: 10px; width: 2px; border-radius: 1px;
+  background: color-mix(in srgb, var(--k, var(--vv-ameixa)) 55%, transparent); transition: background-color .16s ease, box-shadow .16s ease;
+}
+html[data-visual="novo"] .ctrl-row.clic:hover { background: linear-gradient(90deg, color-mix(in srgb, var(--k, var(--vv-ameixa)) 10%, transparent), transparent 60%) !important; border-radius: 2px !important; }
+html[data-visual="novo"] .ctrl-row.clic:hover::before { background: var(--k, var(--vv-ameixa)); box-shadow: 0 0 10px color-mix(in srgb, var(--k, var(--vv-ameixa)) 80%, transparent); }
+
+html[data-visual="novo"] .ctrl-row span[style*="ui-monospace"] {
+  font-family: var(--vn-mono, "JetBrains Mono", monospace) !important; font-weight: 500 !important; letter-spacing: .02em; color: var(--vv-txt) !important;
+}
+
+html[data-visual="novo"] .ctrl-row span[style*="border-radius: 5px"],
+html[data-visual="novo"] .ctrl-main .panel > div:first-child > span[style*="margin-left: auto"] {
+  font-family: var(--vn-mono, "JetBrains Mono", monospace) !important; font-weight: 600 !important; letter-spacing: .06em;
+  border-radius: 2px !important; background: color-mix(in srgb, var(--vv-fundo) 60%, transparent) !important; color: var(--vv-azul-2) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--vv-azul) 35%, transparent);
+}
+html[data-visual="novo"] .ctrl-row > div:nth-child(2) { color: var(--vv-txt); }
+html[data-visual="novo"] .ctrl-row > div.muted { color: var(--vv-txt-5) !important; }
+
+html[data-visual="novo"] .ctrl-main .panel > div:first-child > span:first-child {
+  border-radius: 2px !important; background: color-mix(in srgb, var(--k, var(--vv-ameixa)) 22%, var(--vv-fundo)) !important; color: var(--k, var(--vv-ameixa)) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--k, var(--vv-ameixa)) 45%, transparent), 0 0 14px color-mix(in srgb, var(--k, var(--vv-ameixa)) 25%, transparent);
+}
+html[data-visual="novo"] .ctrl-main .panel > div:first-child > span:nth-child(2) {
+  font-family: var(--vn-display, "Space Grotesk", sans-serif) !important; font-size: 15px !important; letter-spacing: .01em;
+}
+html[data-visual="novo"] .ctrl-main { --k: var(--vv-ameixa); }
+
+
+@media (max-width: 900px) {
+  html[data-visual="novo"] .topbar::before { border-radius: 14px; left: 8px; right: 8px; top: 6px; bottom: 6px; }
+  html[data-visual="novo"] .content > div:first-child:has(> h2 + p.muted)::after { display: none; }
+  html[data-visual="novo"] #esc-visual-novo-selo { max-width: 150px; font-size: 8.5px !important; padding: 5px 8px !important; opacity: .75; }
+}
+
+
+
+
+html[data-visual="novo"][data-tema="claro"] .grid-mods .mod-card::before {
+  color: color-mix(in srgb, var(--k) 26%, var(--vv-txt));
+}
+html[data-visual="novo"][data-tema="claro"] [data-vv="col"] > div:first-child > span {
+  color: color-mix(in srgb, var(--k) 30%, var(--vv-txt));
+}
+
+
+html[data-visual="novo"][data-tema="claro"] .mod-card,
+html[data-visual="novo"][data-tema="claro"] .panel,
+html[data-visual="novo"][data-tema="claro"] .card {
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--vv-brilho) 70%, transparent), var(--shadow) !important;
+}
+
+
+html[data-visual="novo"][data-tema="claro"] .panel[style*="flex: 0 0 320px"] > button div[style*="font-size: 12.5px"] {
+  color: var(--vv-txt-4) !important;   
+}
+html[data-visual="novo"][data-tema="claro"] [style*="color: rgb(203, 213, 225)"] {
+  color: var(--vv-txt-4) !important;   
+}
+html[data-visual="novo"][data-tema="claro"] [style*="color: rgb(124, 196, 255)"] {
+  color: var(--vv-azul) !important;    
+}
+html[data-visual="novo"][data-tema="claro"] [style*="color: rgb(59, 130, 246)"] {
+  color: var(--vv-azul) !important;    
+}
+
+
+html[data-visual="novo"][data-tema="claro"] div[style*="var(--bubble-us)"],
+html[data-visual="novo"][data-tema="claro"] div[style*="align-self: flex-end"] > div[style*="var(--navy-700)"] {
+  background: linear-gradient(160deg, #DFE7F6 0%, #C9D5EC 100%) !important;
+  box-shadow: inset -3px 0 0 var(--vv-azul),
+              inset 0 0 0 1px color-mix(in srgb, var(--vv-azul) 20%, transparent),
+              0 2px 8px color-mix(in srgb, var(--vv-sombra) 10%, transparent) !important;
+}

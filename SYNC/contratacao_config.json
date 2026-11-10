@@ -1,0 +1,4 @@
+{
+ "alerta_telefone": "",
+ "_doc": "Preencher com os dados do escritorio (ids de arquivo no Drive do escritorio, site, WhatsApp de alerta). Vazio = o robo pula o item. O alerta tambem pode vir de TEL_ALERTA_EQUIPE no .env."
+}

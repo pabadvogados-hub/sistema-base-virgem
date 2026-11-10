@@ -1,0 +1,20 @@
+{
+ "etapa_gatilho": "Fechou! Boas vindas e Documentos para contrato",
+ "pausa_seg": 25,
+ "apresentacao_file_id": "",
+ "apresentacao_nome": "APRESENTACAO-ESCRITORIO.pdf",
+ "ebook_file_id": "",
+ "ebook_nome": "",
+ "site_url": "",
+ "alerta_telefone": "",
+ "artigos_url": "",
+ "checklist_contratacao": [
+  "Foto da sua CNH (frente e verso) ou o arquivo da CNH digital",
+  "Comprovante de endereço atual",
+  "Se tiver, a sua carteira de trabalho digital (o PDF do aplicativo)",
+  "Seu e-mail e estado civil"
+ ],
+ "depoimentos_video_ids_reserva": [],
+ "pipeline_gatilho": 20,
+ "_doc": "Preencher com os dados do escritorio (ids de arquivo no Drive do escritorio, site, WhatsApp de alerta). Vazio = o robo pula o item. O alerta tambem pode vir de TEL_ALERTA_EQUIPE no .env."
+}

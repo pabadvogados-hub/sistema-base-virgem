@@ -1,0 +1,21 @@
+# OPCIONAL: ponte para usar o Claude Code da ASSINATURA do escritorio no lugar de credito de API.
+# So ligar depois de logar o Claude Code como root na VPS (claude login) e criar
+# /opt/escritorio/config/claude_ponte.json com os tetos diarios.
+[Unit]
+Description=Escritório Modelo - ponte do Claude Code (assinatura)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/opt/escritorio/producao
+Environment="HOME=/root"
+Environment="PATH=/root/.local/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="ESC_CONFIG_ENV=/opt/escritorio/config/.env"
+ExecStart=/opt/escritorio/venv/bin/python /opt/escritorio/SYNC/claude_ponte.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

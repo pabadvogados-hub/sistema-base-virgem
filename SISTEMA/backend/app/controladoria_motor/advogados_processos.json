@@ -1,0 +1,11 @@
+{
+ "_meta": {
+  "descricao": "Excecoes de responsavel por processo. Editavel sem mexer em codigo.",
+  "campos": {
+   "carteira_dedicada": "numeros de processo que vao direto para a advogada indicada em ESC_CARTEIRA_DEDICADA_NOME (vazio = todos com a revisora padrao)",
+   "parceiros": "numero -> {nome, modo}. modo \"encaminhar\": a controladoria encaminha a intimacao ao parceiro e confirma; modo \"conjunta\": peca nossa, contato so pelo parceiro"
+  }
+ },
+ "carteira_dedicada": [],
+ "parceiros": {}
+}

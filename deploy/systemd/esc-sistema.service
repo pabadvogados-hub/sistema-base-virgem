@@ -1,0 +1,17 @@
+[Unit]
+Description=Sistema Escritório Modelo Advogados - backend (FastAPI)
+After=network.target
+
+[Service]
+Type=simple
+User=escsistema
+Group=escsistema
+WorkingDirectory=/opt/escritorio/SISTEMA/backend
+Environment="PATH=/opt/escritorio/venv/bin:/usr/bin:/bin"
+Environment="ESC_CONFIG_ENV=/opt/escritorio/config/.env"
+ExecStart=/opt/escritorio/venv/bin/uvicorn app.main_vps:app --host 127.0.0.1 --port 8000 --workers 1
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

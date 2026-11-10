@@ -1,0 +1,81 @@
+# =============================================================================
+# Rotinas automaticas do Sistema Escritório Modelo Advogados
+# Rodam com o MESMO usuario do servico (escsistema), para o banco SQLite nunca ficar
+# com arquivo de dono diferente.
+#
+# Instalar:   crontab -u escsistema /opt/escritorio/deploy/crontab.txt   (SUBSTITUI o atual)
+# Conferir:   crontab -u escsistema -l
+#
+# Regra: cada rotina so deve ser LIGADA (sem o # na frente) depois que a integracao
+# dela estiver configurada no config/.env e testada a mao com --simular/sem --enviar.
+# As linhas comentadas abaixo estao prontas, so tirar o #.
+#
+# Logs em /var/log/escritorio/*.log   |   travas em /tmp/esc-*.lock (flock evita rodar dobrado)
+# Horario: o da VPS. Ajuste o fuso: timedatectl set-timezone America/Sao_Paulo
+# =============================================================================
+SHELL=/bin/bash
+R=/opt/escritorio
+PY=/opt/escritorio/venv/bin/python
+ESC_CONFIG_ENV=/opt/escritorio/config/.env
+
+# ---------- BASICO (ligado desde o primeiro dia) ----------
+# backup do banco 3h (guarda 14 dias)
+0 3 * * *  $R/backup_db.sh >> /var/log/escritorio/backup.log 2>&1
+# vigia geral das automacoes (avisa se alguma rotina parou)
+# transcricao das ligacoes feitas pela plataforma
+* * * * *  cd $R && flock -n /tmp/esc-ligacoes.lock $PY transcrever_ligacoes.py >> /var/log/escritorio/ligacoes.log 2>&1
+# motor de fluxos do CRM (chama a API local com o CRON_TOKEN do config/.env)
+0 13,21 * * *  set -a && . $ESC_CONFIG_ENV && set +a && curl -s -X POST http://127.0.0.1:8000/api/atendimento/fluxos/processar -H "Content-Type: application/json" -d "{\"token\":\"$CRON_TOKEN\"}" >> /var/log/escritorio/fluxos.log 2>&1
+
+# ---------- ATENDIMENTO / COMERCIAL (ligar com o WhatsApp conectado) ----------
+#*/2 * * * *  cd $R && flock -n /tmp/esc-lead-quente.lock $PY SYNC/lead_quente_tarefa.py --enviar >> /var/log/escritorio/lead-quente.log 2>&1
+#*/5 8-21 * * *  cd $R && flock -n /tmp/esc-alarme.lock $PY SYNC/alarme_qualificado.py --enviar >> /var/log/escritorio/alarme.log 2>&1
+#0 10,13,16,19 * * *  cd $R && flock -n /tmp/esc-quentes.lock $PY SYNC/fluxo_quentes_esc.py --enviar >> /var/log/escritorio/quentes.log 2>&1
+#5 10 * * *  cd $R && flock -n /tmp/esc-fechamento.lock $PY SYNC/fluxo_fechamento_esc.py --enviar >> /var/log/escritorio/fechamento.log 2>&1
+#*/15 9-17 * * 1-5  cd $R && flock -w 600 /tmp/esc-fluxo-saiu.lock $PY SYNC/fluxo_saiu_esc.py --enviar >> /var/log/escritorio/fluxo-saiu.log 2>&1
+#*/10 8-21 * * *  cd $R && flock -w 600 /tmp/esc-fluxo-saiu.lock $PY SYNC/fluxo_saiu_esc.py --varrer >> /var/log/escritorio/fluxo-saiu.log 2>&1
+#0 18 * * 1-5  cd $R && flock -w 600 /tmp/esc-fluxo-saiu.lock $PY SYNC/fluxo_saiu_esc.py --resumo >> /var/log/escritorio/fluxo-saiu.log 2>&1
+#50 5 * * *  cd $R && flock -n /tmp/esc-aquec.lock $PY SYNC/aquecimento_watcher.py --executar >> /var/log/escritorio/aquecimento.log 2>&1
+#10,30,50 8-21 * * *  cd $R && flock -n /tmp/esc-aquec.lock $PY SYNC/aquecimento_watcher.py --executar >> /var/log/escritorio/aquecimento.log 2>&1
+#30 13 * * *  cd $R && $PY SYNC/termometro_leads.py >> /var/log/escritorio/termometro.log 2>&1
+#0 14 * * 1-5  cd $R && flock -n /tmp/esc-aferido.lock $PY SYNC/termometro_tarefa.py --enviar >> /var/log/escritorio/termometro.log 2>&1
+#*/20 8-20 * * *  cd $R && flock -n /tmp/esc-com-baixa.lock $PY SYNC/comercial.py --baixa --enviar >> /var/log/escritorio/comercial.log 2>&1
+#0 18 * * 1-5  cd $R && $PY SYNC/comercial.py --painel --enviar >> /var/log/escritorio/comercial.log 2>&1
+#* * * * *  cd $R && flock -n /tmp/esc-crm-dona.lock $PY -W ignore SYNC/crm_dona.py --novos >> /var/log/escritorio/crm-dona.log 2>&1
+#*/10 8-20 * * 1-6  cd $R && flock -n /tmp/esc-pos-ligacao.lock $PY SYNC/pos_ligacao.py --aplicar >> /var/log/escritorio/pos-ligacao.log 2>&1
+#*/15 8-21 * * 1-6  cd $R/SYNC && flock -n /tmp/esc-card-lig.lock $PY card_apos_ligacao.py --aplicar >> /var/log/escritorio/card-ligacao.log 2>&1
+#20 4 * * *  cd $R && $PY SYNC/fotos_contatos.py >> /var/log/escritorio/fotos-contatos.log 2>&1
+#30 7 * * *  cd $R && $PY SYNC/relatorio_fluxos.py --enviar >> /var/log/escritorio/relatorio-fluxos.log 2>&1
+
+# ---------- MARKETING (ligar com o Meta configurado) ----------
+#17 * * * *  cd $R && flock -n /tmp/esc-capi.lock $PY SYNC/capi_meta.py --enviar >> /var/log/escritorio/capi-meta.log 2>&1
+#* * * * *  cd $R && flock -n /tmp/esc-estudio.lock $PY SYNC/estudio_conteudo.py >> /var/log/escritorio/estudio.log 2>&1
+#*/5 * * * *  cd $R && flock -n /tmp/esc-carrossel.lock $PY SYNC/render_carrossel.py --todas >> /var/log/escritorio/carrossel.log 2>&1
+
+# ---------- CONTRATACAO (ligar com ZapSign + Google configurados) ----------
+#*/30 7-22 * * *  cd $R && flock -n /tmp/esc-contratacao.lock $PY SYNC/contratacao_watcher.py --executar >> /var/log/escritorio/contratacao.log 2>&1
+#0 8,13,19 * * *  cd $R && $PY SYNC/cobranca_assinatura.py --enroll-etapa --enviar >> /var/log/escritorio/cobranca-assinatura.log 2>&1
+#2,12,22,32,42,52 9-19 * * 1-5  cd $R/SYNC && flock -n /tmp/esc-vigia-assinatura.lock $PY -W ignore vigia_assinatura.py --aplicar >> /var/log/escritorio/vigia-assinatura.log 2>&1
+#30 10 * * *  cd $R && $PY SYNC/cobranca_documentos.py --enviar >> /var/log/escritorio/cobranca-documentos.log 2>&1
+#26 9,14,19 * * *  cd $R/SYNC && flock -n /tmp/esc-assinados.lock $PY sync_assinados.py --aplicar >> /var/log/escritorio/assinados.log 2>&1
+#0 9 * * 1-5  cd $R && flock -n /tmp/esc-quadro-contr.lock $PY SYNC/quadro_contratacao.py --enviar >> /var/log/escritorio/quadro-contratacao.log 2>&1
+
+# ---------- PRODUCAO DE PECAS / OPERACIONAL (ligar com Claude + Drive + publicacoes) ----------
+#*/2 * * * *  cd $R && flock -n /tmp/esc-pecas-agente.lock $PY SYNC/pecas_agente.py >> /var/log/escritorio/pecas-agente.log 2>&1
+#* * * * *  cd $R && flock -n /tmp/esc-operador.lock $PY SYNC/operador_agente.py >> /var/log/escritorio/operador.log 2>&1
+#0 9,15 * * *  cd $R && flock -n /tmp/esc-producao.lock $PY SYNC/producao_watcher.py --executar >> /var/log/escritorio/producao.log 2>&1
+#*/5 7-21 * * *  cd $R && flock -n /tmp/esc-aviso-producao.lock $PY SYNC/aviso_producao.py --enviar >> /var/log/escritorio/aviso-producao.log 2>&1
+#3,23,43 8-20 * * 1-5  cd $R/SISTEMA/backend && flock -n /tmp/esc-distribuicao.lock $PY $R/SYNC/vigia_distribuicao.py --aplicar >> /var/log/escritorio/distribuicao.log 2>&1
+#10 7,13 * * 1-5  cd $R/SYNC && $PY tarefas_conferir.py >> /var/log/escritorio/tarefas-conferir.log 2>&1
+#*/5 7-20 * * 1-6  cd $R/SYNC && flock -n /tmp/esc-avisos.lock $PY avisos_agendados.py --enviar >> /var/log/escritorio/avisos-agendados.log 2>&1
+
+# ---------- AGENDA / AUDIENCIAS ----------
+#50 6 * * *  cd $R/SISTEMA/backend && flock -n /tmp/esc-audiencias.lock $PY $R/audiencias_vigia.py --aplicar >> /var/log/escritorio/audiencias.log 2>&1
+#0 13 * * 5  cd $R/SISTEMA/backend && $PY $R/relatorio_audiencias_semana.py --enviar >> /var/log/escritorio/relatorio-audiencias.log 2>&1
+#0 7 * * *  cd $R/SISTEMA/backend && $PY $R/lembretes_compromisso.py >> /var/log/escritorio/lembretes.log 2>&1
+
+# ---------- PORTAL DO CLIENTE ----------
+#*/5 * * * *  cd $R && flock -n /tmp/esc-vigia-portal.lock $PY SYNC/vigia_portal.py >> /var/log/escritorio/vigia-portal.log 2>&1
+#40 9 * * 1-5  cd $R && flock -n /tmp/esc-regua-portal.lock $PY SYNC/regua_portal.py --enviar --limite 12 >> /var/log/escritorio/portal.log 2>&1
+#20 11 * * *  cd $R && $PY SYNC/convite_nps_portal.py --enviar >> /var/log/escritorio/portal.log 2>&1
+#*/15 7-22 * * *  cd $R && flock -n /tmp/esc-nps.lock $PY SYNC/nps_coletor.py --executar >> /var/log/escritorio/nps.log 2>&1

@@ -1,0 +1,1399 @@
+{
+ "_meta": {
+  "descricao": "Mapa de tratamento por tipo de tarefa do escritorio, para o motor das tarefas.",
+  "versao": "2026-10-05",
+  "regra_mae": "O motor prepara e sugere; a conclusao e sempre de uma pessoa da equipe. Excecao (regra de ouro): caso simples e padronizado e peticao de andamento. A automacao assina como Assistente IA.",
+  "status": {
+   "roda": "Já roda sozinho",
+   "sugere": "Motor sugere, pessoa conclui",
+   "parcial": "Parte pronta, parte à mão",
+   "construir": "A construir",
+   "manual": "Manual por natureza"
+  },
+  "etapas_do_motor": [
+   {
+    "n": "1",
+    "nome": "Publicação chega",
+    "texto": "SYNC/DJEN entra no Sistema; teor completo; capa e polo do processo.",
+    "status": "roda"
+   },
+   {
+    "n": "2",
+    "nome": "Ficha da conferência",
+    "texto": "Ato, de quem é o prazo, fatal e interno, providência, responsável, cadeia. Calibrado em 01/10 (35/35).",
+    "status": "roda"
+   },
+   {
+    "n": "3",
+    "nome": "Sugestão de conclusão",
+    "texto": "Ciência pura, cópia da parte contrária e publicação já conferida no sistema ganham a sugestão \"concluir\"; a pessoa clica.",
+    "status": "sugere"
+   },
+   {
+    "n": "4",
+    "nome": "Tarefas e prazo nascem juntos",
+    "texto": "Ao tratar a intimação (fechar a conferência) nascem de uma vez a tarefa da Advogada, para revisar a peça que a Assistente gera, e a de PROTOCOLO da Advogada no fatal interno, com o PF na agenda (cinco convidados) e o compromisso de cada etapa. Vale para toda petição que o processo pedir.",
+    "status": "parcial"
+   },
+   {
+    "n": "5",
+    "nome": "Primeira versão pela Assistente",
+    "texto": "A Assistente (a Assistente do escritório, usuária Assistente IA no sistema) redige a v1 pela skill da peça a partir dos autos e deixa o link na tarefa da Advogada. Nos recursos ela faz tudo de uma vez: analisa a sentença ou o acórdão, define a estratégia pelo nosso polo, já redige a peça e entrega à Advogada dizendo qual estratégia adotou e por quê. A Advogada revisa estratégia e peça juntas, sem etapa de validação antes; se preferir outro caminho, escreve REFAZER com a orientação e a Assistente refaz.",
+    "status": "parcial"
+   },
+   {
+    "n": "6",
+    "nome": "Critério único de toda peça",
+    "texto": "Advogada revisa a v1 → a Assistente faz a revisão final da controladoria pela skill (relatório com status, peça marcada, sugestões) → Advogada aplica as ressalvas → Advogada protocola. Igual à inicial; vale para ED, RO, RR, réplica, contrarrazões, razões finais e contestação. Não aprovada chama a Advogada.",
+    "status": "parcial"
+   },
+   {
+    "n": "7",
+    "nome": "Depois do ato",
+    "texto": "[ok] no PF, conclusão da tarefa, atualização do cliente, vigia do trânsito, parecer terminativo. O motor sugere pelos autos; a pessoa conclui.",
+    "status": "sugere"
+   }
+  ]
+ },
+ "tipos": [
+  {
+   "id": "peticao-inicial",
+   "nome": "Petição inicial (RT do reclamante)",
+   "familia": "Peça",
+   "gatilho": "Card do cliente entra em \"Produção da Inicial\" (escritório Produção) com checklist de documentos zerado, Entrevista preenchida e CCT localizada.",
+   "quem": "Vigia produz pela skill (sem aval) com o parecer da controladoria; Advogada revisa; revisão final da controladoria pela Assistente; Advogada aplica as ressalvas; Dra. Advogada protocolam.",
+   "prazo": "PF_RT no fatal interno definido no fechamento; devolutiva da Advogada no dia útil anterior. Prazo em fim de semana: revisão na segunda, PF na sexta.",
+   "entradas": [
+    "Transcrição da reunião de fechamento",
+    "Ficha Entrevista (96 campos)",
+    "Documentos do cliente (CNH, TRCT, holerites, ponto, diários)",
+    "CCT (gate obrigatório)",
+    "Última RT distribuída (benchmark)"
+   ],
+   "saidas": [
+    "RT_INICIAL no timbrado",
+    "Memória de cálculo e valor da causa",
+    "PARECER_REVISAO com STATUS",
+    "Sumário de juntada e recortes de prova",
+    "PROJECAO_ACORDO quando o contrato tem menos de 3 meses"
+   ],
+   "skills": [
+    "peticao-inicial-reclamante",
+    "liquidacao-previa",
+    "recorte-de-documentos",
+    "revisao-inicial",
+    "revisao-controladoria",
+    "timbrado"
+   ],
+   "cadeia": [
+    "Produção pelo vigia",
+    "2. Advogada revisa",
+    "3. Revisão final da controladoria (Assistente)",
+    "4. Advogada aplica as ressalvas",
+    "5. PROTOCOLO / distribuição (Dra. Advogada)",
+    "ATUALIZAR CLIENTE",
+    "AUDIÊNCIA INICIAL"
+   ],
+   "agenda": "Compromisso da devolutiva da Advogada e PF_RT com os cinco convidados.",
+   "cliente": "Aviso de produção (vigia, uma vez) e aviso de distribuição com os dados do Portal.",
+   "motor": [
+    "Coleta de insumos e CCT",
+    "Peça inteira e parecer",
+    "Pacote em ATOS INTERNOS",
+    "Tarefas, PF e compromisso (fechamento_inicial.py)",
+    "Tarefa de TENTATIVA DE ACORDO em contrato curto"
+   ],
+   "humano": [
+    "Advogada revisa e aplica as ressalvas",
+    "Advogada decide quando a revisão não aprova e assina",
+    "Advogada distribui"
+   ],
+   "status": "roda"
+  },
+  {
+   "id": "contestacao",
+   "nome": "Esteira da contestação (POP 36, defesa da reclamada)",
+   "familia": "Peça",
+   "gatilho": "A empresa cliente manda a notificação (citação com a inicial) pelo WhatsApp central do escritório (Z-API). Não vem pelo DJEN: o escritório ainda não está nos autos. Processo novo é sempre da Advogada (a Dra. Advogada só segue com a carteira atual).",
+   "quem": "Assistente analisa o processo e monta o pedido de documentos; pessoa confere e dispara; vigia cobra; Assistente organiza os documentos e escreve a v1; Advogada revisa; controladoria (motor) revisa; Dra. Advogada ajusta e protocola. É a esteira da inicial, invertida.",
+   "prazo": "Defesa até a audiência inicial ou una (ou prazo da citação no rito ordinário); interno dois dias úteis antes; cadeia de revisão contada de trás para a frente; pedido de documentos no mesmo dia da notificação.",
+   "entradas": [
+    "Notificação e inicial recebidas no WhatsApp central",
+    "Autos pelo SYNC (capa, inicial, documentos do reclamante, audiência designada)",
+    "Documentos da reclamada (contrato, ponto, holerites, TRCT, EPI, ASO, PPP, advertências, mensagens)",
+    "CCT ou ACT do cliente",
+    "Versão do cliente (alinhamento humano)"
+   ],
+   "saidas": [
+    "POP 36: análise do processo com o quadro de pedidos e a lista do que pedir (etapa 1 da skill)",
+    "E-mail de pedido de documentos ao cliente e acompanhamento",
+    "Documentos baixados e organizados na pasta do cliente no Drive",
+    "Diagnóstico probatório pedido a pedido (etapa 2)",
+    "Contestação v1 no timbrado",
+    "Relatório de revisão e peça marcada",
+    "Roteiro de audiência"
+   ],
+   "skills": [
+    "contestacao-reclamada (etapas 1, 2 e 4)",
+    "revisao-integral",
+    "revisao-controladoria",
+    "recorte-de-documentos",
+    "timbrado"
+   ],
+   "cadeia": [
+    "1. Notificação no WhatsApp central abre o caso",
+    "2. POP 36: análise automática do processo e lista de documentos",
+    "3. Pedido de documentos ao cliente (e-mail) e acompanhamento",
+    "4. Vigia: documentos chegaram? se não, pede de novo",
+    "5. Baixar e organizar na pasta do cliente",
+    "6. Contestação v1 pela skill, já passada pela controladoria",
+    "7. Advogada revisa a v1",
+    "8. Revisão final da controladoria (Assistente)",
+    "9. Advogada aplica as ressalvas",
+    "10. PROTOCOLO (Advogada)",
+    "PREPARAÇÃO PARA AUDIÊNCIA"
+   ],
+   "agenda": "Audiência com hora (POP 18) e PF da defesa no interno; compromisso de cada etapa.",
+   "cliente": "Pedido de documentos por e-mail com cobrança automática; alinhamento da versão (etapa 3 da skill, humana); aviso da audiência.",
+   "motor": [
+    "Reconhecer a notificação no WhatsApp central e abrir o caso",
+    "Análise do processo pelos autos (etapa 1) e lista do que pedir",
+    "Rascunho do e-mail de pedido de documentos",
+    "Vigia dos documentos: cobra de novo quando não chegam",
+    "Baixar, nomear e subir os arquivos na pasta do cliente",
+    "Diagnóstico probatório (etapa 2) e contestação v1",
+    "Cadeia de revisão: v1 → Advogada → motor → Advogada → Advogada",
+    "Roteiro de audiência"
+   ],
+   "humano": [
+    "Conferir e disparar o pedido de documentos",
+    "Alinhar a versão com o cliente",
+    "Advogada revisa a v1 e ajusta",
+    "Advogada decide estratégia e assina",
+    "Advogada protocola"
+   ],
+   "status": "construir",
+   "decisao": "Por onde o cliente devolve os documentos (e-mail, WhatsApp central ou link do Drive)? O vigia precisa saber onde olhar. E o remetente de e-mail do escritório precisa ser o Gmail (o módulo atual é do Microsoft 365, desligado em 29/09)."
+  },
+  {
+   "id": "replica",
+   "nome": "Réplica (manifestação sobre a defesa)",
+   "familia": "Peça",
+   "gatilho": "Intimação \"manifeste-se sobre a defesa/documentos\" (5 dias em regra). A ficha do motor já sugere RÉPLICA; ao aceitar a sugestão, nasce a tarefa da Advogada com o motor da réplica rodando a primeira versão. Quando o prazo é fixado em audiência, vem pelo vigia pós-audiência, com a validação da Advogada.",
+   "quem": "Assistente redige a v1 e faz a revisão final da controladoria; Advogada revisa a v1 e aplica as ressalvas; Advogada protocola (Advogada junto em inicial e recurso). Dra. Advogada só na carteira dela.",
+   "prazo": "Prazo do despacho ou da ata; interno fatal menos 2 úteis; cadeia contada de trás para a frente.",
+   "entradas": [
+    "Inicial e documentos",
+    "Contestação e índice de documentos do PJe",
+    "Ata, quando o prazo foi fixado em audiência"
+   ],
+   "saidas": [
+    "Réplica v1 no timbrado (tabela-resumo escritório, impugnação de ponto, jurisprudência da contestação conferida)",
+    "Relatório de revisão e peça marcada",
+    "Versão final protocolada"
+   ],
+   "skills": [
+    "replica",
+    "revisao-integral",
+    "revisao-controladoria",
+    "recorte-de-documentos",
+    "timbrado"
+   ],
+   "cadeia": [
+    "Sugestão RÉPLICA aceita na intimação",
+    "1. V1 pela Assistente (skill da peça), já passada pela controladoria",
+    "2. Advogada revisa a v1",
+    "3. Revisão final da controladoria (Assistente, pela skill de revisão)",
+    "4. Advogada aplica as ressalvas",
+    "5. PROTOCOLO (Advogada): nasce junto com o tratamento da intimação, com PF na agenda",
+    "ATUALIZAR CLIENTE"
+   ],
+   "agenda": "PF no interno e compromisso de cada etapa.",
+   "cliente": "Nada a comunicar, em regra.",
+   "motor": [
+    "Cadeia inteira, PF e compromissos no fechamento da conferência",
+    "V1 pela skill da peça, já passada pela controladoria",
+    "Revisão final da controladoria: relatório com status, peça marcada e sugestões",
+    "Passagem de etapa a cada conclusão; [ok] no PF e ATUALIZAR CLIENTE depois do protocolo"
+   ],
+   "humano": [
+    "Advogada revisa a v1",
+    "Advogada aplica as ressalvas",
+    "Advogada protocola",
+    "Advogada decide quando a revisão não aprova"
+   ],
+   "status": "parcial"
+  },
+  {
+   "id": "razoes-finais",
+   "nome": "Razões finais por memoriais",
+   "familia": "Peça",
+   "gatilho": "Encerramento da instrução: o prazo é deferido na ata, não vem pelo DJEN. Depois de toda audiência o vigia lê o processo e a ata e abre a validação da Advogada; validada, a tarefa de razões finais nasce com o prazo e a Assistente monta a cadeia em volta dela.",
+   "quem": "Assistente redige a v1 e faz a revisão final da controladoria; Advogada revisa a v1 e aplica as ressalvas; Advogada protocola (Advogada junto em inicial e recurso). Dra. Advogada só na carteira dela.",
+   "prazo": "O da ata; interno fatal menos 2 úteis; cadeia contada de trás para a frente a partir da tarefa cadastrada.",
+   "entradas": [
+    "Ata e transcrição da audiência",
+    "Inicial, réplica e provas",
+    "Depoimentos e confissões"
+   ],
+   "saidas": [
+    "Memoriais no timbrado com citações literais da transcrição",
+    "Ratificação da réplica",
+    "Comparativo transcrição x pedidos"
+   ],
+   "skills": [
+    "razoes-finais",
+    "timbrado"
+   ],
+   "cadeia": [
+    "Vigia pós-audiência lê a ata",
+    "Advogada valida as providências",
+    "1. V1 pela Assistente (skill da peça), já passada pela controladoria",
+    "2. Advogada revisa a v1",
+    "3. Revisão final da controladoria (Assistente, pela skill de revisão)",
+    "4. Advogada aplica as ressalvas",
+    "5. PROTOCOLO (Advogada): nasce junto com o tratamento da intimação, com PF na agenda",
+    "ATUALIZAR CLIENTE"
+   ],
+   "agenda": "PF no interno.",
+   "cliente": "Atualização depois do protocolo.",
+   "motor": [
+    "Varredura das tarefas: acha a de razões finais e monta revisão, ajustes, protocolo e PF",
+    "Baixa a ata e a transcrição; comparativo transcrição x inicial x réplica",
+    "V1 pela skill da peça, já passada pela controladoria",
+    "Revisão final da controladoria: relatório com status, peça marcada e sugestões",
+    "Passagem de etapa a cada conclusão; [ok] no PF e ATUALIZAR CLIENTE depois do protocolo"
+   ],
+   "humano": [
+    "Advogada revisa a v1",
+    "Advogada aplica as ressalvas",
+    "Advogada protocola",
+    "Advogada decide quando a revisão não aprova"
+   ],
+   "status": "parcial",
+   "decisao": "A transcrição da audiência hoje é feita no PC, não na VPS: precisa estar na pasta do caso para a Assistente redigir as razões finais."
+  },
+  {
+   "id": "embargos-declaracao",
+   "nome": "Embargos de declaração",
+   "familia": "Peça",
+   "gatilho": "Sentença ou acórdão publicado (abre junto com RO ou RR): 5 dias úteis, art. 897-A da CLT.",
+   "quem": "Assistente analisa a sentença ou o acórdão, define a estratégia, redige a peça e diz qual estratégia adotou e por quê; Advogada revisa estratégia e peça juntas e aplica as ressalvas; revisão final da controladoria pela Assistente; Advogada protocola (Advogada junto no recurso). Dra. Advogada só na carteira dela.",
+   "prazo": "5 dias úteis; interno fatal menos 2. ED tempestivos interrompem o prazo do recurso, que recomeça do zero depois da decisão.",
+   "entradas": [
+    "Decisão embargada",
+    "Peças suscitantes da instância certa",
+    "Ata e documentos que provam o vício",
+    "Teses vinculantes"
+   ],
+   "saidas": [
+    "Tabela do juízo de cabimento",
+    "Mapa de pedidos x dispositivo",
+    "ED no timbrado",
+    "E-mail de atualização ao cliente"
+   ],
+   "skills": [
+    "embargos-declaracao",
+    "timbrado"
+   ],
+   "cadeia": [
+    "1. Assistente analisa a decisão, define a estratégia pelo nosso polo e já redige a peça (skill de ED e do recurso cabível)",
+    "2. Advogada revisa a estratégia e a peça juntas: a tarefa chega com a estratégia adotada e o porquê (REFAZER devolve à Assistente; não recorrer vai para a Advogada)",
+    "3. Revisão final da controladoria (Assistente, pela skill de revisão)",
+    "4. Advogada aplica as ressalvas",
+    "5. PROTOCOLO (Advogada): nasce junto com o tratamento da intimação, com PF na agenda",
+    "ATUALIZAR CLIENTE"
+   ],
+   "agenda": "PF dos ED no interno e PF do recurso em paralelo.",
+   "cliente": "Atualização condicional depois da decisão dos ED.",
+   "motor": [
+    "Análise completa da decisão, estratégia definida e peça redigida numa tacada (ED x recurso, capítulos, risco, custas e depósito)",
+    "A tarefa da Advogada chega com a linha PEÇA, a estratégia adotada, o porquê e os links da peça e da análise",
+    "Datas pelo prazo mais curto quando há ED em paralelo; um PF para cada prazo",
+    "Cadeia inteira, PF e compromissos no fechamento da conferência",
+    "V1 pela skill da peça, já passada pela controladoria",
+    "Revisão final da controladoria: relatório com status, peça marcada e sugestões",
+    "Passagem de etapa a cada conclusão; [ok] no PF e ATUALIZAR CLIENTE depois do protocolo"
+   ],
+   "humano": [
+    "Advogada revisa estratégia e peça; REFAZER com a orientação devolve à Assistente; não recorrer vai para a Advogada",
+    "Advogada aplica as ressalvas",
+    "Advogada protocola",
+    "Advogada decide quando a revisão não aprova"
+   ],
+   "status": "parcial"
+  },
+  {
+   "id": "recurso-ordinario",
+   "nome": "Recurso ordinário",
+   "familia": "Peça",
+   "gatilho": "Sentença publicada (ato RECURSO ORDINÁRIO), 8 dias úteis; com ED, recomeça depois da decisão deles.",
+   "quem": "Assistente analisa a sentença ou o acórdão, define a estratégia, redige a peça e diz qual estratégia adotou e por quê; Advogada revisa estratégia e peça juntas e aplica as ressalvas; revisão final da controladoria pela Assistente; Advogada protocola (Advogada junto no recurso). Dra. Advogada só na carteira dela.",
+   "prazo": "8 dias úteis; interno fatal menos 2. Reclamada: custas e depósito recursal antes do protocolo, sob pena de deserção.",
+   "entradas": [
+    "Sentença (teor pelo DJEN)",
+    "ED e decisão dos ED",
+    "Ata e depoimentos",
+    "Inicial, contestação, réplica, razões finais",
+    "RO paradigma do mesmo cliente ou tese"
+   ],
+   "saidas": [
+    "RO no timbrado",
+    "Relatório de revisão em 4 partes (DOCX e EDITÁVEL)",
+    "Guias, quando reclamada"
+   ],
+   "skills": [
+    "ro-recurso-ordinario",
+    "revisao-recursos",
+    "revisao-controladoria",
+    "timbrado"
+   ],
+   "cadeia": [
+    "1. Assistente analisa a decisão, define a estratégia pelo nosso polo e já redige a peça (skill de ED e do recurso cabível)",
+    "2. Advogada revisa a estratégia e a peça juntas: a tarefa chega com a estratégia adotada e o porquê (REFAZER devolve à Assistente; não recorrer vai para a Advogada)",
+    "3. Revisão final da controladoria (Assistente, pela skill de revisão)",
+    "4. Advogada aplica as ressalvas",
+    "EMITIR GUIA cedo ao cliente (reclamada)",
+    "5. PROTOCOLO (Advogada): nasce junto com o tratamento da intimação, com PF na agenda",
+    "ATUALIZAR CLIENTE"
+   ],
+   "agenda": "PF_RO no interno; guia com vencimento na sexta anterior.",
+   "cliente": "Reclamada: valor e vencimento da guia, cedo; todos: atualização depois do protocolo.",
+   "motor": [
+    "Análise completa da decisão, estratégia definida e peça redigida numa tacada (ED x recurso, capítulos, risco, custas e depósito)",
+    "A tarefa da Advogada chega com a linha PEÇA, a estratégia adotada, o porquê e os links da peça e da análise",
+    "Datas pelo prazo mais curto quando há ED em paralelo; um PF para cada prazo",
+    "Cadeia inteira, PF e compromissos no fechamento da conferência",
+    "V1 pela skill da peça, já passada pela controladoria",
+    "Revisão final da controladoria: relatório com status, peça marcada e sugestões",
+    "Passagem de etapa a cada conclusão; [ok] no PF e ATUALIZAR CLIENTE depois do protocolo"
+   ],
+   "humano": [
+    "Advogada revisa estratégia e peça; REFAZER com a orientação devolve à Assistente; não recorrer vai para a Advogada",
+    "Advogada aplica as ressalvas",
+    "Advogada protocola",
+    "Advogada decide quando a revisão não aprova"
+   ],
+   "status": "parcial"
+  },
+  {
+   "id": "recurso-revista",
+   "nome": "Recurso de revista",
+   "familia": "Peça",
+   "gatilho": "Acórdão do TRT publicado, 8 dias úteis (ED de 5 em paralelo).",
+   "quem": "Assistente analisa a sentença ou o acórdão, define a estratégia, redige a peça e diz qual estratégia adotou e por quê; Advogada revisa estratégia e peça juntas e aplica as ressalvas; revisão final da controladoria pela Assistente; Advogada protocola (Advogada junto no recurso). Dra. Advogada só na carteira dela.",
+   "prazo": "8 dias úteis; depósito complementar até o teto da condenação (Súmula 128, I), valor cheio.",
+   "entradas": [
+    "Acórdão e decisão dos ED",
+    "RO e prequestionamento"
+   ],
+   "saidas": [
+    "RR no timbrado (transcendência, cotejo analítico do art. 896, §1º-A)",
+    "Guia complementar"
+   ],
+   "skills": [
+    "ro-recurso-ordinario (base)",
+    "embargos-declaracao (prequestionamento)"
+   ],
+   "cadeia": [
+    "1. Assistente analisa a decisão, define a estratégia pelo nosso polo e já redige a peça (skill de ED e do recurso cabível)",
+    "2. Advogada revisa a estratégia e a peça juntas: a tarefa chega com a estratégia adotada e o porquê (REFAZER devolve à Assistente; não recorrer vai para a Advogada)",
+    "3. Revisão final da controladoria (Assistente, pela skill de revisão)",
+    "4. Advogada aplica as ressalvas",
+    "EMITIR GUIA cedo ao cliente (reclamada)",
+    "5. PROTOCOLO (Advogada): nasce junto com o tratamento da intimação, com PF na agenda",
+    "ATUALIZAR CLIENTE"
+   ],
+   "agenda": "PF_RR no interno.",
+   "cliente": "Decisão com o cliente sobre complementar o depósito.",
+   "motor": [
+    "Análise completa da decisão, estratégia definida e peça redigida numa tacada (ED x recurso, capítulos, risco, custas e depósito)",
+    "A tarefa da Advogada chega com a linha PEÇA, a estratégia adotada, o porquê e os links da peça e da análise",
+    "Datas pelo prazo mais curto quando há ED em paralelo; um PF para cada prazo",
+    "Cadeia inteira, PF e compromissos no fechamento da conferência",
+    "V1 pela skill da peça, já passada pela controladoria",
+    "Revisão final da controladoria: relatório com status, peça marcada e sugestões",
+    "Passagem de etapa a cada conclusão; [ok] no PF e ATUALIZAR CLIENTE depois do protocolo"
+   ],
+   "humano": [
+    "Advogada revisa estratégia e peça; REFAZER com a orientação devolve à Assistente; não recorrer vai para a Advogada",
+    "Advogada aplica as ressalvas",
+    "Advogada protocola",
+    "Advogada decide quando a revisão não aprova"
+   ],
+   "status": "parcial",
+   "decisao": "Ainda não há skill de redação de RR: até criar, a Advogada produz a etapa 1; o resto da cadeia é o mesmo."
+  },
+  {
+   "id": "contrarrazoes",
+   "nome": "Contrarrazões e contraminuta",
+   "familia": "Peça",
+   "gatilho": "Intimação para contra-arrazoar RO ou RR, ou contraminutar agravo da outra parte: 8 dias úteis. Vale a cópia endereçada ao nosso cliente.",
+   "quem": "Assistente redige a v1 e faz a revisão final da controladoria; Advogada revisa a v1 e aplica as ressalvas; Advogada protocola (Advogada junto em inicial e recurso). Dra. Advogada só na carteira dela.",
+   "prazo": "8 dias úteis (art. 895, §1º, c/c 775 da CLT); interno fatal menos 2.",
+   "entradas": [
+    "Recurso adverso",
+    "Sentença ou acórdão",
+    "Nossas peças e provas"
+   ],
+   "saidas": [
+    "Contrarrazões no timbrado (tempestividade, honorários do art. 85, §11)"
+   ],
+   "skills": [
+    "contrarrazoes-ro",
+    "timbrado"
+   ],
+   "cadeia": [
+    "1. V1 pela Assistente (skill da peça), já passada pela controladoria",
+    "2. Advogada revisa a v1",
+    "3. Revisão final da controladoria (Assistente, pela skill de revisão)",
+    "4. Advogada aplica as ressalvas",
+    "5. PROTOCOLO (Advogada): nasce junto com o tratamento da intimação, com PF na agenda",
+    "ATUALIZAR CLIENTE"
+   ],
+   "agenda": "PF no interno.",
+   "cliente": "Nada a comunicar, em regra.",
+   "motor": [
+    "Cadeia inteira, PF e compromissos no fechamento da conferência",
+    "V1 pela skill da peça, já passada pela controladoria",
+    "Revisão final da controladoria: relatório com status, peça marcada e sugestões",
+    "Passagem de etapa a cada conclusão; [ok] no PF e ATUALIZAR CLIENTE depois do protocolo"
+   ],
+   "humano": [
+    "Advogada revisa a v1",
+    "Advogada aplica as ressalvas",
+    "Advogada protocola",
+    "Advogada decide quando a revisão não aprova"
+   ],
+   "status": "parcial"
+  },
+  {
+   "id": "agravo",
+   "nome": "Agravo (de instrumento, interno, de petição)",
+   "familia": "Peça",
+   "gatilho": "Seguimento negado ao NOSSO recurso (8 dias úteis). Monocrática no TST: agravo interno. Quando o recurso negado é da outra parte, vira vigia do trânsito.",
+   "quem": "Assistente analisa a sentença ou o acórdão, define a estratégia, redige a peça e diz qual estratégia adotou e por quê; Advogada revisa estratégia e peça juntas e aplica as ressalvas; revisão final da controladoria pela Assistente; Advogada protocola (Advogada junto no recurso). Dra. Advogada só na carteira dela.",
+   "prazo": "8 dias úteis; interno fatal menos 2.",
+   "entradas": [
+    "Decisão denegatória",
+    "Recurso e acórdão"
+   ],
+   "saidas": [
+    "Agravo no timbrado"
+   ],
+   "skills": [
+    "nenhuma própria (RO como base)"
+   ],
+   "cadeia": [
+    "1. Assistente analisa a decisão, define a estratégia pelo nosso polo e já redige a peça (skill de ED e do recurso cabível)",
+    "2. Advogada revisa a estratégia e a peça juntas: a tarefa chega com a estratégia adotada e o porquê (REFAZER devolve à Assistente; não recorrer vai para a Advogada)",
+    "3. Revisão final da controladoria (Assistente, pela skill de revisão)",
+    "4. Advogada aplica as ressalvas",
+    "5. PROTOCOLO (Advogada): nasce junto com o tratamento da intimação, com PF na agenda",
+    "ATUALIZAR CLIENTE"
+   ],
+   "agenda": "PF no interno.",
+   "cliente": "Decisão de custo e benefício com o cliente.",
+   "motor": [
+    "Análise completa da decisão, estratégia definida e peça redigida numa tacada (ED x recurso, capítulos, risco, custas e depósito)",
+    "A tarefa da Advogada chega com a linha PEÇA, a estratégia adotada, o porquê e os links da peça e da análise",
+    "Datas pelo prazo mais curto quando há ED em paralelo; um PF para cada prazo",
+    "Cadeia inteira, PF e compromissos no fechamento da conferência",
+    "V1 pela skill da peça, já passada pela controladoria",
+    "Revisão final da controladoria: relatório com status, peça marcada e sugestões",
+    "Passagem de etapa a cada conclusão; [ok] no PF e ATUALIZAR CLIENTE depois do protocolo"
+   ],
+   "humano": [
+    "Advogada revisa estratégia e peça; REFAZER com a orientação devolve à Assistente; não recorrer vai para a Advogada",
+    "Advogada aplica as ressalvas",
+    "Advogada protocola",
+    "Advogada decide quando a revisão não aprova"
+   ],
+   "status": "parcial",
+   "decisao": "Ainda não há skill de redação de agravo: até criar, a Advogada produz a etapa 1; o resto da cadeia é o mesmo."
+  },
+  {
+   "id": "manifestacao-laudo",
+   "nome": "Manifestação sobre laudo pericial",
+   "familia": "Peça",
+   "gatilho": "Laudo juntado com prazo (5 a 15 dias, comum às partes). Quando o prazo sai na ata, vem pelo vigia pós-audiência.",
+   "quem": "Assistente redige a v1 e faz a revisão final da controladoria; Advogada revisa a v1 e aplica as ressalvas; Advogada protocola (Advogada junto em inicial e recurso). Dra. Advogada só na carteira dela.",
+   "prazo": "Prazo do despacho; interno fatal menos 2.",
+   "entradas": [
+    "Laudo e quesitos",
+    "PGR, LTCAT, PPP, fichas de EPI",
+    "Documentos do cliente"
+   ],
+   "saidas": [
+    "Manifestação ou impugnação com quesitos complementares"
+   ],
+   "skills": [
+    "revisao-controladoria (auditoria); sem skill de produção"
+   ],
+   "cadeia": [
+    "1. V1 pela Assistente (skill da peça), já passada pela controladoria",
+    "2. Advogada revisa a v1",
+    "3. Revisão final da controladoria (Assistente, pela skill de revisão)",
+    "4. Advogada aplica as ressalvas",
+    "5. PROTOCOLO (Advogada): nasce junto com o tratamento da intimação, com PF na agenda",
+    "ATUALIZAR CLIENTE"
+   ],
+   "agenda": "PF no interno.",
+   "cliente": "Nada a comunicar, em regra.",
+   "motor": [
+    "Cadeia inteira, PF e compromissos no fechamento da conferência",
+    "V1 pela skill da peça, já passada pela controladoria",
+    "Revisão final da controladoria: relatório com status, peça marcada e sugestões",
+    "Passagem de etapa a cada conclusão; [ok] no PF e ATUALIZAR CLIENTE depois do protocolo"
+   ],
+   "humano": [
+    "Advogada revisa a v1",
+    "Advogada aplica as ressalvas",
+    "Advogada protocola",
+    "Advogada decide quando a revisão não aprova"
+   ],
+   "status": "parcial",
+   "decisao": "Ainda não há skill de redação de impugnação ao laudo: até criar, a Advogada produz a etapa 1; o resto da cadeia é o mesmo."
+  },
+  {
+   "id": "peticao-de-meio",
+   "nome": "Petição de meio e manifestação genérica",
+   "familia": "Meio",
+   "gatilho": "Despacho com comando e prazo: manifeste-se, informe, junte, regularize.",
+   "quem": "Advogada (meio); Advogada quando exige tese. Mediana praticada: 5 dias.",
+   "prazo": "Prazo do despacho; interno fatal menos 2.",
+   "entradas": [
+    "Teor do despacho",
+    "O documento ou dado pedido"
+   ],
+   "saidas": [
+    "Petição simples no timbrado"
+   ],
+   "skills": [
+    "timbrado",
+    "modelos-de-texto da conferência"
+   ],
+   "cadeia": [
+    "PETIÇÃO DE MEIO",
+    "DILIGÊNCIA quando falta dado",
+    "PROTOCOLO",
+    "ATUALIZAR CLIENTE"
+   ],
+   "agenda": "PF no interno.",
+   "cliente": "Só quando o dado vem do cliente.",
+   "motor": [
+    "Ficha com o polo (é a classe em que o comando mais é da outra parte)",
+    "Rascunho da petição simples"
+   ],
+   "humano": [
+    "Advogada"
+   ],
+   "status": "parcial"
+  },
+  {
+   "id": "emenda-inicial",
+   "nome": "Emenda à inicial",
+   "familia": "Peça",
+   "gatilho": "Despacho determinando a emenda (5 úteis na JT, 15 no cível), sob pena de indeferimento.",
+   "quem": "Assistente redige a v1 e faz a revisão final da controladoria; Advogada revisa a v1 e aplica as ressalvas; Advogada protocola (Advogada junto em inicial e recurso). Dra. Advogada só na carteira dela.",
+   "prazo": "Prazo do despacho; interno fatal menos 2.",
+   "entradas": [
+    "Inicial",
+    "Despacho (o que corrigir: valores por pedido, documentos)"
+   ],
+   "saidas": [
+    "Peça substitutiva"
+   ],
+   "skills": [
+    "peticao-inicial-reclamante (liquidação por pedido)",
+    "timbrado"
+   ],
+   "cadeia": [
+    "1. V1 pela Assistente (skill da peça), já passada pela controladoria",
+    "2. Advogada revisa a v1",
+    "3. Revisão final da controladoria (Assistente, pela skill de revisão)",
+    "4. Advogada aplica as ressalvas",
+    "5. PROTOCOLO (Advogada): nasce junto com o tratamento da intimação, com PF na agenda",
+    "ATUALIZAR CLIENTE"
+   ],
+   "agenda": "PF no interno.",
+   "cliente": "Nada a comunicar.",
+   "motor": [
+    "Cadeia inteira, PF e compromissos no fechamento da conferência",
+    "V1 pela skill da peça, já passada pela controladoria",
+    "Revisão final da controladoria: relatório com status, peça marcada e sugestões",
+    "Passagem de etapa a cada conclusão; [ok] no PF e ATUALIZAR CLIENTE depois do protocolo"
+   ],
+   "humano": [
+    "Advogada revisa a v1",
+    "Advogada aplica as ressalvas",
+    "Advogada protocola",
+    "Advogada decide quando a revisão não aprova"
+   ],
+   "status": "parcial"
+  },
+  {
+   "id": "liquidacao",
+   "nome": "Liquidação e cálculos (apresentar, contestar, conferir)",
+   "familia": "Peça",
+   "gatilho": "Trânsito em julgado (vigia: 8 dias úteis) ou intimação do art. 879, §1º-B (apresentar) e §2º (contestar, sob pena de homologação). Quando os direitos pedem cálculo mais apurado, a primeira tarefa é mandar ao contador.",
+   "quem": "Advogada manda ao contador (calculista Ricardo, pelo histórico) quando o cálculo pede; o financeiro paga os honorários dele; com o cálculo de volta, a Assistente redige a peça e segue o critério único: Advogada revisa, controladoria revisa, Advogada ajusta, Advogada protocola.",
+   "prazo": "8 dias úteis do despacho; interno fatal menos 2. A tarefa do contador nasce para o dia do tratamento, porque o retorno dele é o que mais demora.",
+   "entradas": [
+    "Decisão transitada",
+    "Holerites, ponto, diários",
+    "Índices do BCB e PJe-Calc",
+    "Planilha do contador, quando houver"
+   ],
+   "saidas": [
+    "Planilha e memória no timbrado",
+    "Petição de apresentação ou contestação"
+   ],
+   "skills": [
+    "liquidacao-previa",
+    "calculo-trabalhista"
+   ],
+   "cadeia": [
+    "0. ENVIAR AO CONTADOR (Advogada), se o cálculo pedir: nasce junto e segura a redação até o cálculo voltar",
+    "1. V1 pela Assistente (skill da peça), já passada pela controladoria",
+    "2. Advogada revisa a v1",
+    "3. Revisão final da controladoria (Assistente, pela skill de revisão)",
+    "4. Advogada aplica as ressalvas",
+    "5. PROTOCOLO (Advogada): nasce junto com o tratamento da intimação, com PF na agenda",
+    "ATUALIZAR CLIENTE",
+    "ACOMPANHAR IMPLANTAÇÃO DECISÃO",
+    "PARECER TERMINATIVO"
+   ],
+   "agenda": "PF da liquidação no interno.",
+   "cliente": "Atualização com o valor apurado.",
+   "motor": [
+    "Tarefa ENVIAR AO CONTADOR já na cadeia, condicional: a pessoa tira no fechamento se o cálculo for simples",
+    "Quando a Advogada conclui com o link da planilha, a redação entra na fila com o cálculo do contador",
+    "Cálculo simples: o próprio Assistente liquida (liquidacao-previa)",
+    "No vigia do trânsito, a tarefa do contador nasce condicional para o dia do trânsito",
+    "Revisão final da controladoria: relatório com status, peça marcada e sugestões",
+    "Passagem de etapa a cada conclusão; [ok] no PF e ATUALIZAR CLIENTE depois do protocolo"
+   ],
+   "humano": [
+    "Advogada decide se vai ao contador e manda",
+    "Financeiro paga o calculista",
+    "Advogada revisa a v1",
+    "Advogada aplica as ressalvas",
+    "Advogada protocola",
+    "Advogada decide quando a revisão não aprova"
+   ],
+   "status": "parcial",
+   "decisao": "A tarefa do financeiro para pagar o calculista (R$ 300, metade antes, pelo histórico) nasce junto com a do contador? E quando o cliente é empresa, o custo já entra como reembolso a cobrar?"
+  },
+  {
+   "id": "impugnacao-execucao",
+   "nome": "Impugnação ao cumprimento e embargos à execução",
+   "familia": "Peça",
+   "gatilho": "Intimação do executado (nosso polo passivo): 15 dias no cível, 5 na JT com o juízo garantido.",
+   "quem": "Assistente redige a v1 e faz a revisão final da controladoria; Advogada revisa a v1 e aplica as ressalvas; Advogada protocola (Advogada junto em inicial e recurso). Dra. Advogada só na carteira dela.",
+   "prazo": "Tabela; interno fatal menos 2.",
+   "entradas": [
+    "Cálculo adverso e título",
+    "Pagamentos já feitos (caso Dambros)"
+   ],
+   "saidas": [
+    "Impugnação no timbrado"
+   ],
+   "skills": [
+    "liquidacao-previa (cálculo comparativo)",
+    "timbrado"
+   ],
+   "cadeia": [
+    "0. ENVIAR AO CONTADOR (Advogada), se o cálculo pedir",
+    "1. V1 pela Assistente (skill da peça), já passada pela controladoria",
+    "2. Advogada revisa a v1",
+    "3. Revisão final da controladoria (Assistente, pela skill de revisão)",
+    "4. Advogada aplica as ressalvas",
+    "5. PROTOCOLO (Advogada): nasce junto com o tratamento da intimação, com PF na agenda",
+    "ATUALIZAR CLIENTE"
+   ],
+   "agenda": "PF no interno.",
+   "cliente": "Atualização com valor e risco.",
+   "motor": [
+    "Cadeia inteira, PF e compromissos no fechamento da conferência",
+    "V1 pela skill da peça, já passada pela controladoria",
+    "Revisão final da controladoria: relatório com status, peça marcada e sugestões",
+    "Passagem de etapa a cada conclusão; [ok] no PF e ATUALIZAR CLIENTE depois do protocolo"
+   ],
+   "humano": [
+    "Advogada revisa a v1",
+    "Advogada aplica as ressalvas",
+    "Advogada protocola",
+    "Advogada decide quando a revisão não aprova"
+   ],
+   "status": "parcial",
+   "decisao": "Ainda não há skill de redação de impugnação à execução: até criar, a Advogada produz a etapa 1; o resto da cadeia é o mesmo."
+  },
+  {
+   "id": "protocolo",
+   "nome": "Protocolo",
+   "familia": "Meio",
+   "gatilho": "Peça aprovada pela Advogada ou pela Advogada.",
+   "quem": "Dra. Advogada entra junto em inicial e recurso (POP, passo 7).",
+   "prazo": "Vencimento da tarefa = fatal interno (vencimento menos 2 úteis). Mediana praticada: 0 dia, nasce no fim da cadeia.",
+   "entradas": [
+    "Peça final no timbrado",
+    "Guias e comprovantes",
+    "Certificado digital (PJeOffice) e habilitação no sistema (eproc já travou)"
+   ],
+   "saidas": [
+    "Comprovante",
+    "Comentário \"dd.mm.aaaa_PROTOCOLADO_\" no card",
+    "[ok] no PF"
+   ],
+   "skills": [
+    "nenhuma; a peça vem da skill da peça"
+   ],
+   "cadeia": [
+    "ATUALIZAR CLIENTE",
+    "PREPARAÇÃO PARA AUDIÊNCIA quando couber"
+   ],
+   "agenda": "PF ganha [ok].",
+   "cliente": "Atualização depois do protocolo.",
+   "motor": [
+    "Tarefa e PF já nascem na conferência",
+    "Sugerir [ok] e conclusão quando os autos (SYNC) mostram a juntada"
+   ],
+   "humano": [
+    "O protocolo em si, com certificado"
+   ],
+   "status": "parcial",
+   "decisao": "Sugestão automática de [ok] e de conclusão da tarefa quando os autos mostram a peça juntada."
+  },
+  {
+   "id": "cadastramento",
+   "nome": "Cadastramento de petição no tribunal",
+   "familia": "Meio",
+   "gatilho": "Peça pronta para protocolo em tribunal que exige cadastro prévio (e-SAJ, eproc).",
+   "quem": "Advogada.",
+   "prazo": "Mesmo dia; vem PROTOCOLO em 68% dos casos (elo mais firme da cadeia).",
+   "entradas": [
+    "Peça e anexos"
+   ],
+   "saidas": [
+    "Petição cadastrada"
+   ],
+   "skills": [
+    "nenhuma"
+   ],
+   "cadeia": [
+    "PROTOCOLO"
+   ],
+   "agenda": "Nenhuma.",
+   "cliente": "Nada.",
+   "motor": [
+    "Nada: passo do sistema do tribunal"
+   ],
+   "humano": [
+    "Advogada"
+   ],
+   "status": "manual"
+  },
+  {
+   "id": "guias",
+   "nome": "Guias, custas, preparo e depósito recursal",
+   "familia": "Financeiro",
+   "gatilho": "Recurso da reclamada (custas e depósito), custas de diligência, taxa judiciária, pagamento em execução.",
+   "quem": "Advogada valida o valor; Advogada emite e ENVIA cedo ao cliente; Titular paga e lança quando é despesa nossa.",
+   "prazo": "Vencimento na sexta (ou último dia útil) antes do fatal interno; valor cheio; comprovante conferido no vencimento.",
+   "entradas": [
+    "Condenação, depósitos anteriores, custas",
+    "Contatos do cliente para envio"
+   ],
+   "saidas": [
+    "Guia e comprovante na pasta (GUIAS RO/RR)"
+   ],
+   "skills": [
+    "nenhuma; régua guia-deposito-recursal-fluxo"
+   ],
+   "cadeia": [
+    "ACOMPANHAMENTO (Advogada valida)",
+    "EMITIR GUIA",
+    "Comprovante anotado na tarefa de PROTOCOLO"
+   ],
+   "agenda": "Vencimento da guia na agenda.",
+   "cliente": "Guia enviada cedo com a mensagem \"só paga se optar pelo recurso\".",
+   "motor": [
+    "Calcular o valor (Súmula 128)",
+    "Montar a tarefa dupla e o vencimento",
+    "Lembrar o cliente em D-3 e no dia"
+   ],
+   "humano": [
+    "Cliente paga",
+    "Advogada valida"
+   ],
+   "status": "parcial",
+   "decisao": "Lembrete de guia ao cliente pelo CRM do Sistema."
+  },
+  {
+   "id": "pagamento-execucao",
+   "nome": "Reclamada intimada a pagar (execução)",
+   "familia": "Meio",
+   "gatilho": "Intimação para pagar o saldo devedor sob pena de execução ou penhora, nosso polo passivo.",
+   "quem": "Dra. Advogada negocia e atualiza o cliente, emite as guias e protocola; Advogada decide.",
+   "prazo": "Prazo do despacho; interno fatal menos 2.",
+   "entradas": [
+    "Planilha de atualização",
+    "Depósitos e alvarás já liberados",
+    "Proposta do cliente"
+   ],
+   "saidas": [
+    "Acordo, ou parcelamento judicial (30% mais 6 parcelas), ou pagamento"
+   ],
+   "skills": [
+    "nenhuma; regra-intimacao-reclamada-acordo-primeiro"
+   ],
+   "cadeia": [
+    "ATUALIZAR CLIENTE (valor, prazo, opções)",
+    "Proposta colhida com o cliente",
+    "TENTATIVA DE ACORDO (Advogada)",
+    "Plano B: parcelamento com guias",
+    "PROTOCOLO"
+   ],
+   "agenda": "PF do pagamento no interno.",
+   "cliente": "Mensagem que incentiva a trazer proposta, para não bloquear conta nem descapitalizar.",
+   "motor": [
+    "Ficha com a cadeia inteira e as quatro tarefas sugeridas (já no motor)"
+   ],
+   "humano": [
+    "Cliente decide",
+    "Advogada negocia"
+   ],
+   "status": "sugere"
+  },
+  {
+   "id": "acompanhamento",
+   "nome": "Acompanhamento (ciência e registro)",
+   "familia": "Registro",
+   "gatilho": "Publicação sem prazo nosso: ciência, distribuição, cópia da parte contrária, prazo da outra parte.",
+   "quem": "Advogada conclui.",
+   "prazo": "Nenhum; anota quando vence o prazo do outro.",
+   "entradas": [
+    "A publicação e o polo"
+   ],
+   "saidas": [
+    "Intimação concluída, com motivo na auditoria"
+   ],
+   "skills": [
+    "conferencia-publicacoes"
+   ],
+   "cadeia": [
+    "Nenhuma; ou vigia do prazo deles"
+   ],
+   "agenda": "Nenhuma.",
+   "cliente": "Nada a comunicar.",
+   "motor": [
+    "Vigia do prazo deles"
+   ],
+   "humano": [
+    "Concluir (regra da Advogada de 01/10: nunca o motor)"
+   ],
+   "status": "sugere"
+  },
+  {
+   "id": "implantacao-decisao",
+   "nome": "Acompanhar implantação da decisão e vigia do trânsito",
+   "familia": "Meio",
+   "gatilho": "Decisão favorável, recurso deles negado, acordo homologado, alvará.",
+   "quem": "Advogada (Advogada nos dela); Advogada liquida.",
+   "prazo": "Vigia no primeiro dia útil DEPOIS do maior prazo deles (ED 5 e agravo 8); liquidação em 8 dias úteis do trânsito, condicional.",
+   "entradas": [
+    "Decisão",
+    "Prazos da outra parte",
+    "Autos para conferir se houve petição"
+   ],
+   "saidas": [
+    "Certidão de trânsito conferida",
+    "Tarefa de liquidação para a Advogada"
+   ],
+   "skills": [
+    "conferencia-publicacoes (vigia do trânsito)"
+   ],
+   "cadeia": [
+    "ACOMPANHAMENTO (trânsito)",
+    "CONFERIR LIQUIDAÇÃO ou INICIAL EXECUÇÃO (Advogada)",
+    "PETIÇÃO SIMPLES EXECUÇÃO",
+    "ALVARÁ",
+    "PARECER TERMINATIVO"
+   ],
+   "agenda": "Conferência do trânsito e PF da liquidação.",
+   "cliente": "Comunicar a decisão favorável; Assistente só explica sentença com trânsito registrado.",
+   "motor": [
+    "Já sugere as duas tarefas e as datas",
+    "Lê o trânsito só por registro afirmativo do tribunal"
+   ],
+   "humano": [
+    "Conferir nos autos se a outra parte peticionou"
+   ],
+   "status": "sugere"
+  },
+  {
+   "id": "diligencia",
+   "nome": "Diligência e balcão virtual",
+   "familia": "Meio",
+   "gatilho": "Petição de meio que precisa de dado ou documento; certidão; atendimento na vara.",
+   "quem": "Advogada. Mediana praticada: 3 dias.",
+   "prazo": "Antes do prazo da petição que depende dela.",
+   "entradas": [
+    "O que falta"
+   ],
+   "saidas": [
+    "Dado, certidão ou registro do balcão"
+   ],
+   "skills": [
+    "nenhuma"
+   ],
+   "cadeia": [
+    "DILIGÊNCIA",
+    "PETIÇÃO DE MEIO",
+    "PROTOCOLO"
+   ],
+   "agenda": "Nenhuma.",
+   "cliente": "Quando o dado vem dele.",
+   "motor": [
+    "Ficha pede o dado faltante",
+    "Registrar o balcão como andamento"
+   ],
+   "humano": [
+    "A diligência"
+   ],
+   "status": "manual"
+  },
+  {
+   "id": "alvara",
+   "nome": "Alvará, levantamento e receita",
+   "familia": "Financeiro",
+   "gatilho": "A Assistente acompanha o processo pelo Sistema (autos do SYNC e publicações) e dispara quando o alvará é expedido, o mandado de levantamento é juntado ou sai o comprovante de transferência do valor.",
+   "quem": "Assistente detecta, abre o contrato do cliente e faz o cálculo prévio dos honorários; Titular valida, lança a receita e paga o cliente; Advogada decide o repasse quando há parceiro.",
+   "prazo": "Cálculo prévio no dia em que o alvará aparece; tarefa do Titular para o mesmo dia útil.",
+   "entradas": [
+    "Alvará, mandado de levantamento ou comprovante nos autos",
+    "Contrato de honorários do cliente (pasta do caso)",
+    "Despesas adiantadas a reembolsar",
+    "Regra do parceiro: imposto antes dos 50%"
+   ],
+   "saidas": [
+    "Cálculo prévio: bruto, honorários contratuais e de sucumbência, despesas, repasse a parceiro, líquido do cliente",
+    "Receita lançada",
+    "Cliente pago, com comprovante",
+    "Parecer terminativo em seguida, quando é o pagamento final"
+   ],
+   "skills": [
+    "cálculo de honorários pela Assistente (a construir no robô das filas)",
+    "automacao-parecer-terminativo"
+   ],
+   "cadeia": [
+    "Vigia dos autos acha o alvará ou o valor liberado",
+    "1. Cálculo prévio dos honorários (Assistente, pelo contrato)",
+    "2. Titular valida, lança a receita e paga o cliente",
+    "PARECER TERMINATIVO, quando é o pagamento final"
+   ],
+   "agenda": "Nenhuma.",
+   "cliente": "Aviso do crédito.",
+   "motor": [
+    "Vigia dos autos: alvará, mandado de levantamento, ofício ou comprovante de transferência",
+    "Publicação de alvará sem prazo nosso já fecha a conferência com as duas tarefas",
+    "Cálculo prévio dos honorários entregue dentro da tarefa do Titular",
+    "Uma vez por processo e data: não duplica"
+   ],
+   "humano": [
+    "Titular valida o cálculo, lança e paga o cliente",
+    "Conferir se o valor é do nosso cliente e se já caiu na conta",
+    "Advogada decide o repasse ao parceiro"
+   ],
+   "status": "parcial",
+   "decisao": "O cálculo prévio lê o percentual no contrato do cliente: quando o contrato não estiver na pasta, ou a cláusula for fora dos três modelos, a tarefa do Titular nasce dizendo que o cálculo não foi feito. E o aviso do crédito ao cliente sai antes ou só depois de o Titular pagar?"
+  },
+  {
+   "id": "audiencia",
+   "nome": "Audiência (inicial, una, instrução)",
+   "familia": "Audiência",
+   "gatilho": "Designação ou redesignação (ato AUDIÊNCIA DESIGNADA).",
+   "quem": "A Assistente comunica o cliente pelo POP 18; a Advogada fiscaliza (se saiu, se saiu certo, se o cliente deu as devolutivas); a Assistente gera o roteiro e a Advogada estuda; o Titular cobra a audiência dos clientes empresa. Reclamante não paga deslocamento.",
+   "prazo": "Comunicação no dia em que a publicação é tratada; fiscalização da Advogada no dia útil seguinte; estudo do roteiro três dias úteis antes; quatro lembretes ao cliente (7 úteis, 3 úteis, véspera, dia); cobrança com vencimento na data da audiência.",
+   "entradas": [
+    "Notificação (data, hora, modalidade, link, fuso)",
+    "POP 18 em três partes",
+    "Rol de testemunhas com o que cada uma prova"
+   ],
+   "saidas": [
+    "POP 18 enviado ao cliente pela Assistente (parte 1; partes 2 e 3 na una e na instrução)",
+    "Relato do envio e respostas do cliente e das testemunhas na tarefa da Advogada",
+    "Roteiro da audiência em ATOS INTERNOS, com os pontos de atenção",
+    "Evento com hora na agenda central",
+    "Tarefa de validação das providências da audiência, com os trechos da ata"
+   ],
+   "skills": [
+    "nenhuma própria; POP 18 no conferencia.py, lembretes_compromisso.py, audiencias_vigia.py, relatorio_audiencias_semana.py"
+   ],
+   "cadeia": [
+    "1. POP 18: a Assistente comunica o cliente",
+    "2. Advogada fiscaliza o envio e as devolutivas (o vigia traz as respostas)",
+    "3. Roteiro da audiência (Assistente)",
+    "4. Advogada estuda o roteiro (tarefa e agenda juntas)",
+    "PREPARAÇÃO (Advogada, D-7)",
+    "Depois da audiência: o vigia lê o processo inteiro e a ata, levanta as providências (razões finais, réplica, perícia designada, laudo, quesitos) e a Advogada valida"
+   ],
+   "agenda": "Evento da audiência com hora, cinco convidados, endereço ou link; a tarefa de estudo da Advogada nasce com o compromisso na agenda.",
+   "cliente": "POP 18 pela Assistente e lembretes automáticos; convite às testemunhas feito pelo cliente; cliente de parceiro recebe pelo parceiro.",
+   "motor": [
+    "Comunicar o cliente pelo POP 18 (fila da Assistente)",
+    "Vigia das respostas: o que o cliente e as testemunhas respondem vai para a tarefa da Advogada",
+    "Roteiro da audiência com os pontos de atenção, entregue na tarefa da Advogada",
+    "Registro unificado, lembretes, tarefa D-7 da Advogada e relatório de sexta (já rodam)",
+    "Vigia pós-audiência: lê a ata nos autos, calcula os prazos e abre a validação da Advogada; cada providência validada vira tarefa, e as de peça já nascem com a cadeia e a primeira versão em fila"
+   ],
+   "humano": [
+    "Advogada fiscaliza a Assistente e conclui quando as devolutivas estão completas",
+    "Advogada estuda o roteiro",
+    "Titular envia a cobrança",
+    "Cliente convida as testemunhas",
+    "Advogado comparece",
+    "Advogada valida as providências que a audiência gerou"
+   ],
+   "status": "parcial",
+   "decisao": "Os textos do POP 18 (parte 1, parte 2 e passo 3) que a Assistente vai enviar precisam da sua aprovação uma vez. E a cobrança de R$ 500,00 dos clientes empresa vale para toda audiência (inicial, una, instrução, virtual ou presencial)?"
+  },
+  {
+   "id": "pauta-julgamento",
+   "nome": "Pauta de julgamento e roteiro de sustentação oral",
+   "familia": "Audiência",
+   "gatilho": "Publicação de inclusão em pauta ou de sessão de julgamento. Ao tratar a publicação, a Assistente gera o roteiro da sustentação.",
+   "quem": "Advogada inscreve no prazo do tribunal, se formos sustentar; a Assistente gera o roteiro; a Advogada estuda, com os pontos de atenção apontados.",
+   "prazo": "Inscrição no prazo do próprio tribunal; estudo do roteiro três dias úteis antes da sessão.",
+   "entradas": [
+    "Pauta",
+    "Regimento do tribunal"
+   ],
+   "saidas": [
+    "Inscrição para sustentação",
+    "Roteiro da sustentação oral em ATOS INTERNOS, com os pontos de atenção",
+    "Sessão na agenda"
+   ],
+   "skills": [
+    "nenhuma"
+   ],
+   "cadeia": [
+    "1. Inscrição para sustentação (Advogada), se formos sustentar",
+    "2. Roteiro da sustentação oral (Assistente)",
+    "3. Advogada estuda o roteiro (tarefa e agenda juntas)",
+    "Sessão",
+    "Resultado ao cliente"
+   ],
+   "agenda": "Sessão na agenda; a tarefa de estudo da Advogada nasce com o compromisso.",
+   "cliente": "Não avisar antes (não comparece); avisar o resultado.",
+   "motor": [
+    "Reconhecer a pauta pelo texto da publicação (o catálogo ainda não tem o ato)",
+    "Roteiro da sustentação: teses, pontos da decisão e do recurso, o que a outra parte sustenta, precedentes e tempo",
+    "Pontos de atenção entregues na tarefa da Advogada"
+   ],
+   "humano": [
+    "Advogada inscreve",
+    "Advogada estuda o roteiro",
+    "Quem sustenta na sessão"
+   ],
+   "status": "parcial",
+   "decisao": "Quem sustenta na sessão: a Advogada, você, ou depende do caso? E incluir PAUTA DE JULGAMENTO no catálogo de atos, para o motor não depender só do texto."
+  },
+  {
+   "id": "atualizar-cliente",
+   "nome": "Atualizar cliente (POP 16)",
+   "familia": "Cliente",
+   "gatilho": "Qualquer movimento novo do processo (o cliente vê tudo no Portal) e as atualizações que o escritório precisa fazer: depois do protocolo, decisão publicada, audiência, alvará.",
+   "quem": "A Assistente: avisa que há atualização e manda o cliente ao Portal, e faz as atualizações do escritório. A Advogada acompanha, fiscalizando.",
+   "prazo": "Aviso no dia do movimento, em horário comercial; atualização do escritório no dia útil seguinte ao protocolo.",
+   "entradas": [
+    "Textos aprovados por etapa (sem travessão, sem promessa de resultado)",
+    "Telefone do Portal (fonte confiável)",
+    "Vínculo processo → cliente (nunca por nome)"
+   ],
+   "saidas": [
+    "Aviso curto no WhatsApp: há atualização, acesse o Portal",
+    "Atualização do escritório enviada pela Assistente",
+    "Relato do envio na tarefa de fiscalização da Advogada"
+   ],
+   "skills": [
+    "estilo-humano-sem-travessoes",
+    "modelos-de-texto da conferência"
+   ],
+   "cadeia": [
+    "Movimento novo ou protocolo",
+    "1. Aviso tipo notificação: há atualização, acesse o Portal (Assistente)",
+    "2. Atualização do escritório, quando houver (Assistente)",
+    "3. Advogada fiscaliza o que saiu"
+   ],
+   "agenda": "Nenhuma.",
+   "cliente": "O conteúdo fica no Portal; a mensagem só avisa e leva para lá. Cliente de parceiro recebe pelo parceiro; a Assistente só explica sentença com trânsito registrado.",
+   "motor": [
+    "Depois do protocolo: tarefa de atualizar o cliente em nome da Assistente e fiscalização da Advogada (já no motor)",
+    "Aviso de atualização com o link do Portal (a construir no robô)",
+    "Relato do que foi enviado dentro da tarefa da Advogada"
+   ],
+   "humano": [
+    "Advogada fiscaliza se saiu, se saiu certo e para a pessoa certa",
+    "Aprovação dos textos, uma vez"
+   ],
+   "status": "parcial",
+   "decisao": "Aprovar o texto do aviso (\"Olá, [nome]. Seu processo teve uma atualização. Para ver o que aconteceu, acesse o Portal do Cliente: [link].\"), a cadência (no máximo um aviso por dia por cliente) e quais movimentos avisam: todos, ou só publicação, audiência, decisão e pagamento?"
+  },
+  {
+   "id": "parecer-terminativo",
+   "nome": "Parecer terminativo (POP 14)",
+   "familia": "Cliente",
+   "gatilho": "Trânsito, acordo homologado ou extinção; alvará ou pagamento final.",
+   "quem": "Assistente monta; revisão humana só se o honorário passa de R$ 15 mil; Advogada confere, revisa e envia; Titular emite o boleto no Asaas.",
+   "prazo": "No fim do processo; lembretes de parcela em D-3 e no dia.",
+   "entradas": [
+    "Ata ou termo do acordo (trecho literal, nunca parafraseado)",
+    "Honorário: 12% do valor da causa menos o acordo",
+    "Quem recebe o parecer (quem decide, não o cadastro)"
+   ],
+   "saidas": [
+    "Parecer no modelo (Drive)",
+    "Boleto",
+    "E-mail com anexos e link do Portal",
+    "Lembretes das parcelas"
+   ],
+   "skills": [
+    "automacao-parecer-terminativo (SYNC/parecer_terminativo)",
+    "timbrado"
+   ],
+   "cadeia": [
+    "ACOMPANHAR IMPLANTAÇÃO",
+    "PARECER TERMINATIVO",
+    "ATUALIZAR CLIENTE (27%)",
+    "Cobrança"
+   ],
+   "agenda": "Lembretes das parcelas.",
+   "cliente": "E-mail com parecer e boleto; WhatsApp.",
+   "motor": [
+    "Tudo: acordo como dado, trava literal, boleto, e-mail, lembretes"
+   ],
+   "humano": [
+    "Advogada envia (o e-mail do escritório está sem remetente)",
+    "Advogada quando passa de R$ 15 mil"
+   ],
+   "status": "parcial",
+   "decisao": "Remetente de e-mail do escritório (email_esc.py), para o parecer e a consultoria saírem sem a Advogada copiar."
+  },
+  {
+   "id": "consultoria-pj",
+   "nome": "Consultoria PJ",
+   "familia": "Cliente",
+   "gatilho": "O cliente empresa manda a dúvida pelo canal central do escritório. Um agente que só conhece a empresa dele colhe o problema, acalma, entende a urgência do retorno e troca a etapa do CRM para \"solicitação de consultoria\".",
+   "quem": "Agente da empresa recebe; a Assistente entende o caso, ativa as instruções da IVA e faz o relatório; Dra. Advogada validam a devolutiva; Advogada é a responsável por dá-la ao cliente.",
+   "prazo": "Relatório no dia do pedido (urgente quando o cliente pede retorno para hoje); validação e devolutiva no mesmo dia útil.",
+   "entradas": [
+    "A conversa do cliente com o agente no canal central",
+    "Urgência informada",
+    "Base de conhecimento com selo"
+   ],
+   "saidas": [
+    "Relatório da Assistente com a devolutiva proposta",
+    "Caso de consultoria no Sistema, visível no Portal do Cliente",
+    "Tarefa de validação da Advogada e da Advogada",
+    "Devolutiva ao cliente pela Advogada (e-mail e WhatsApp do escritório)"
+   ],
+   "skills": [
+    "consultoria-pj"
+   ],
+   "cadeia": [
+    "1. Cliente manda a dúvida no canal central",
+    "2. Agente da empresa colhe o problema, acalma e mede a urgência",
+    "3. CRM vai para \"solicitação de consultoria\"",
+    "4. Assistente entende o caso, ativa a IVA e faz o relatório",
+    "5. Nasce o caso de consultoria (Sistema e Portal)",
+    "6. Dra. Advogada validam a devolutiva",
+    "7. Advogada dá a devolutiva ao cliente"
+   ],
+   "agenda": "Nenhuma.",
+   "cliente": "Atendido primeiro pelo agente da empresa dele; a devolutiva chega pela Advogada; o caso aparece no Portal com o status.",
+   "motor": [
+    "Tarefa do relatório em nome da Assistente quando o CRM muda de etapa (já no motor)",
+    "Caso de consultoria e linha de status no Portal ao entregar o relatório (já no motor)",
+    "Tarefa única para Dra. Advogada validarem, com o relatório dentro (já no motor)",
+    "Agente por empresa no canal central e troca de etapa do CRM (a construir)"
+   ],
+   "humano": [
+    "Advogada valida o conteúdo jurídico",
+    "Advogada valida e dá a devolutiva ao cliente",
+    "Treinar os clientes a usar o canal central"
+   ],
+   "status": "construir",
+   "decisao": "Criar a etapa \"solicitação de consultoria\" no CRM (em qual quadro?) e definir quem em cada cliente empresa pode abrir consulta pelo canal central. No Portal, o caso aparece só com o status ou também com a devolutiva depois de validada?"
+  },
+  {
+   "id": "cobranca",
+   "nome": "Cobrança, TMP e boletos",
+   "familia": "Financeiro",
+   "gatilho": "Vencimento de honorário ou TMP. A recorrência do TMP no sistema morre calada no 12º mês.",
+   "quem": "Titular; cobrança semanal pela Z-API; Advogada classifica calote x pagou por fora.",
+   "prazo": "Semanal; TMP antes de a série vencer.",
+   "entradas": [
+    "clientes_nao_cobrar.txt"
+   ],
+   "saidas": [
+    "Lembretes",
+    "Boletos",
+    "Baixa como \"recebido em dinheiro\""
+   ],
+   "skills": [
+    "nenhuma; FINANCEIRO/cobranca_semanal.py"
+   ],
+   "cadeia": [
+    "Vencimento",
+    "Lembrete",
+    "Boleto",
+    "Baixa"
+   ],
+   "agenda": "Nenhuma.",
+   "cliente": "Lembrete pelo canal único.",
+   "motor": [
+    "Varrer is_recurrent, created_at e último date_due e avisar antes de vencer",
+    "Cobrança semanal"
+   ],
+   "humano": [
+    "Renovar a recorrência no painel (a API não rearma)",
+    "Advogada classifica"
+   ],
+   "status": "parcial",
+   "decisao": "Alerta de TMP a vencer: quatro séries morrem em outubro de 2026."
+  },
+  {
+   "id": "lancamentos",
+   "nome": "Lançamento de despesa, contas a pagar e ajuste",
+   "familia": "Financeiro",
+   "gatilho": "Guia, deslocamento de audiência, acordo pago (repasse), custas.",
+   "quem": "Titular; Advogada aprova.",
+   "prazo": "Até o vencimento da guia ou do repasse.",
+   "entradas": [
+    "Comprovante",
+    "IDs do lançamento original (replicar copiando os IDs; valor com vírgula)"
+   ],
+   "saidas": [],
+   "skills": [
+    "nenhuma"
+   ],
+   "cadeia": [
+    "Lançamento",
+    "Conciliação"
+   ],
+   "agenda": "Nenhuma.",
+   "cliente": "Nada.",
+   "motor": [
+    "Preparar o lançamento com os IDs certos"
+   ],
+   "humano": [
+    "Titular lança"
+   ],
+   "status": "parcial"
+  },
+  {
+   "id": "parceiro",
+   "nome": "Intimação de processo de parceiro",
+   "familia": "Parceiro",
+   "gatilho": "Publicação em processo de parceiro. Modo \"encaminhar\": Dr. Hélio Paranhos. Modo \"conjunta\": Dr. Thiago Tovani, Dr. Hélio Paranhos. Exceção: Dra. Advogada é equipe.",
+   "quem": "A Assistente encaminha a intimação ao parceiro pelo WhatsApp do escritório e acompanha a providência com ele; a Advogada fiscaliza. Dra. Advogada é equipe, não parceira.",
+   "prazo": "O do ato, para o parceiro.",
+   "entradas": [
+    "advogados_processos.json"
+   ],
+   "saidas": [
+    "Publicação encaminhada ao parceiro, com teor e prazo",
+    "Confirmação da providência cobrada até ele responder",
+    "Relato do envio e respostas do parceiro na tarefa da Advogada"
+   ],
+   "skills": [
+    "conferencia-publicacoes"
+   ],
+   "cadeia": [
+    "1. Assistente encaminha a intimação ao parceiro",
+    "2. Assistente cobra a confirmação da providência",
+    "3. Advogada fiscaliza e conclui quando a providência está confirmada"
+   ],
+   "agenda": "PF quando houver prazo.",
+   "cliente": "Nunca direto no modo cliente-do-parceiro.",
+   "motor": [
+    "Tarefa de encaminhar em nome da Assistente e fiscalização da Advogada no fechamento (já no motor)",
+    "PF na agenda quando há prazo",
+    "Envio pelo WhatsApp e cobrança da resposta (a construir no robô)"
+   ],
+   "humano": [
+    "Advogada fiscaliza se saiu, se saiu certo e se o parceiro confirmou",
+    "O parceiro pratica o ato"
+   ],
+   "status": "parcial",
+   "decisao": "Telefone do Dr. Hélio Paranhos para a Assistente encaminhar: ele não está no cadastro de parceiros do Sistema. E os textos de encaminhamento e de cobrança ao parceiro precisam da sua aprovação uma vez."
+  },
+  {
+   "id": "contratacao",
+   "nome": "Contratação do cliente (kit, assinatura, documentos)",
+   "familia": "Comercial",
+   "gatilho": "Card em \"Contrato / Assinatura\" no escritório Leads.",
+   "quem": "Vigias (kit de 8 mensagens, cobrança de documentos, ZapSign, provas); Advogada na ligação de fechamento; comercial.",
+   "prazo": "Toques automáticos com teto de 3 por minuto; 5 toques e alerta.",
+   "entradas": [
+    "Conversa, CNH, endereço, Entrevista"
+   ],
+   "saidas": [
+    "Contrato assinado",
+    "Pasta no Drive",
+    "Card em Produção"
+   ],
+   "skills": [
+    "comercial-jusmoto"
+   ],
+   "cadeia": [
+    "Fechou",
+    "Kit",
+    "Assinatura",
+    "Documentos",
+    "Produção da inicial"
+   ],
+   "agenda": "Nenhuma.",
+   "cliente": "Toda a régua é com ele.",
+   "motor": [],
+   "humano": [
+    "Ligação de fechamento e Entrevista"
+   ],
+   "status": "roda"
+  },
+  {
+   "id": "pos-ligacao",
+   "nome": "Ligar para cliente e acompanhamento pós-ligação",
+   "familia": "Comercial",
+   "gatilho": "Ligação registrada pela DAPI (nota com autor \"ligacao\").",
+   "quem": "Comercial (a equipe) e Titular.",
+   "prazo": "Até a próxima ligação combinada.",
+   "entradas": [
+    "Registro da ligação"
+   ],
+   "saidas": [
+    "Tarefa de retorno"
+   ],
+   "skills": [
+    "comercial-jusmoto"
+   ],
+   "cadeia": [
+    "Ligação",
+    "Tarefa pós-ligação",
+    "Baixa"
+   ],
+   "agenda": "Nenhuma.",
+   "cliente": "O retorno.",
+   "motor": [
+    "Cria a tarefa pós-ligação"
+   ],
+   "humano": [
+    "O retorno e a baixa"
+   ],
+   "status": "parcial",
+   "decisao": "As 29 tarefas pós-ligação abertas no módulo Tarefas não têm dono: definir o responsável e a baixa."
+  }
+ ]
+}

@@ -1,0 +1,973 @@
+{
+ "_meta": {
+  "descricao": "Catalogo de atos da Controladoria de Publicacoes escritorio. Fonte da verdade do roteamento e do prazo legal. Editavel pela Controladoria (Advogada) SEM mexer em codigo.",
+  "origem": "Handoff Controladoria (docs 03_REGRAS_DE_PRAZO e 04_CATALOGO_E_ROTEAMENTO); calibracao com a Dra. Advogada em 01/10/2026 (8 regras)",
+  "campos": {
+   "trilha": "PECA | MEIO | CIENCIA",
+   "dias": "inteiro (prazo legal) ou null (vem do despacho)",
+   "contagem": "uteis | corridos",
+   "fonte_prazo": "tabela | despacho | audiencia",
+   "fatal": "true = perder mata o direito",
+   "titularidade_padrao": "NOSSO quando a decisao publicada abre prazo nosso (atos recursais)",
+   "abre_junto": "atos com prazo paralelo (ex.: sentenca abre ED e recurso)",
+   "gatilhos": "pistas de texto (nao decisao) para o classificador",
+   "titularidade_polo": "ativo | passivo: o ato so existe para esse polo (emenda e do autor; contestacao, pagamento e impugnacao sao do reu). Com o polo conhecido, decide a titularidade sozinho."
+  }
+ },
+ "trabalhista": {
+  "EMBARGOS DE DECLARACAO": {
+   "trilha": "PECA",
+   "dias": 5,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": false,
+   "base_legal": "art. 897-A CLT",
+   "titularidade_padrao": "NOSSO",
+   "gatilhos": [
+    "embargos de declaracao",
+    "omissao",
+    "contradicao",
+    "obscuridade",
+    "erro material"
+   ],
+   "observacao": "Contencao de prazo (interrompe o prazo recursal)."
+  },
+  "MANIFESTACAO SOBRE ED": {
+   "trilha": "PECA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "art. 1.023, 2o CPC",
+   "gatilhos": [
+    "manifestacao sobre os embargos",
+    "manifestar sobre os embargos",
+    "sobre os embargos de declaracao",
+    "efeitos modificativos",
+    "efeito modificativo",
+    "efeitos infringentes",
+    "efeito infringente",
+    "parte embargada",
+    "intime-se a parte embargada",
+    "embargada a fim de que se manifeste",
+    "embargadas para se manifestarem",
+    "embargados para se manifestarem",
+    "querendo, apresentar manifestacao",
+    "possibilidade de que seja atribuido efeito modificativo"
+   ],
+   "observacao": "Com ED cruzados, 'as embargadas' inclui o nosso lado (caso G x empresa B, 23/09/2026)."
+  },
+  "RECURSO ORDINARIO": {
+   "trilha": "PECA",
+   "dias": 8,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 895, I CLT",
+   "titularidade_padrao": "NOSSO",
+   "gatilhos": [
+    "sentenca",
+    "julgo procedente",
+    "julgo improcedente",
+    "recurso ordinario",
+    "condeno"
+   ]
+  },
+  "CONTRARRAZOES DE RO": {
+   "trilha": "PECA",
+   "dias": 8,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 900 CLT",
+   "gatilhos": [
+    "contrarrazoes",
+    "recurso ordinario interposto",
+    "para contrarrazoar",
+    "razoes do recurso",
+    "contrarrazoes ao recurso ordinario",
+    "parte recorrida para",
+    "recorrido para"
+   ],
+   "titularidade_padrao": "NOSSO"
+  },
+  "RECURSO DE REVISTA": {
+   "trilha": "PECA",
+   "dias": 8,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 896 CLT",
+   "titularidade_padrao": "NOSSO",
+   "gatilhos": [
+    "acordao",
+    "recurso de revista",
+    "turma do trt",
+    "negou provimento",
+    "intimadas do acordao",
+    "intimados do acordao",
+    "acordao proferido",
+    "desprovido",
+    "nao provido",
+    "recurso do reclamante desprovido"
+   ],
+   "observacao": "Acordao de Turma do TRT: cabe RR (art. 896 CLT, 8 dias uteis) com ED em paralelo (5 dias uteis), que interrompe o prazo e prequestiona. O classificador troca RO por RR quando o cabecalho e de 2o grau (caso Romildo, 05/10/2026)."
+  },
+  "CONTRARRAZOES DE RR": {
+   "trilha": "PECA",
+   "dias": 8,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 897, 6o e art. 900 CLT; IN 16/99 TST",
+   "gatilhos": [
+    "contrarrazoes ao recurso de revista",
+    "recurso de revista interposto",
+    "contraminutar",
+    "contraminuta",
+    "contra-arrazoar",
+    "contrarrazoar",
+    "oferecer contrarrazoes",
+    "parte agravada para",
+    "partes agravadas para",
+    "contrarrazoes ao agravo",
+    "contraminuta ao agravo",
+    "interposicao de agravo de instrumento"
+   ],
+   "observacao": "Contraminuta ao agravo de instrumento + contrarrazoes ao RR, no mesmo prazo de 8 dias.",
+   "titularidade_padrao": "NOSSO"
+  },
+  "AGRAVO DE INSTRUMENTO": {
+   "trilha": "PECA",
+   "dias": 8,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 897, 'b' CLT",
+   "titularidade_padrao": "NOSSO",
+   "gatilhos": [
+    "denego seguimento",
+    "nego seguimento ao recurso",
+    "agravo de instrumento"
+   ]
+  },
+  "AGRAVO INTERNO": {
+   "trilha": "PECA",
+   "dias": 8,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 1.021 CPC; art. 118, 1o RITST",
+   "titularidade_padrao": "NOSSO",
+   "gatilhos": [
+    "nego seguimento ao agravo de instrumento",
+    "nego seguimento ao agravo",
+    "agravo interno",
+    "regimento interno do tribunal superior",
+    "art. 118, x",
+    "decisao monocratica",
+    "ministro relator"
+   ],
+   "observacao": "Monocratica do relator no TST negando o NOSSO agravo: cabe agravo interno em 8 dias; o obice costuma ser formal (art. 896, 1o-A)."
+  },
+  "AGRAVO DE PETICAO": {
+   "trilha": "PECA",
+   "dias": 8,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 897, 'a' CLT",
+   "titularidade_padrao": "NOSSO",
+   "gatilhos": [
+    "agravo de peticao",
+    "execucao",
+    "sentenca de liquidacao homologada"
+   ]
+  },
+  "EMBARGOS A EXECUCAO": {
+   "trilha": "PECA",
+   "dias": 5,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 884 CLT",
+   "titularidade_padrao": "NOSSO",
+   "gatilhos": [
+    "garantida a execucao",
+    "penhora",
+    "embargos a execucao",
+    "intime-se para embargar"
+   ],
+   "titularidade_polo": "passivo"
+  },
+  "IMPUGNACAO A SENTENCA DE LIQUIDACAO": {
+   "trilha": "PECA",
+   "dias": 8,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 884, 3o CLT",
+   "gatilhos": [
+    "sentenca de liquidacao",
+    "calculos homologados",
+    "impugnacao a liquidacao"
+   ]
+  },
+  "APRESENTACAO DE CALCULOS": {
+   "trilha": "PECA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "art. 879, 1o-B CLT",
+   "gatilhos": [
+    "apresentar os calculos",
+    "apresente os calculos",
+    "apresentar calculos",
+    "calculos que entender devidos",
+    "879, 1o-b",
+    "879, 1-b",
+    "apresentacao de calculos",
+    "apresentem os calculos"
+   ],
+   "observacao": "Liquidacao: a Advogada monta a memoria de calculo; Advogada ou Dra. Advogada confere e protocola.",
+   "titularidade_polo": "ativo"
+  },
+  "CONTESTAR CALCULOS (ART. 879 2o)": {
+   "trilha": "PECA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": true,
+   "base_legal": "art. 879, 2o CLT",
+   "gatilhos": [
+    "contestar calculos",
+    "contestar os calculos",
+    "879, 2o",
+    "impugnar os calculos",
+    "sob pena de serem homologados",
+    "impugnacao aos calculos"
+   ],
+   "observacao": "Sem contestacao fundamentada, com calculos, os da outra parte sao homologados."
+  },
+  "PAGAMENTO EM EXECUCAO": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": true,
+   "base_legal": "art. 880 CLT",
+   "gatilhos": [
+    "pagamento do saldo devedor",
+    "intimado para pagamento",
+    "para pagamento do saldo",
+    "sob pena de execucao",
+    "sob pena de penhora",
+    "efetue o pagamento",
+    "pague o valor"
+   ],
+   "observacao": "Reclamada intimada a pagar: atualizar cliente, tentativa de acordo, parcelamento com guias, protocolo no interno (regra da Advogada, caso cliente empresa 28/09 a 02/10/2026).",
+   "titularidade_polo": "passivo"
+  },
+  "CONTESTACAO": {
+   "trilha": "PECA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "audiencia",
+   "fatal": true,
+   "base_legal": "art. 847 CLT",
+   "gatilhos": [
+    "designo audiencia",
+    "audiencia inaugural",
+    "audiencia una",
+    "apresentar defesa",
+    "contestacao"
+   ],
+   "observacao": "Prazo vai ate a audiencia (defesa apresentada na audiencia ou ate ela).",
+   "titularidade_polo": "passivo"
+  },
+  "EMENDA A INICIAL": {
+   "trilha": "PECA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": true,
+   "base_legal": "art. 840, 1o CLT; art. 321 CPC",
+   "gatilhos": [
+    "emende a peticao inicial",
+    "emenda a inicial",
+    "emendar a inicial",
+    "peca substitutiva",
+    "sob pena de indeferimento da inicial",
+    "emende a inicial",
+    "indicando individualmente os valores"
+   ],
+   "observacao": "Prazo do despacho, sob pena de indeferimento: peca da Advogada, protocolo da Advogada no interno.",
+   "titularidade_polo": "ativo"
+  },
+  "REPLICA / MANIFESTACAO SOBRE DEFESA": {
+   "trilha": "PECA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "art. 350 CPC (subsidiario)",
+   "gatilhos": [
+    "manifeste-se sobre a defesa",
+    "manifeste-se sobre a contestacao",
+    "replica",
+    "sobre os documentos"
+   ]
+  },
+  "RAZOES FINAIS / MEMORIAIS": {
+   "trilha": "PECA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": true,
+   "base_legal": "art. 850 CLT",
+   "gatilhos": [
+    "razoes finais",
+    "memoriais",
+    "encerrada a instrucao"
+   ]
+  },
+  "MANIFESTACAO SOBRE LAUDO PERICIAL": {
+   "trilha": "PECA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "art. 477, 1o CPC",
+   "gatilhos": [
+    "laudo pericial",
+    "manifeste-se sobre o laudo",
+    "perito apresentou",
+    "assistente tecnico",
+    "teor do laudo",
+    "sobre o laudo",
+    "quesitos complementares",
+    "esclarecimentos do perito",
+    "impugnacao ao laudo",
+    "manifestacao sobre o laudo"
+   ]
+  },
+  "AUDIENCIA DESIGNADA": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "audiencia",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "designo audiencia",
+    "audiencia de instrucao",
+    "audiencia de conciliacao",
+    "pauta de audiencia",
+    "redesignada para",
+    "redesigno a sessao",
+    "notificado a comparecer a audiencia",
+    "notificada a comparecer a audiencia",
+    "notificacao de audiencia",
+    "comparecer a audiencia",
+    "audiencia inicial",
+    "audiencia una",
+    "audiencia por videoconferencia",
+    "designa-se para o dia",
+    "designada para o dia",
+    "audiencia de julgamento",
+    "audiencia inaugural"
+   ],
+   "observacao": "Nunca fecha sozinha: vai para a agenda (POP 18). Copia da parte contraria e so duplicata."
+  },
+  "INTIMACAO DE TESTEMUNHAS": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "rol de testemunhas",
+    "intimacao de testemunha",
+    "arrolar testemunhas"
+   ]
+  },
+  "JUNTADA DE DOCUMENTOS": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "junte",
+    "apresente os documentos",
+    "comprovante",
+    "juntada de documentos",
+    "juntar em",
+    "holerite",
+    "ctps digital",
+    "junte aos autos"
+   ],
+   "observacao": " 06/10/2026 (a equipe 86458, ADC 80): 'juntar em N dias', CTPS digital e holerites da gratuidade."
+  },
+  "CUSTAS E DESPESAS": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": true,
+   "base_legal": "art. 789 CLT",
+   "gatilhos": [
+    "recolha as custas",
+    "custas processuais",
+    "sob pena de desercao",
+    "comprovar o recolhimento"
+   ],
+   "observacao": "MEIO porem FATAL: nao recolher derruba recurso por desercao."
+  },
+  "CUSTAS E PREPARO": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": true,
+   "base_legal": "art. 789 CLT; art. 1.007 CPC",
+   "gatilhos": [
+    "preparo",
+    "porte de remessa",
+    "guia de preparo",
+    "desercao"
+   ],
+   "observacao": "MEIO porem FATAL: falta de preparo = desercao."
+  },
+  "ATUALIZACAO DE CALCULOS": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "atualize os calculos",
+    "planilha de calculo",
+    "memoria de calculo"
+   ]
+  },
+  "ALVARA / LEVANTAMENTO": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "alvara",
+    "levantamento de valores",
+    "expeca-se alvara",
+    "dados bancarios para levantamento",
+    "expedicao de alvara"
+   ]
+  },
+  "DADOS BANCARIOS / CADASTRAIS": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "informe os dados bancarios",
+    "atualize o cadastro",
+    "endereco atualizado",
+    "dados para deposito",
+    "informar dados bancarios",
+    "dados bancarios"
+   ]
+  },
+  "CREDENCIAMENTO / MIGRACAO DE SISTEMA": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "passara a tramitar eletronicamente",
+    "credenciamento no eproc",
+    "credenciamento no seeu",
+    "providenciem o credenciamento",
+    "sistema eletronico de execucao unificado",
+    "material de apoio disponivel"
+   ],
+   "observacao": "Sem prazo processual: credenciar os procuradores e conferir o cadastro no novo sistema."
+  },
+  "MANIFESTACAO GENERICA": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "manifeste-se",
+    "diga sobre",
+    "no prazo de",
+    "intime-se para se manifestar"
+   ]
+  },
+  "PROCESSO SIGILOSO": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [],
+   "observacao": "O DJEN so traz o aviso de sigilo: abrir os autos no sistema do tribunal antes de classificar. Nunca fechar como ciencia."
+  },
+  "DECISAO SEM TEOR NO DJEN": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [],
+   "observacao": "A publicacao traz prazo mas nao traz o teor: abrir os autos (SYNC ou tribunal) e classificar pelo dispositivo."
+  },
+  "CIENCIA / MERO EXPEDIENTE": {
+   "trilha": "CIENCIA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "ciencia",
+    "para conhecimento",
+    "mero expediente",
+    "publique-se",
+    "cumpra-se",
+    "arquive-se",
+    "para ciencia",
+    "fica ciente",
+    "informa a comprovacao"
+   ]
+  },
+  "DISTRIBUICAO / SORTEIO DE RELATOR": {
+   "trilha": "CIENCIA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "distribuido",
+    "distribuicao",
+    "sorteio de relator",
+    "coube por distribuicao",
+    "relator o(a) desembargador"
+   ]
+  }
+ },
+ "civel": {
+  "EMBARGOS DE DECLARACAO": {
+   "trilha": "PECA",
+   "dias": 5,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": false,
+   "base_legal": "art. 1.023 CPC",
+   "titularidade_padrao": "NOSSO",
+   "gatilhos": [
+    "embargos de declaracao",
+    "omissao",
+    "contradicao",
+    "obscuridade",
+    "erro material"
+   ]
+  },
+  "MANIFESTACAO SOBRE ED": {
+   "trilha": "PECA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "art. 1.023, 2o CPC",
+   "gatilhos": [
+    "manifestacao sobre os embargos",
+    "manifestar sobre os embargos",
+    "sobre os embargos de declaracao",
+    "efeitos modificativos",
+    "efeito modificativo",
+    "efeitos infringentes",
+    "efeito infringente",
+    "parte embargada",
+    "intime-se a parte embargada",
+    "embargada a fim de que se manifeste",
+    "embargadas para se manifestarem",
+    "embargados para se manifestarem",
+    "querendo, apresentar manifestacao"
+   ]
+  },
+  "CONTESTACAO": {
+   "trilha": "PECA",
+   "dias": 15,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 335 CPC",
+   "gatilhos": [
+    "citado",
+    "citacao",
+    "apresentar contestacao",
+    "prazo para defesa",
+    "cite-se"
+   ],
+   "titularidade_polo": "passivo"
+  },
+  "EMENDA A INICIAL": {
+   "trilha": "PECA",
+   "dias": 15,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": true,
+   "base_legal": "art. 321 CPC",
+   "gatilhos": [
+    "emende a peticao inicial",
+    "emenda a inicial",
+    "emendar a inicial",
+    "peca substitutiva",
+    "sob pena de indeferimento da inicial",
+    "emende a inicial",
+    "art. 321"
+   ],
+   "observacao": "Prazo do despacho (15 dias por lei), sob pena de indeferimento.",
+   "titularidade_polo": "ativo"
+  },
+  "REPLICA": {
+   "trilha": "PECA",
+   "dias": 15,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": false,
+   "base_legal": "arts. 350 e 351 CPC",
+   "gatilhos": [
+    "replica",
+    "manifeste-se sobre a contestacao",
+    "impugne a contestacao",
+    "sobre a defesa"
+   ]
+  },
+  "ESPECIFICACAO DE PROVAS": {
+   "trilha": "PECA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "art. 357 CPC",
+   "gatilhos": [
+    "especifiquem as provas",
+    "especificando-as",
+    "producao de outras provas",
+    "provas que pretendem produzir",
+    "especifique as provas",
+    "especificacao de provas",
+    "interesse na tentativa de conciliacao",
+    "justificando sua pertinencia"
+   ],
+   "observacao": "Prazo comum. Decidir com a Dra. Advogada testemunhas e posicao sobre conciliacao (caso cliente empresa x BR Brasil Trucks)."
+  },
+  "APELACAO": {
+   "trilha": "PECA",
+   "dias": 15,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 1.003, 5o CPC",
+   "titularidade_padrao": "NOSSO",
+   "gatilhos": [
+    "sentenca",
+    "julgo procedente",
+    "julgo improcedente",
+    "apelacao",
+    "extingo o processo"
+   ]
+  },
+  "CONTRARRAZOES DE APELACAO": {
+   "trilha": "PECA",
+   "dias": 15,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 1.010, 1o CPC",
+   "gatilhos": [
+    "contrarrazoes de apelacao",
+    "apelacao interposta",
+    "para contrarrazoar"
+   ],
+   "titularidade_padrao": "NOSSO"
+  },
+  "AGRAVO DE INSTRUMENTO": {
+   "trilha": "PECA",
+   "dias": 15,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 1.003, 5o CPC",
+   "titularidade_padrao": "NOSSO",
+   "gatilhos": [
+    "decisao interlocutoria",
+    "agravo de instrumento",
+    "indeferi a tutela",
+    "defiro em parte a liminar",
+    "indefiro a tutela",
+    "indefiro o pedido de tutela"
+   ]
+  },
+  "RECURSO ESPECIAL / EXTRAORDINARIO": {
+   "trilha": "PECA",
+   "dias": 15,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 1.003, 5o CPC",
+   "titularidade_padrao": "NOSSO",
+   "gatilhos": [
+    "acordao",
+    "recurso especial",
+    "recurso extraordinario",
+    "camara de direito",
+    "negaram provimento"
+   ]
+  },
+  "CONTRARRAZOES DE RESP / RE": {
+   "trilha": "PECA",
+   "dias": 15,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 1.030 CPC",
+   "gatilhos": [
+    "contrarrazoes ao recurso especial",
+    "contrarrazoes ao recurso extraordinario"
+   ],
+   "titularidade_padrao": "NOSSO"
+  },
+  "PAGAMENTO VOLUNTARIO (CUMPRIMENTO)": {
+   "trilha": "MEIO",
+   "dias": 15,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 523 CPC",
+   "gatilhos": [
+    "pagamento voluntario",
+    "sob pena de multa de 10",
+    "intime-se para pagar",
+    "pagar o debito",
+    "art. 523"
+   ],
+   "observacao": "So quando somos EXECUTADOS. Prazo de pagamento do art. 523 — divergencia conhecida dias uteis x corridos. Conferir a contagem (o SYNC/tribunal costuma usar corridos).",
+   "titularidade_polo": "passivo"
+  },
+  "IMPUGNACAO AO CUMPRIMENTO DE SENTENCA": {
+   "trilha": "PECA",
+   "dias": 15,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 525 CPC",
+   "titularidade_padrao": "NOSSO",
+   "gatilhos": [
+    "impugnacao ao cumprimento",
+    "garantido o juizo",
+    "impugnar o cumprimento"
+   ],
+   "titularidade_polo": "passivo"
+  },
+  "BLOQUEIO SISBAJUD": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "art. 854 CPC",
+   "gatilhos": [
+    "sisbajud",
+    "bloqueio realizado",
+    "bloqueio de valores",
+    "teimosinha",
+    "renajud",
+    "penhora on-line",
+    "penhora online",
+    "ciencia do bloqueio"
+   ],
+   "observacao": "Como exequente: aguardar o prazo de impugnacao do executado (5 dias) e requerer a transferencia. Como executado: impugnar em 5 dias (art. 854, 3o).",
+   "titularidade_polo": "passivo"
+  },
+  "EMBARGOS A EXECUCAO": {
+   "trilha": "PECA",
+   "dias": 15,
+   "contagem": "uteis",
+   "fonte_prazo": "tabela",
+   "fatal": true,
+   "base_legal": "art. 915 CPC",
+   "gatilhos": [
+    "embargos a execucao",
+    "titulo executivo extrajudicial",
+    "para opor embargos"
+   ],
+   "titularidade_polo": "passivo"
+  },
+  "CUSTAS E DESPESAS": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "art. 82 CPC",
+   "gatilhos": [
+    "recolhimento das custas",
+    "custas atinentes",
+    "recolha as custas",
+    "diligencia do oficial",
+    "comprove o recolhimento",
+    "recolhimento das respectivas taxas",
+    "taxa judiciaria",
+    "complementar o recolhimento"
+   ],
+   "observacao": "Guia e comprovante no prazo do despacho; sem recolhimento o ato nao sai (ou o feito e extinto, no caso de taxa judiciaria)."
+  },
+  "CREDENCIAMENTO / MIGRACAO DE SISTEMA": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "passara a tramitar eletronicamente",
+    "credenciamento no eproc",
+    "credenciamento no seeu",
+    "providenciem o credenciamento",
+    "sistema eletronico de execucao unificado",
+    "material de apoio disponivel"
+   ],
+   "observacao": "Sem prazo processual: credenciar os procuradores e conferir o cadastro no novo sistema."
+  },
+  "MANIFESTACAO GENERICA": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "manifeste-se",
+    "diga sobre",
+    "no prazo de",
+    "sobre os documentos",
+    "regularizar sua representacao",
+    "regularize a representacao"
+   ]
+  },
+  "PROCESSO SIGILOSO": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [],
+   "observacao": "O DJEN so traz o aviso de sigilo: abrir os autos no sistema do tribunal antes de classificar. Nunca fechar como ciencia."
+  },
+  "DECISAO SEM TEOR NO DJEN": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [],
+   "observacao": "A publicacao traz prazo mas nao traz o teor: abrir os autos e classificar pelo dispositivo."
+  },
+  "CIENCIA / MERO EXPEDIENTE": {
+   "trilha": "CIENCIA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "ciencia",
+    "para conhecimento",
+    "mero expediente",
+    "publique-se",
+    "cumpra-se",
+    "arquive-se",
+    "conclusos",
+    "ciencia as partes",
+    "foi expedido nesta data"
+   ]
+  },
+  "DISTRIBUICAO / SORTEIO DE RELATOR": {
+   "trilha": "CIENCIA",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "despacho",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "distribuido",
+    "distribuicao",
+    "sorteio de relator",
+    "coube por distribuicao",
+    "camara de direito privado"
+   ]
+  },
+  "AUDIENCIA DESIGNADA": {
+   "trilha": "MEIO",
+   "dias": null,
+   "contagem": "uteis",
+   "fonte_prazo": "audiencia",
+   "fatal": false,
+   "base_legal": "-",
+   "gatilhos": [
+    "notificado a comparecer a audiencia",
+    "notificada a comparecer a audiencia",
+    "notificacao de audiencia",
+    "comparecer a audiencia",
+    "audiencia inicial",
+    "audiencia una",
+    "audiencia por videoconferencia",
+    "designa-se para o dia",
+    "designada para o dia",
+    "audiencia de julgamento",
+    "audiencia inaugural"
+   ],
+   "observacao": "Nunca fecha sozinha: vai para a agenda (POP 18). Copia da parte contraria e so duplicata."
+  }
+ },
+ "abre_junto": {
+  "_doc": "Prazos paralelos: um ato principal que abre outro simultaneamente.",
+  "SENTENCA_TRABALHISTA": {
+   "principal": "RECURSO ORDINARIO",
+   "paralelo": "EMBARGOS DE DECLARACAO"
+  },
+  "SENTENCA_CIVEL": {
+   "principal": "APELACAO",
+   "paralelo": "EMBARGOS DE DECLARACAO"
+  },
+  "ACORDAO_TRABALHISTA": {
+   "principal": "RECURSO DE REVISTA",
+   "paralelo": "EMBARGOS DE DECLARACAO"
+  },
+  "ACORDAO_CIVEL": {
+   "principal": "RECURSO ESPECIAL / EXTRAORDINARIO",
+   "paralelo": "EMBARGOS DE DECLARACAO"
+  }
+ }
+}

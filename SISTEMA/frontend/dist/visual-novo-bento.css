@@ -1,0 +1,227 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&display=swap");
+
+
+html[data-visual="novo"][data-visual] {
+  --b-display: "Barlow Condensed", "Space Grotesk", system-ui, sans-serif;
+  --b-teal: #46BDB4; --b-amber: #EAB354; --b-green: #74C99F; --b-plum: #B690EA; --b-red: #F07D70; --b-blue: #74A2F0; --b-silver: #97A3B6;
+}
+html[data-visual="novo"] [data-bk="teal"][data-bk] { --bk: #46BDB4; }
+html[data-visual="novo"] [data-bk="amber"][data-bk] { --bk: #EAB354; }
+html[data-visual="novo"] [data-bk="green"][data-bk] { --bk: #74C99F; }
+html[data-visual="novo"] [data-bk="plum"][data-bk] { --bk: #B690EA; }
+html[data-visual="novo"] [data-bk="red"][data-bk] { --bk: #F07D70; }
+html[data-visual="novo"] [data-bk="blue"][data-bk] { --bk: #74A2F0; }
+html[data-visual="novo"] [data-bk="silver"][data-bk] { --bk: #97A3B6; }
+
+
+html[data-visual="novo"] body {
+  background-color: #07101F !important;
+  background-image:
+    radial-gradient(900px 560px at 22% -10%, rgba(70, 189, 180, .17), transparent 62%),
+    radial-gradient(820px 620px at 104% 18%, rgba(116, 162, 240, .18), transparent 62%),
+    radial-gradient(760px 520px at 62% 118%, rgba(182, 144, 234, .13), transparent 62%),
+    linear-gradient(rgba(116, 162, 240, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(116, 162, 240, .045) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 100% 100%, 100% 100%, 44px 44px, 44px 44px !important;
+  background-attachment: fixed !important;
+}
+html[data-visual="novo"] .main, html[data-visual="novo"] .content { background-color: transparent !important; }
+
+
+html[data-visual="novo"] .topbar {
+  background: linear-gradient(180deg, #07101F 0%, rgba(7, 16, 31, .78) 100%) !important;
+  border-bottom-color: transparent !important; box-shadow: none !important; isolation: isolate;
+}
+html[data-visual="novo"] .topbar::before {
+  content: ""; position: absolute; inset: 9px 14px 9px 14px; border-radius: 24px; z-index: -1; pointer-events: none; display: block !important;
+  background:
+    radial-gradient(420px 120px at 0% 0%, rgba(116, 162, 240, .20), transparent 70%),
+    linear-gradient(180deg, #1C3457 0%, #10213B 100%);
+  box-shadow: inset 0 0 0 1px rgba(116, 162, 240, .30), inset 0 1px 0 rgba(255, 255, 255, .10), 0 16px 36px -14px rgba(0, 0, 0, .75), 0 0 0 1px rgba(7, 16, 31, .7);
+}
+html[data-visual="novo"] .topbar::after {
+  left: 60px !important; right: 60px !important; bottom: 9px !important; height: 1px !important; opacity: 1 !important;
+  background: linear-gradient(90deg, transparent, #46BDB4 20%, #74A2F0 40%, #B690EA 60%, #EAB354 80%, transparent) !important;
+  box-shadow: 0 0 12px rgba(116, 162, 240, .5) !important;
+}
+html[data-visual="novo"] .topbar h1 {
+  font-family: var(--b-display) !important; font-weight: 700 !important; font-size: 27px !important; line-height: 25.2px !important; letter-spacing: .02em !important;
+  text-transform: uppercase; color: #FFFFFF; text-shadow: 0 0 22px rgba(116, 162, 240, .35);
+}
+html[data-visual="novo"] .pt-ask { background: rgba(7, 16, 31, .72) !important; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04); }
+html[data-visual="novo"] .pt-tema { background: rgba(7, 16, 31, .72) !important; border-radius: 14px !important; }
+html[data-visual="novo"] .pt-add-btn { border-radius: 14px !important; background: linear-gradient(180deg, #A9C6F7, #74A2F0) !important; }
+
+
+html[data-visual="novo"] .sidebar {
+  background:
+    radial-gradient(380px 300px at 0% 0%, rgba(116, 162, 240, .12), transparent 70%),
+    linear-gradient(180deg, #0B172B 0%, #07101F 60%, #050C18 100%) !important;
+}
+html[data-visual="novo"] .nav-item .ico {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--k) 88%, #FFFFFF), color-mix(in srgb, var(--k) 78%, #07101F)) !important;
+  color: #07101F !important; border-radius: 9px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), inset 0 -1px 0 rgba(7, 16, 31, .25), 0 6px 14px -6px var(--k) !important;
+}
+html[data-visual="novo"] .nav-item .ico svg { stroke-width: 2.1; }
+html[data-visual="novo"] .nav-item:hover { background: color-mix(in srgb, var(--k) 12%, transparent) !important; }
+html[data-visual="novo"] .nav-item:hover .ico { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 0 0 2px color-mix(in srgb, var(--k) 35%, transparent), 0 8px 18px -6px var(--k) !important; }
+html[data-visual="novo"] .nav-item.active {
+  color: #07101F !important;
+  background: linear-gradient(100deg, var(--k) 0%, color-mix(in srgb, var(--k) 72%, #07101F) 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .40), 0 10px 24px -10px var(--k) !important;
+}
+html[data-visual="novo"] .nav-item.active::before, html[data-visual="novo"] .nav-item.active:before { display: none !important; }
+html[data-visual="novo"] .nav-item.active .ico {
+  background: rgba(7, 16, 31, .88) !important; color: var(--k) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12) !important;
+}
+html[data-visual="novo"] .nav-item.active .cnt { background: #07101F !important; color: var(--k) !important; }
+
+
+html[data-visual="novo"] .content > div:first-child:has(> h2) { position: relative; isolation: isolate; }
+html[data-visual="novo"] .content > div:first-child:has(> h2)::before {
+  content: ""; position: absolute; inset: -16px -18px -14px -18px; border-radius: 22px; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(520px 140px at 0% 0%, rgba(116, 162, 240, .26), transparent 70%),
+    radial-gradient(420px 160px at 100% 100%, rgba(70, 189, 180, .14), transparent 70%),
+    linear-gradient(100deg, #10213B 0%, rgba(16, 33, 59, .55) 55%, rgba(16, 33, 59, 0) 100%);
+  box-shadow: inset 0 0 0 1px rgba(116, 162, 240, .20), inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+html[data-visual="novo"] .content > div:first-child:has(> h2)::after {
+  content: ""; position: absolute; right: 4px; top: 50%; width: 210px; height: 8px; margin-top: -4px; border-radius: 8px; pointer-events: none;
+  background: linear-gradient(90deg, #46BDB4 0 20%, #74A2F0 20% 40%, #B690EA 40% 60%, #EAB354 60% 80%, #F07D70 80% 100%);
+  box-shadow: 0 0 18px rgba(116, 162, 240, .35); opacity: .9;
+}
+html[data-visual="novo"] .content > div:first-child > h2 {
+  font-family: var(--b-display) !important; font-size: 40px !important; line-height: 30px !important; font-weight: 700 !important;
+  letter-spacing: .01em !important; text-transform: uppercase; color: #FFFFFF;
+  text-shadow: 0 0 28px rgba(116, 162, 240, .35) !important;
+}
+html[data-visual="novo"] .content > div:first-child > h2 + p { color: #CDD6E2 !important; }
+
+
+html[data-visual="novo"] .mod-card {
+  --bk: #74A2F0;
+  overflow: hidden !important; isolation: isolate;
+  border-radius: 18px !important;
+  border: 1px solid color-mix(in srgb, var(--bk) 38%, transparent) !important;
+  background:
+    linear-gradient(180deg, transparent 54px, color-mix(in srgb, var(--bk) 70%, transparent) 54px, color-mix(in srgb, var(--bk) 70%, transparent) 55px, transparent 55px),
+    radial-gradient(160px 80px at 100% 0%, color-mix(in srgb, var(--bk) 55%, transparent), transparent 75%),
+    linear-gradient(180deg, color-mix(in srgb, var(--bk) 56%, #0B172B) 0px, color-mix(in srgb, var(--bk) 36%, #0B172B) 54px, #0F1E37 55px, #0B172B 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), 0 22px 40px -22px color-mix(in srgb, var(--bk) 55%, transparent), 0 2px 0 rgba(0, 0, 0, .35) !important;
+}
+
+html[data-visual="novo"] .mod-card::before {
+  content: "" !important; position: absolute !important; inset: auto -24px -30px auto !important;
+  width: 132px !important; height: 132px !important; border-radius: 0 !important; z-index: -1;
+  background: var(--bico, none) center / contain no-repeat !important; box-shadow: none !important;
+  opacity: .12; transform: rotate(-8deg); pointer-events: none; transition: opacity .25s ease, transform .25s ease;
+}
+
+html[data-visual="novo"] .mod-card::after {
+  display: block !important; content: "" !important; position: absolute !important; inset: 10px 12px auto auto !important; width: 44px !important; height: 44px !important; border-radius: 14px !important; opacity: 1 !important; z-index: 1;
+  pointer-events: none;
+  background: var(--bico, none) center / 24px 24px no-repeat, linear-gradient(160deg, rgba(7, 16, 31, .80), rgba(7, 16, 31, .58));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .16), inset 0 1px 0 rgba(255, 255, 255, .22), 0 10px 22px -8px rgba(7, 16, 31, .9);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+html[data-visual="novo"] .mod-card h3 {
+  font-family: var(--b-display) !important; font-size: 19px !important; line-height: 20px !important; font-weight: 700 !important;
+  letter-spacing: 0 !important; color: #FFFFFF !important; text-shadow: 0 1px 10px rgba(7, 16, 31, .45);
+}
+html[data-visual="novo"] .mod-card p { color: #CDD6E2 !important; }
+html[data-visual="novo"] .mod-card:hover {
+  border-color: color-mix(in srgb, var(--bk) 75%, transparent) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 0 0 1px color-mix(in srgb, var(--bk) 40%, transparent), 0 26px 48px -18px color-mix(in srgb, var(--bk) 65%, transparent) !important;
+}
+html[data-visual="novo"] .mod-card:hover::before { opacity: .2; transform: rotate(-4deg) scale(1.06); }
+html[data-visual="novo"] .mod-card:hover::after { transform: translateY(-2px); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bk) 70%, #FFFFFF), 0 0 18px color-mix(in srgb, var(--bk) 45%, transparent), 0 12px 24px -8px rgba(7, 16, 31, .9); }
+html[data-visual="novo"] .mod-card .tag-lock {
+  color: color-mix(in srgb, var(--bk) 70%, #FFFFFF) !important;
+}
+html[data-visual="novo"] .mod-card.locked { opacity: .72; }
+
+
+html[data-visual="novo"] div[style*="flex: 0 0 250px"] {
+  --bk: #74A2F0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--bk) 8%, #0B172B) 0%, #081326 100%) !important;
+  border: 1px solid color-mix(in srgb, var(--bk) 26%, transparent) !important; border-radius: 16px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 18px 36px -24px color-mix(in srgb, var(--bk) 60%, transparent) !important;
+}
+html[data-visual="novo"] div[style*="flex: 0 0 250px"]::before { display: none !important; }
+html[data-visual="novo"] div[style*="flex: 0 0 250px"] > div:first-child {
+  border-bottom-color: transparent !important; border-radius: 11px;
+  background:
+    radial-gradient(140px 50px at 100% 0%, color-mix(in srgb, var(--bk) 60%, transparent), transparent 75%),
+    linear-gradient(135deg, color-mix(in srgb, var(--bk) 58%, #0B172B), color-mix(in srgb, var(--bk) 32%, #0B172B)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .20), inset 0 0 0 1px color-mix(in srgb, var(--bk) 50%, transparent), 0 10px 20px -12px var(--bk);
+}
+html[data-visual="novo"] div[style*="flex: 0 0 250px"] > div:first-child > span:first-child { box-shadow: 0 0 0 2px rgba(255, 255, 255, .85), 0 0 10px rgba(255, 255, 255, .5) !important; }
+html[data-visual="novo"] div[style*="flex: 0 0 250px"] > div:first-child > span:nth-child(2) { color: #FFFFFF !important; text-shadow: 0 1px 8px rgba(7, 16, 31, .5); }
+html[data-visual="novo"] div[style*="flex: 0 0 250px"] > div:first-child > span:nth-child(3) {
+  background: rgba(7, 16, 31, .62) !important; color: #FFFFFF !important; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14) !important;
+}
+html[data-visual="novo"] div[style*="flex: 0 0 250px"] > div:first-child > span[title] + span[title],
+html[data-visual="novo"] div[style*="flex: 0 0 250px"] > div:first-child > span:nth-child(4)[title] { background: rgba(7, 16, 31, .62) !important; }
+html[data-visual="novo"] div[style*="flex: 0 0 250px"] > div:first-child button { color: rgba(255, 255, 255, .85) !important; }
+html[data-visual="novo"] div[style*="flex: 0 0 250px"] [draggable="true"] {
+  position: relative; border-radius: 14px !important;
+  background:
+    radial-gradient(160px 60px at 100% 0%, color-mix(in srgb, var(--k, #74A2F0) 16%, transparent), transparent 75%),
+    linear-gradient(180deg, #132646 0%, #0F1E37 100%) !important;
+  border-color: rgba(116, 162, 240, .16) !important;
+}
+html[data-visual="novo"] div[style*="flex: 0 0 250px"] [draggable="true"]::after {
+  content: ""; position: absolute; left: 14px; right: 14px; top: -1px; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--k, #74A2F0), transparent); opacity: .8;
+}
+html[data-visual="novo"] div[style*="flex: 0 0 250px"] [draggable="true"]:hover { border-color: color-mix(in srgb, var(--bk) 55%, transparent) !important; }
+
+
+html[data-visual="novo"] .panel { border-radius: 18px !important; }
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] { background: linear-gradient(180deg, #0B172B, #081326) !important; }
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > div:first-child {
+  background:
+    radial-gradient(260px 90px at 100% 0%, rgba(70, 189, 180, .40), transparent 75%),
+    linear-gradient(160deg, color-mix(in srgb, #46BDB4 42%, #0B172B), color-mix(in srgb, #46BDB4 14%, #0B172B)) !important;
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  border-bottom-color: rgba(70, 189, 180, .45) !important;
+}
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > div:first-child > div:first-child > span:first-child {
+  -webkit-text-fill-color: #FFFFFF !important; color: #FFFFFF !important; background: none !important;
+  font-family: var(--b-display) !important; font-size: 21px !important; line-height: 1 !important; font-weight: 700 !important; letter-spacing: .03em !important; text-transform: uppercase;
+}
+html[data-visual="novo"] .panel[style*="flex: 0 0 320px"] > button:hover { background: rgba(70, 189, 180, .08) !important; }
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"][style*="flex-direction: column"] { background: linear-gradient(180deg, #0B172B, #07101F) !important; overflow: hidden; }
+html[data-visual="novo"] .panel[style*="flex: 1 1 0%"][style*="flex-direction: column"] > div:first-child {
+  background:
+    radial-gradient(460px 130px at 0% 0%, rgba(70, 189, 180, .50), transparent 72%),
+    radial-gradient(460px 130px at 100% 0%, rgba(116, 162, 240, .34), transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, #46BDB4 22%, #10213B), #10213B);
+  border-bottom-color: rgba(70, 189, 180, .55) !important;
+  box-shadow: 0 1px 0 rgba(70, 189, 180, .25), 0 12px 24px -16px rgba(70, 189, 180, .6);
+}
+html[data-visual="novo"] div[style*="background: var(--chat-bg)"] {
+  background-color: #07101F !important;
+  background-image:
+    radial-gradient(600px 300px at 100% 100%, rgba(116, 162, 240, .10), transparent 70%),
+    radial-gradient(500px 260px at 0% 0%, rgba(70, 189, 180, .08), transparent 70%),
+    radial-gradient(rgba(205, 214, 226, .07) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 100% 100%, 20px 20px !important;
+}
+html[data-visual="novo"] div[style*="background: var(--bubble-them)"] {
+  background: linear-gradient(180deg, #162A48, #10213B) !important; border-color: rgba(116, 162, 240, .20) !important;
+  border-radius: 16px 16px 16px 5px !important; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 8px 18px -12px rgba(0, 0, 0, .8);
+}
+html[data-visual="novo"] div[style*="background: var(--bubble-us)"] {
+  background: linear-gradient(140deg, color-mix(in srgb, #3F6FC0 86%, #07101F) 0%, color-mix(in srgb, #3F6FC0 52%, #10213B) 100%) !important; border-color: rgba(169, 198, 247, .40) !important;
+  border-radius: 16px 16px 5px 16px !important; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 10px 24px -12px rgba(116, 162, 240, .55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-visual="novo"] .mod-card::before, html[data-visual="novo"] .mod-card::after { transition: none !important; }
+  html[data-visual="novo"] .mod-card:hover::before { transform: rotate(-8deg); }
+  html[data-visual="novo"] .mod-card:hover::after { transform: none; }
+}

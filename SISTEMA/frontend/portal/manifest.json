@@ -1,0 +1,17 @@
+{
+  "name": "Portal do Cliente Escritório Modelo Advogados",
+  "short_name": "Meu Processo",
+  "description": "Acompanhe seu processo e seus documentos.",
+  "start_url": "/portal/",
+  "scope": "/portal/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f1e8",
+  "theme_color": "#4E0719",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "/portal/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/portal/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/portal/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

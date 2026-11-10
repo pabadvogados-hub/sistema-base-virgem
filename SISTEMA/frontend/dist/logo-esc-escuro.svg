@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 210" role="img" aria-label="Escritório Modelo Advogados">
+  <text x="300" y="92" text-anchor="middle" font-family="Marcellus, 'Cormorant Garamond', Garamond, Georgia, serif" font-size="58" letter-spacing="5" fill="#10213B">ESCRITÓRIO MODELO</text>
+  <line x1="45" y1="140" x2="200" y2="140" stroke="#74A2F0" stroke-width="1.5"/>
+  <text x="300" y="148" text-anchor="middle" font-family="Mulish, 'Segoe UI', sans-serif" font-size="22" letter-spacing="11" fill="#74A2F0">ADVOGADOS</text>
+  <line x1="400" y1="140" x2="555" y2="140" stroke="#74A2F0" stroke-width="1.5"/>
+</svg>

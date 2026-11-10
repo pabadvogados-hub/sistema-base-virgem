@@ -1,0 +1,5 @@
+{
+ "_doc": "Clientes empresa (carteira do Dr. Titular) com regras proprias. 'cobranca_audiencia': nome (como aparece no cadastro, sem acento) -> valor cobrado por audiencia; o motor abre a tarefa do financeiro com vencimento na data da audiencia. 'consultoria': nome -> skill de consultoria propria (sem entrada usa 'consultoria-pj'). Vazio = nenhuma regra especial.",
+ "cobranca_audiencia": {},
+ "consultoria": {}
+}

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Escritório Modelo Voz — Teste de Eco</title>
+<script src="/jssip.min.js"></script>
+<style>
+  body{font-family:system-ui,Segoe UI,Roboto,sans-serif;background:#0f1720;color:#e8eef6;margin:0;padding:32px;display:flex;justify-content:center}
+  .card{max-width:520px;width:100%;background:#16212e;border:1px solid #24313f;border-radius:16px;padding:28px;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+  h1{font-size:20px;margin:0 0 4px} .sub{color:#8aa0b6;font-size:13px;margin:0 0 20px}
+  .pill{display:inline-block;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;margin-bottom:16px}
+  .off{background:#3a2020;color:#f0a0a0} .on{background:#173a2a;color:#7ee0a8} .wait{background:#3a3320;color:#e0d07e}
+  button{border:none;border-radius:10px;padding:14px 20px;font-size:15px;font-weight:600;cursor:pointer;margin:4px 6px 4px 0}
+  .call{background:#1f8e5a;color:#fff} .hang{background:#c0392b;color:#fff} button:disabled{opacity:.4;cursor:default}
+  #log{margin-top:18px;background:#0b131c;border:1px solid #24313f;border-radius:10px;padding:12px;font-family:ui-monospace,monospace;font-size:12px;line-height:1.6;max-height:220px;overflow-y:auto;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Escritório Modelo Voz — Teste de Eco</h1>
+  <p class="sub">Ramal <b>titular</b> · disca <b>100</b> (eco). Fale algo e você deve ouvir sua voz de volta.</p>
+  <div id="status" class="pill wait">conectando…</div>
+  <div>
+    <button id="btnCall" class="call" disabled>📞 Ligar (eco 100)</button>
+    <button id="btnHang" class="hang" disabled>Desligar</button>
+  </div>
+  <div id="log"></div>
+  <audio id="remoto" autoplay></audio>
+</div>
+<script>
+const WSS = 'wss://sistema.escritorio.adv.br/asterisk-ws';
+const URI = 'sip:titular@sistema.escritorio.adv.br';
+const PASS = '66b83b73a78a2c0617e9';
+const ALVO = 'sip:100@sistema.escritorio.adv.br';
+
+const $ = (id) => document.getElementById(id);
+const remoto = $('remoto');
+function log(m){ const d=$('log'); d.textContent += m + "\n"; d.scrollTop=d.scrollHeight; }
+function status(txt,cls){ const s=$('status'); s.textContent=txt; s.className='pill '+cls; }
+
+let ua, session;
+try {
+  const socket = new JsSIP.WebSocketInterface(WSS);
+  ua = new JsSIP.UA({ sockets:[socket], uri:URI, password:PASS, session_timers:false, register:true });
+
+  ua.on('connected', ()=> log('WS conectado ao Asterisk'));
+  ua.on('disconnected', ()=> { status('WS desconectado','off'); log('WS desconectado'); });
+  ua.on('registered', ()=> { status('registrado — pronto pra ligar','on'); $('btnCall').disabled=false; log('REGISTER ok (ramal online)'); });
+  ua.on('unregistered', ()=> { status('não registrado','off'); $('btnCall').disabled=true; });
+  ua.on('registrationFailed', (e)=> { status('falha no registro','off'); log('registrationFailed: '+(e.cause||'')); });
+
+  ua.start();
+} catch(err){ status('erro ao iniciar','off'); log('erro: '+err.message); }
+
+function novaSessaoHandlers(s){
+  s.on('peerconnection', (e)=>{
+    e.peerconnection.addEventListener('track', (ev)=>{ remoto.srcObject = ev.streams[0]; log('áudio remoto recebido'); });
+  });
+  s.on('progress', ()=> log('chamando…'));
+  s.on('confirmed', ()=> { status('EM LIGAÇÃO — fale algo','on'); log('atendido — fale e ouça o eco'); $('btnHang').disabled=false; });
+  s.on('ended', ()=> { status('registrado — pronto pra ligar','on'); log('ligação encerrada'); $('btnCall').disabled=false; $('btnHang').disabled=true; });
+  s.on('failed', (e)=> { status('registrado — pronto pra ligar','on'); log('falhou: '+(e.cause||'')); $('btnCall').disabled=false; $('btnHang').disabled=true; });
+}
+
+$('btnCall').onclick = ()=>{
+  $('btnCall').disabled=true;
+  log('ligando pro eco 100…');
+  session = ua.call(ALVO, { mediaConstraints:{ audio:true, video:false } });
+  novaSessaoHandlers(session);
+};
+$('btnHang').onclick = ()=>{ if(session) session.terminate(); };
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+# =============================================================================
+# SEGREDOS: nunca versionar
+# =============================================================================
+config/*
+!config/.env.example
+*.env
+.env*
+!.env.example
+token*.json
+credentials*.json
+oauth_credentials*.json
+*.pem
+*.key
+*secret*
+*.cofre_pass
+
+# =============================================================================
+# DADOS DE CLIENTE (LGPD): nunca versionar
+# =============================================================================
+media/
+producao/
+backups/
+uploads/
+cerebro/
+operador/
+revisao/
+ligacoes_raw/
+portal_audio_cache/
+CACHE/
+CADASTROS/
+*.db
+*.db*
+*.sqlite
+*.sqlite3
+*.pdf
+*.csv
+*.xlsx
+*.log
+*.jsonl
+*.mp4
+*.mov
+*.ogg
+*.mp3
+# documentos: so os modelos/timbrado do escritorio entram
+*.docx
+!**/modelos/*.docx
+!**/MODELOS/*.docx
+!**/timbrado*.docx
+!**/TIMBRADO*.docx
+
+# Fila e estado de runtime (indexados por nome/telefone de cliente)
+*_fila.json*
+*.state.json*
+*fila*.json*
+
+# JSON bloqueado por padrao (costuma carregar dado pessoal); liberado caso a caso
+*.json
+!SYNC/kit_boasvindas_config.json
+!SYNC/contratacao_config.json
+!SISTEMA/frontend/portal/manifest.json
+!**/package.json
+!**/package-lock.json
+# configuracao e catalogos que o sistema PRECISA para subir (sem dado pessoal)
+!SISTEMA/backend/app/controladoria_motor/*.json
+!SISTEMA/backend/app/juridico/equipe.json
+!SISTEMA/backend/app/juridico/clientes_empresa.json
+
+# =============================================================================
+# AMBIENTE E LIXO
+# =============================================================================
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.bak
+*.bak_*
+*.bak-*
+*.tmp
+node_modules/
+SISTEMA/frontend/src_referencia/node_modules/
+**/''
+
+# deploy.py: foto da VPS por maquina e backups locais do --puxar
+SISTEMA/deploy/.base_vps.json
+SISTEMA/deploy/_backup_local/
+SISTEMA/backend/_deploy_backups/
+
+# modelos do escritorio (timbrado, contrato, procuracao): copiados direto na instalacao, nunca no repo publico
+SISTEMA/backend/app/juridico/modelos/*.docx
+
+# saida de pecas geradas em teste local
+SISTEMA/backend/pecas_geradas/

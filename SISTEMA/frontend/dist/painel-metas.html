@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Painel de Metas — Escritório Modelo Advogados</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mulish:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bordo: #4E0719; --bordo-2: #6B1029; --fundo: #1a050b; --cartao: #2b0913; --cartao-2: #370d1a;
+    --ouro: #C9A24A; --ouro-2: #E8C77A; --creme: #F7EAD2; --suave: #C2A99F;
+    --verde: #8fca9b; --ambar: #eeb05a; --vermelho: #f0806f;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--fundo); color: var(--creme);
+    font-family: "Mulish", system-ui, sans-serif; overflow: hidden; }
+  body { display: grid; grid-template-rows: auto 1fr auto; padding: 2.2vh 2.4vw; gap: 2vh;
+    background: radial-gradient(120% 90% at 10% 0%, #3a0a17 0%, var(--fundo) 55%); }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 2vw;
+    border-bottom: 1px solid rgba(232,199,122,.25); padding-bottom: 1.4vh; }
+  .marca { display: flex; align-items: center; gap: 1.2vw; }
+  .marca img { height: 7vh; }
+  .marca b { font-family: "Marcellus", Georgia, serif; font-weight: 400; font-size: 3.4vh; letter-spacing: .12em; color: var(--ouro-2); }
+  .marca small { display: block; font-size: 1.7vh; letter-spacing: .4em; color: var(--suave); }
+  .mes { text-align: right; }
+  .mes b { display: block; font-family: "Marcellus", Georgia, serif; font-weight: 400; font-size: 4vh; color: var(--creme); text-transform: capitalize; }
+  .mes span { font-size: 1.7vh; color: var(--suave); }
+  main { display: grid; grid-template-columns: 1.15fr 1.15fr 1fr; grid-template-rows: 1fr 1fr; gap: 1.8vh 1.4vw; min-height: 0; }
+  .cartao { background: linear-gradient(160deg, var(--cartao-2), var(--cartao)); border: 1px solid rgba(232,199,122,.18);
+    border-radius: 18px; padding: 2.2vh 1.6vw; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+  .rot { font-size: 1.9vh; letter-spacing: .18em; text-transform: uppercase; color: var(--ouro); font-weight: 800; }
+  .grande { font-size: 11vh; font-weight: 900; line-height: 1; margin-top: 1vh; color: var(--creme); font-variant-numeric: tabular-nums; }
+  .grande small { font-size: 4vh; color: var(--suave); font-weight: 700; }
+  .barra { height: 2.2vh; border-radius: 99px; background: rgba(255,255,255,.08); margin-top: auto; overflow: hidden; }
+  .barra i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--ouro), var(--ouro-2)); transition: width 1.2s ease; }
+  .barra.batida i { background: linear-gradient(90deg, #5fae73, var(--verde)); }
+  .sub { font-size: 2.1vh; color: var(--suave); margin-top: 1.2vh; }
+  .sub b { color: var(--creme); }
+  .lista { list-style: none; margin: 1.4vh 0 0; padding: 0; display: grid; gap: 1.1vh; overflow: hidden; }
+  .lista li { display: grid; grid-template-columns: 3.2vh 1fr auto; align-items: center; gap: .8vw; font-size: 2.4vh; }
+  .lista .pos { font-weight: 900; color: var(--ouro-2); text-align: center; }
+  .lista .nome { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lista .val { font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; }
+  .lista .val small { display: block; font-size: 1.6vh; color: var(--suave); font-weight: 700; }
+  .lista li:first-child .nome { color: var(--ouro-2); font-weight: 800; }
+  .canal { display: grid; grid-template-columns: 1fr auto; gap: .6vh .8vw; font-size: 2.3vh; }
+  .canal .trilho { grid-column: 1 / -1; height: 1vh; border-radius: 99px; background: rgba(255,255,255,.07); overflow: hidden; }
+  .canal .trilho i { display: block; height: 100%; background: var(--ouro); }
+  .ranking { grid-row: 1 / span 2; grid-column: 3; }
+  .vazio { color: var(--suave); font-size: 2.2vh; margin-top: 2vh; }
+  footer { display: flex; justify-content: space-between; font-size: 1.6vh; color: var(--suave); }
+  .aviso { position: fixed; inset: 0; display: none; place-items: center; background: rgba(26,5,11,.92); z-index: 9;
+    text-align: center; padding: 6vw; font-size: 3vh; line-height: 1.5; }
+  .aviso.on { display: grid; }
+  .aviso b { display: block; font-family: "Marcellus", Georgia, serif; font-weight: 400; color: var(--ouro-2); font-size: 4.4vh; margin-bottom: 2vh; }
+  .ponto { display: inline-block; width: 1.2vh; height: 1.2vh; border-radius: 50%; background: var(--verde); margin-right: .5vw; vertical-align: middle; }
+  .ponto.erro { background: var(--vermelho); }
+</style>
+</head>
+<body>
+<header>
+  <div class="marca">
+    <img src="/logo-esc-simbolo.svg" alt="">
+    <div><b>ESCRITÓRIO MODELO</b><small>PAINEL DE METAS</small></div>
+  </div>
+  <div class="mes"><b id="mes">—</b><span id="atualizado">carregando…</span></div>
+</header>
+
+<main>
+  <section class="cartao">
+    <div class="rot">Protocolos no mês</div>
+    <div class="grande" id="prot">0<small> / 30</small></div>
+    <div class="sub" id="protSub">&nbsp;</div>
+    <div class="barra" id="protBarra"><i></i></div>
+  </section>
+  <section class="cartao">
+    <div class="rot">Casos novos (contratos assinados)</div>
+    <div class="grande" id="casos">0<small> / 100</small></div>
+    <div class="sub" id="casosSub">&nbsp;</div>
+    <div class="barra" id="casosBarra"><i></i></div>
+  </section>
+  <section class="cartao ranking">
+    <div class="rot">Ranking da equipe</div>
+    <ol class="lista" id="ranking"></ol>
+    <div class="sub" id="bonus" style="margin-top:auto">&nbsp;</div>
+  </section>
+  <section class="cartao">
+    <div class="rot">Leads novos e conversão</div>
+    <div class="grande" id="leads">0</div>
+    <div class="sub" id="conv">&nbsp;</div>
+  </section>
+  <section class="cartao">
+    <div class="rot">Leads por canal / campanha</div>
+    <div id="canais" style="display:grid;gap:1.3vh;margin-top:1.4vh"></div>
+  </section>
+</main>
+
+<footer>
+  <span><span class="ponto" id="ponto"></span><span id="status">Somente leitura · atualiza a cada 60 s</span></span>
+  <span>Escritório Modelo Advogados · Cidade/UF</span>
+</footer>
+
+<div class="aviso" id="aviso"><div><b>Painel de metas</b><span id="avisoTxt"></span></div></div>
+
+<script>
+(function () {
+  "use strict";
+  var INTERVALO = 60000;
+  var qs = new URLSearchParams(location.search);
+  var token = qs.get("token") || "";
+  var mesQs = qs.get("mes") || "";
+  var $ = function (id) { return document.getElementById(id); };
+  var fmtN = function (n) { return Number(n || 0).toLocaleString("pt-BR"); };
+  var fmtR = function (n) { return Number(n || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); };
+  var esc = function (s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  };
+
+  function aviso(txt) { $("avisoTxt").textContent = txt; $("aviso").classList.add("on"); }
+  function semAviso() { $("aviso").classList.remove("on"); }
+
+  function nomeMes(m) {
+    var p = String(m || "").split("-");
+    if (p.length !== 2) return "—";
+    var d = new Date(Number(p[0]), Number(p[1]) - 1, 1);
+    return d.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+  }
+
+  function diasUteisRestantes() {
+    var h = new Date(), fim = new Date(h.getFullYear(), h.getMonth() + 1, 0), n = 0;
+    for (var d = new Date(h.getFullYear(), h.getMonth(), h.getDate()); d <= fim; d.setDate(d.getDate() + 1)) {
+      var w = d.getDay(); if (w !== 0 && w !== 6) n++;
+    }
+    return n;
+  }
+
+  function meta(idValor, idBarra, idSub, feito, alvo, unidade) {
+    alvo = Number(alvo || 0);
+    $(idValor).innerHTML = fmtN(feito) + "<small> / " + fmtN(alvo) + "</small>";
+    var pct = alvo ? Math.min(100, Math.round(100 * feito / alvo)) : 0;
+    var barra = $(idBarra);
+    barra.querySelector("i").style.width = pct + "%";
+    barra.classList.toggle("batida", alvo > 0 && feito >= alvo);
+    var falta = Math.max(0, alvo - feito), du = diasUteisRestantes();
+    $(idSub).innerHTML = alvo && feito >= alvo
+      ? "<b>Meta batida!</b> " + pct + "% do objetivo"
+      : "<b>" + pct + "%</b> da meta · faltam <b>" + fmtN(falta) + "</b> " + unidade +
+        (du ? " · ~" + (falta / du).toFixed(1).replace(".", ",") + " por dia útil" : "");
+  }
+
+  function desenhar(d) {
+    $("mes").textContent = nomeMes(d.mes);
+    var metas = d.metas || {};
+    meta("prot", "protBarra", "protSub", d.protocolos || 0, metas.protocolos, "protocolos");
+    meta("casos", "casosBarra", "casosSub", d.casos_novos || 0, metas.casos_novos, "casos");
+    $("leads").textContent = fmtN(d.leads);
+    $("conv").innerHTML = "Conversão lead → contrato: <b>" + String(d.conversao_pct || 0).replace(".", ",") + "%</b> · " +
+      fmtN(d.contratos) + " contrato(s)";
+
+    var canais = d.leads_por_canal || [], maior = canais.length ? canais[0].leads : 0;
+    $("canais").innerHTML = canais.length ? canais.slice(0, 6).map(function (c) {
+      var w = maior ? Math.round(100 * c.leads / maior) : 0;
+      return '<div class="canal"><span>' + esc(c.canal) + "</span><b>" + fmtN(c.leads) +
+        '</b><span class="trilho"><i style="width:' + w + '%"></i></span></div>';
+    }).join("") : '<div class="vazio">Nenhum lead novo neste mês ainda.</div>';
+
+    var rk = d.ranking || [];
+    $("ranking").innerHTML = rk.length ? rk.map(function (r, i) {
+      var extra = [];
+      if (r.moedas) extra.push(fmtN(r.moedas) + " Coins");
+      if (r.bonus) extra.push(fmtR(r.bonus));
+      return '<li><span class="pos">' + (i + 1) + '</span><span class="nome">' + esc(r.nome) +
+        '</span><span class="val">' + fmtN(r.contratos) + " contrato" + (r.contratos === 1 ? "" : "s") +
+        (extra.length ? "<small>" + esc(extra.join(" · ")) + "</small>" : "") + "</span></li>";
+    }).join("") : '<li class="vazio" style="display:block">O ranking aparece no primeiro contrato do mês.</li>';
+    $("bonus").innerHTML = d.bonificacao_total ? "Bonificação acumulada no mês: <b>" + fmtR(d.bonificacao_total) + "</b>" : "&nbsp;";
+
+    var hora = new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+    $("atualizado").textContent = "atualizado às " + hora;
+    var pend = d.fonte_pendente || [];
+    $("status").textContent = "Somente leitura · atualiza a cada 60 s" +
+      (pend.length ? " · fontes ainda sem dados: " + pend.join(", ") : "");
+    $("ponto").classList.remove("erro");
+  }
+
+  function carregar() {
+    if (!token) {
+      aviso("Falta o token de leitura no endereço. Abra esta página como /painel-metas.html?token=SEU_TOKEN (o token fica em PAINEL_METAS_TOKEN no .env do servidor). O painel só lê os números, não altera nada.");
+      return;
+    }
+    var url = "/api/dashboard/painel-metas?token=" + encodeURIComponent(token) + (mesQs ? "&mes=" + encodeURIComponent(mesQs) : "");
+    fetch(url, { cache: "no-store" }).then(function (r) {
+      if (r.status === 401) throw new Error("Token inválido. Confira o PAINEL_METAS_TOKEN do servidor.");
+      if (r.status === 503) throw new Error("Painel desligado no servidor: defina PAINEL_METAS_TOKEN no .env.");
+      if (!r.ok) throw new Error("Servidor respondeu " + r.status + ". Nova tentativa em 60 s.");
+      return r.json();
+    }).then(function (d) { semAviso(); desenhar(d); }).catch(function (e) {
+      $("ponto").classList.add("erro");
+      $("status").textContent = "Sem conexão com o servidor: mostrando os últimos números · " + (e && e.message ? e.message : "");
+      if (/Token|desligado/.test(e && e.message || "")) aviso(e.message);
+    });
+  }
+
+  carregar();
+  setInterval(carregar, INTERVALO);
+  document.addEventListener("dblclick", function () {
+    if (!document.fullscreenElement && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+  });
+})();
+</script>
+</body>
+</html>

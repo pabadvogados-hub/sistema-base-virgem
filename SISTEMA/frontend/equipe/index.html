@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#4E0719">
+<title>Acessos do Portal | Escritório Modelo Advogados</title>
+<link rel="icon" href="/portal/icone.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#4E0719;--navy-2:#132f63;--verde:#0f9d58;--bg:#f4f6f9;--card:#fff;
+    --texto:#182034;--suave:#667085;--linha:#e6e9f0}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--texto);font-size:15px;line-height:1.55;
+    font-family:Montserrat,-apple-system,'Segoe UI',sans-serif}
+  header{background:var(--navy);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px}
+  header img{height:30px}
+  .marca{font-weight:800;font-size:14px;letter-spacing:.5px}
+  .marca span{display:block;font-size:10.5px;color:#e0c072;letter-spacing:1.4px;
+    text-transform:uppercase;font-weight:600}
+  header .sair{margin-left:auto;background:rgba(255,255,255,.14);color:#fff;border:0;
+    border-radius:8px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer}
+  main{max-width:900px;margin:0 auto;padding:22px 16px 60px}
+  h1{font-size:20px;margin:0 0 4px}
+  .sub{color:var(--suave);font-size:14px;margin:0 0 20px}
+  .cartao{background:var(--card);border:1px solid var(--linha);border-radius:14px;
+    padding:18px;margin-bottom:14px}
+  label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin:0 0 5px;
+    text-transform:uppercase;letter-spacing:.7px}
+  input,select{width:100%;padding:12px;border:1.5px solid var(--linha);border-radius:10px;
+    font-size:15px;font-family:inherit;background:#fff;color:var(--texto)}
+  input:focus,select:focus{outline:0;border-color:var(--navy-2)}
+  button{font-family:inherit;font-size:15px;cursor:pointer;border:0}
+  .btn{background:var(--navy);color:#fff;padding:13px 20px;border-radius:10px;font-weight:700}
+  .btn:disabled{opacity:.5}
+  .btn-sm{background:var(--navy);color:#fff;padding:8px 14px;border-radius:8px;
+    font-size:13px;font-weight:700}
+  .btn-x{background:#fdecec;color:#9b2222;padding:6px 11px;border-radius:7px;
+    font-size:12px;font-weight:700}
+  .linha{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+  .linha>div{flex:1;min-width:150px}
+  .cli{border-bottom:1px solid var(--linha);padding:16px 0}
+  .cli:last-child{border-bottom:0}
+  .cli h3{margin:0;font-size:16px}
+  .cli .meta{font-size:12.5px;color:var(--suave);margin-top:3px}
+  .selo{display:inline-block;font-size:11px;font-weight:800;padding:3px 9px;
+    border-radius:99px;margin-left:7px}
+  .ok{background:#e7f6ee;color:var(--verde)}
+  .falta{background:#fdf3e0;color:#c47f17}
+  .contatos{margin-top:11px}
+  .ct{display:flex;align-items:center;gap:9px;padding:7px 0;font-size:14px;flex-wrap:wrap}
+  .ct .tag{font-size:10px;font-weight:800;padding:2px 7px;border-radius:5px;
+    text-transform:uppercase;letter-spacing:.5px}
+  .tit{background:#eef2f9;color:var(--navy)}
+  .cor{background:#f2fbf8;color:#0f7a63}
+  .inativo{opacity:.45;text-decoration:line-through}
+  .add{margin-top:12px;padding-top:12px;border-top:1px dashed var(--linha)}
+  .aviso{background:#fdf3e0;border:1px solid #f0dcb4;color:#7a5a12;padding:12px 14px;
+    border-radius:10px;font-size:13.5px;margin-top:12px;line-height:1.5}
+  .erro{background:#fdecec;border:1px solid #f6cfcf;color:#9b2222;padding:12px 14px;
+    border-radius:10px;font-size:14px;margin-top:12px}
+  .vazio{color:var(--suave);text-align:center;padding:34px}
+</style>
+</head>
+<body>
+<header>
+  <img src="/portal/logo-esc.png" alt="Escritório Modelo">
+  <div class="marca">ESCRITÓRIO MODELO ADVOGADOS<span>Acessos do Portal</span></div>
+  <button class="sair" id="btnSair" style="display:none">Sair</button>
+</header>
+<main id="app"><div class="vazio">Carregando...</div></main>
+
+<script>const $=s=>document.querySelector(s);let TOKEN=null;try{TOKEN=sessionStorage.getItem("esc_equipe_token")}catch(e){}function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,(c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])))}function fone(v){const n=String(v||"").replace(/\D/g,"");if(n.length===11)return`(${n.slice(0,2)}) ${n.slice(2,7)}-${n.slice(7)}`;if(n.length===10)return`(${n.slice(0,2)}) ${n.slice(2,6)}-${n.slice(6)}`;return v||""}async function api(caminho,opcoes={}){const cfg={method:opcoes.metodo||"GET",headers:{"Content-Type":"application/json"}};if(TOKEN)cfg.headers["Authorization"]="Bearer "+TOKEN;if(opcoes.corpo)cfg.body=JSON.stringify(opcoes.corpo);const r=await fetch(caminho,cfg);const d=await r.json().catch((()=>({})));if(r.status===401){sair();throw new Error("Sessao expirada. Entre de novo.")}if(!r.ok)throw new Error(d.detail||"Nao consegui completar.");return d}function sair(){TOKEN=null;try{sessionStorage.removeItem("esc_equipe_token")}catch(e){}telaLogin()}function telaLogin(){$("#btnSair").style.display="none";$("#app").innerHTML=`\n    <h1>Acessos do Portal do Cliente</h1>\n    <p class="sub">Entre com o seu login do Sistema Escritório Modelo.</p>\n    <div class="cartao" style="max-width:420px">\n      <div style="margin-bottom:12px">\n        <label for="em">E-mail</label>\n        <input id="em" type="email" autocomplete="username">\n      </div>\n      <div style="margin-bottom:16px">\n        <label for="se">Senha</label>\n        <input id="se" type="password" autocomplete="current-password">\n      </div>\n      <button class="btn" id="btnEntrar" style="width:100%">Entrar</button>\n      <div id="msg"></div>\n    </div>`;$("#se").onkeydown=e=>{if(e.key==="Enter")$("#btnEntrar").click()};$("#btnEntrar").onclick=async()=>{const b=$("#btnEntrar");b.disabled=true;try{const r=await api("/api/auth/login",{metodo:"POST",corpo:{email:$("#em").value.trim(),senha:$("#se").value}});TOKEN=r.token;try{sessionStorage.setItem("esc_equipe_token",r.token)}catch(e){}telaBusca()}catch(e){$("#msg").innerHTML=`<div class="erro">${esc(e.message)}</div>`;b.disabled=false}}}function telaBusca(){$("#btnSair").style.display="";$("#app").innerHTML=`\n    <h1>Acessos do Portal do Cliente</h1>\n    <p class="sub">Cadastre quem pode receber o código de acesso: o próprio cliente\n      e, se ele autorizar, um corresponsável.</p>\n    <div class="cartao">\n      <div class="linha">\n        <div>\n          <label for="q">Cliente</label>\n          <input id="q" placeholder="nome ou CPF/CNPJ">\n        </div>\n        <button class="btn" id="btnBuscar">Buscar</button>\n      </div>\n    </div>\n    <div id="res"></div>`;$("#q").onkeydown=e=>{if(e.key==="Enter")$("#btnBuscar").click()};$("#q").focus();$("#btnBuscar").onclick=buscar}async function buscar(){const q=$("#q").value.trim();if(q.length<3)return;$("#res").innerHTML='<div class="vazio">Buscando...</div>';try{const d=await api("/api/portal/admin/clientes?q="+encodeURIComponent(q));desenhar(d.clientes||[])}catch(e){$("#res").innerHTML=`<div class="erro">${esc(e.message)}</div>`}}function desenhar(lista){if(!lista.length){$("#res").innerHTML='<div class="cartao"><div class="vazio">Nenhum cliente com esse termo.</div></div>';return}$("#res").innerHTML='<div class="cartao">'+lista.map((c=>{const selo=c.entra_no_portal?'<span class="selo ok">acessa o portal</span>':c.processos?'<span class="selo falta">falta contato</span>':'<span class="selo falta">sem processo</span>';const cts=(c.contatos||[]).map((t=>`\n      <div class="ct ${t.ativo?"":"inativo"}">\n        <span class="tag ${t.titular?"tit":"cor"}">${t.titular?"titular":"corresponsável"}</span>\n        <b>${esc(t.nome||"")}</b>\n        <span style="color:var(--suave)">${esc(fone(t.celular))}</span>\n        ${t.relacao?`<span style="color:var(--suave);font-size:12.5px">${esc(t.relacao)}</span>`:""}\n        ${t.ativo?`<button class="btn-x" data-off="${t.id}" data-cli="${c.id}">revogar</button>`:""}\n      </div>`)).join("")||'<div style="color:var(--suave);font-size:13.5px">Ninguém cadastrado ainda.</div>';return`<div class="cli">\n      <h3>${esc(c.nome)} ${selo}</h3>\n      <div class="meta">${esc(c.documento||"sem documento")}\n        ${c.documento_valido?"":" (documento inválido, o login não funciona)"}\n        &middot; ${c.processos} processo(s), ${c.processos_ativos} em andamento\n        ${c.celular_cadastro?"&middot; cadastro: "+esc(fone(c.celular_cadastro)):""}</div>\n      <div class="contatos">${cts}</div>\n      <div class="add">\n        <div class="linha">\n          <div><label>Nome</label><input data-f="nome" data-cli="${c.id}" placeholder="quem recebe"></div>\n          <div><label>Celular</label><input data-f="cel" data-cli="${c.id}" placeholder="11 91234-5678"></div>\n          <div style="max-width:190px"><label>Quem é</label>\n            <select data-f="tipo" data-cli="${c.id}">\n              <option value="1">O próprio cliente</option>\n              <option value="0">Corresponsável autorizado</option>\n            </select></div>\n          <button class="btn-sm" data-add="${c.id}">Cadastrar</button>\n        </div>\n        <div class="linha" style="margin-top:9px">\n          <div><label>Vínculo (se corresponsável)</label>\n            <input data-f="rel" data-cli="${c.id}" placeholder="ex: cônjuge, filho, sócio, contador"></div>\n        </div>\n        <div class="aviso">Corresponsável só entra com autorização do cliente.\n          Fica registrado quem cadastrou e quando.</div>\n        <div data-msg="${c.id}"></div>\n      </div>\n    </div>`})).join("")+"</div>";document.querySelectorAll("[data-add]").forEach((b=>{b.onclick=()=>salvar(b.dataset.add)}));document.querySelectorAll("[data-off]").forEach((b=>{b.onclick=()=>revogar(b.dataset.cli,b.dataset.off)}))}function campo(cli,f){const el=document.querySelector(`[data-f="${f}"][data-cli="${cli}"]`);return el?el.value.trim():""}async function salvar(cli){const area=document.querySelector(`[data-msg="${cli}"]`);const nome=campo(cli,"nome"),cel=campo(cli,"cel");const titular=campo(cli,"tipo")==="1",rel=campo(cli,"rel");if(nome.length<3||cel.replace(/\D/g,"").length<10){area.innerHTML='<div class="erro">Preencha nome e um celular com DDD.</div>';return}if(!titular&&rel.length<3){area.innerHTML='<div class="erro">Diga o vínculo do corresponsável.</div>';return}try{await api("/api/portal/admin/contato",{metodo:"POST",corpo:{cliente_id:Number(cli),nome:nome,celular:cel,titular:titular,relacao:rel}});buscar()}catch(e){area.innerHTML=`<div class="erro">${esc(e.message)}</div>`}}async function revogar(cli,contato){if(!confirm("Revogar o acesso desse contato?"))return;try{await api(`/api/portal/admin/contatos/${cli}/${contato}`,{metodo:"DELETE"});buscar()}catch(e){alert(e.message)}}$("#btnSair").onclick=sair;if(TOKEN)telaBusca();else telaLogin();</script>
+</body>
+</html>
